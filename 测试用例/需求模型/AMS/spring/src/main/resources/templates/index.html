@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Prototype</title>
+	<link rel="stylesheet" href="/css/layui.css"></link>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script src="/js/layui.js"></script>
+	 <style>
+        ol li a {
+            background-color: rgba(0,0,0,1) !important;
+        }
+
+        .three_this {
+            background-color: #808080 !important;
+        }
+    </style>
+	<script>
+		//JavaScript代码区域
+		layui.use("element", function() {
+			var element = layui.element;
+			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+			
+			 $(".menu_three").on("click", function () {
+                
+                $(this).next().toggle();
+                $.each($(this).parent().siblings(), function (i, e) {
+                    $(e).find("ol").hide();;
+                });
+               
+            })
+            $("ol").on("click", "li a", function () {
+                $.each($(this).parent().siblings(), function (i, e) {
+                    $(e).find("a").removeClass('three_this')
+                });
+                $(this).addClass('three_this');                            // 添加当前元素的样式
+
+            })
+		
+		});
+		$(document).ready(function() {
+			$("dd>a").click(function(e) {
+				e.preventDefault();
+				$("#iframeMain").attr("src", $(this).attr("href"));
+			});
+										
+			$("ol>li>a").click(function(e) {
+					e.preventDefault();
+					$("#iframeMain").attr("src", $(this).attr("href"));
+			});
+		});
+	</script>
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">Prototype Airport</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layui-this"><a href="/main/index" id="s_function">System Function</a></li>
+					<li class="layui-nav-item"><a href="/main/index2" id="s_state">System State</a></li>
+				</ul>
+			</div>
+			
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Share">Share</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/userLogin" id="userLogin"> userLogin</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/workReportSubmit" id="workReportSubmit"> workReportSubmit</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Ordinary">Ordinary</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/submitRepair" id="submitRepair"> submitRepair</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/notAcceptAa" id="notAcceptAa"> notAcceptAa</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/acceptedAa" id="acceptedAa"> acceptedAa</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/completedAa" id="completedAa"> completedAa</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/scoring" id="scoring"> scoring</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/tbInfo" id="tbInfo"> tbInfo</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/sendVoice" id="sendVoice"> sendVoice</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/pushInfo" id="pushInfo"> pushInfo</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/savePwd" id="savePwd"> savePwd</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Manage">Manage</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/approval" id="approval"> approval</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/arbitration" id="arbitration"> arbitration</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Master">Master</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/notAcceptBa" id="notAcceptBa"> notAcceptBa</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/acceptedBa" id="acceptedBa"> acceptedBa</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/completedBa" id="completedBa"> completedBa</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/allocation" id="allocation"> allocation</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/transmit" id="transmit"> transmit</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/backtransmit" id="backtransmit"> backtransmit</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/setWorkTask" id="setWorkTask"> setWorkTask</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/setTerminalEquipment" id="setTerminalEquipment"> setTerminalEquipment</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Worker">Worker</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/completeTb" id="completeTb"> completeTb</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/receiveTb" id="receiveTb"> receiveTb</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/rocessingFees" id="rocessingFees"> rocessingFees</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/setOperationStatus" id="setOperationStatus"> setOperationStatus</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="SystemManage">SystemManage</a>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageUser"> manageUser</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createUser" id="createUser">&emsp;createUser</a></li>
+									<li><a href="/main/queryUser" id="queryUser">&emsp;queryUser</a></li>
+									<li><a href="/main/modifyUser" id="modifyUser">&emsp;modifyUser</a></li>
+									<li><a href="/main/deleteUser" id="deleteUser">&emsp;deleteUser</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageRole"> manageRole</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createRole" id="createRole">&emsp;createRole</a></li>
+									<li><a href="/main/queryRole" id="queryRole">&emsp;queryRole</a></li>
+									<li><a href="/main/modifyRole" id="modifyRole">&emsp;modifyRole</a></li>
+									<li><a href="/main/deleteRole" id="deleteRole">&emsp;deleteRole</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageDepartment"> manageDepartment</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createDepartment" id="createDepartment">&emsp;createDepartment</a></li>
+									<li><a href="/main/queryDepartment" id="queryDepartment">&emsp;queryDepartment</a></li>
+									<li><a href="/main/modifyDepartment" id="modifyDepartment">&emsp;modifyDepartment</a></li>
+									<li><a href="/main/deleteDepartment" id="deleteDepartment">&emsp;deleteDepartment</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageDeviceInfo"> manageDeviceInfo</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createDeviceInfo" id="createDeviceInfo">&emsp;createDeviceInfo</a></li>
+									<li><a href="/main/queryDeviceInfo" id="queryDeviceInfo">&emsp;queryDeviceInfo</a></li>
+									<li><a href="/main/modifyDeviceInfo" id="modifyDeviceInfo">&emsp;modifyDeviceInfo</a></li>
+									<li><a href="/main/deleteDeviceInfo" id="deleteDeviceInfo">&emsp;deleteDeviceInfo</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageDeviceLocationGroup"> manageDeviceLocationGroup</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createDeviceLocationGroup" id="createDeviceLocationGroup">&emsp;createDeviceLocationGroup</a></li>
+									<li><a href="/main/queryDeviceLocationGroup" id="queryDeviceLocationGroup">&emsp;queryDeviceLocationGroup</a></li>
+									<li><a href="/main/modifyDeviceLocationGroup" id="modifyDeviceLocationGroup">&emsp;modifyDeviceLocationGroup</a></li>
+									<li><a href="/main/deleteDeviceLocationGroup" id="deleteDeviceLocationGroup">&emsp;deleteDeviceLocationGroup</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageEquipmentFailureType"> manageEquipmentFailureType</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createEquipmentFailureType" id="createEquipmentFailureType">&emsp;createEquipmentFailureType</a></li>
+									<li><a href="/main/queryEquipmentFailureType" id="queryEquipmentFailureType">&emsp;queryEquipmentFailureType</a></li>
+									<li><a href="/main/modifyEquipmentFailureType" id="modifyEquipmentFailureType">&emsp;modifyEquipmentFailureType</a></li>
+									<li><a href="/main/deleteEquipmentFailureType" id="deleteEquipmentFailureType">&emsp;deleteEquipmentFailureType</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageDeviceStatus"> manageDeviceStatus</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createDeviceStatus" id="createDeviceStatus">&emsp;createDeviceStatus</a></li>
+									<li><a href="/main/queryDeviceStatus" id="queryDeviceStatus">&emsp;queryDeviceStatus</a></li>
+									<li><a href="/main/modifyDeviceStatus" id="modifyDeviceStatus">&emsp;modifyDeviceStatus</a></li>
+									<li><a href="/main/deleteDeviceStatus" id="deleteDeviceStatus">&emsp;deleteDeviceStatus</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageDeviceAssociationGroup"> manageDeviceAssociationGroup</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createDeviceAssociationGroup" id="createDeviceAssociationGroup">&emsp;createDeviceAssociationGroup</a></li>
+									<li><a href="/main/queryDeviceAssociationGroup" id="queryDeviceAssociationGroup">&emsp;queryDeviceAssociationGroup</a></li>
+									<li><a href="/main/modifyDeviceAssociationGroup" id="modifyDeviceAssociationGroup">&emsp;modifyDeviceAssociationGroup</a></li>
+									<li><a href="/main/deleteDeviceAssociationGroup" id="deleteDeviceAssociationGroup">&emsp;deleteDeviceAssociationGroup</a></li>
+								</ol>
+							</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-body">
+						<iframe id="iframeMain" 
+					style="width: 100%; height: 100%;" src="/main/welcome">
+				</iframe>
+			</div>
+		</div>
+	</body>
+	</html>
+	

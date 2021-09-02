@@ -1,0 +1,34 @@
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+jmeter -n -t C:\Users\liantong\Desktop\test_4\education\education.jmx -l C:\Users\liantong\Desktop\test_4\education\edu\report1.jtl -e -o C:\Users\liantong\Desktop\test_4\education\edu
+
+jmeter -n -t C:\Users\liantong\Desktop\test_4\education\pro.jmx -l C:\Users\liantong\Desktop\test_4\education\pro\report1.jtl -e -o C:\Users\liantong\Desktop\test_4\education\pro
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+jmeter -n -t C:\Users\liantong\Desktop\test_4\eat\eat.jmx -l C:\Users\liantong\Desktop\test_4\eat\eat\report1.jtl -e -o C:\Users\liantong\Desktop\test_4\eat\eat
+
+
+
+jmeter -n -t C:\Users\liantong\Desktop\test_4\eat\pro.jmx -l C:\Users\liantong\Desktop\test_4\eat\pro\report1.jtl -e -o C:\Users\liantong\Desktop\test_4\eat\pro
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+jmeter -n -t C:\Users\liantong\Desktop\test_4\park\getByPlateNumber.jmx -l C:\Users\liantong\Desktop\test_4\park\park\report1.jtl -e -o C:\Users\liantong\Desktop\test_4\park\park
+
+
+jmeter -n -t C:\Users\liantong\Desktop\test_4\park\CarManageService.jmx -l C:\Users\liantong\Desktop\test_4\park\poro\report1.jtl -e -o C:\Users\liantong\Desktop\test_4\park\poro
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+jmeter -n -t C:\Users\liantong\Desktop\test_4\airport\bao.jmx -l C:\Users\liantong\Desktop\test_4\airport\airport\report1.jtl -e -o C:\Users\liantong\Desktop\test_4\airport\airport
+
+
+jmeter -n -t C:\Users\liantong\Desktop\test_4\airport\poro.jmx -l C:\Users\liantong\Desktop\test_4\airport\poro\report1.jtl -e -o C:\Users\liantong\Desktop\test_4\airport\poro
+
+
+
+
+

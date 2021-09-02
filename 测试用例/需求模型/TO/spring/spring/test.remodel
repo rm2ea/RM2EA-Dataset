@@ -1,0 +1,215 @@
+UseCaseModel Test {
+
+	UC::userProcess definedBySSD(UserProcessSSD) relatedService(UserProcessService)
+
+	Actor User {
+		userProcess
+	}
+
+	Interaction UserProcessSSD {
+
+		[Participants: User UserProcessService]
+
+		CallMessage::login(login loginSender->loginStart)
+		ReturnMessage::loginReturn(loginFinish->loginReturnReceiver login)
+		CallMessage::register(register registerSender->registerStart)
+		ReturnMessage::registerReturn(registerFinish->registerReturnReceiver register)
+		CallMessage::userInfo(userInfo userInfoSendingEnd -> userInfoStartEnd)
+		ReturnMessage::userInfoReturn(userInfoFinishEnd -> userInfoReturnReceivingEnd userInfo)
+
+		Execution::login(UserProcessService loginStart loginFinish)
+		Execution::register(UserProcessService registerStart registerFinish)
+		Execution::userInfo(UserProcessService userInfoStartEnd userInfoFinishEnd)
+
+		MessageEnd::loginSender(User login)
+		ExecutionEnd::loginStart(UserProcessService login)
+		ExecutionEnd::loginFinish(UserProcessService login)
+		MessageEnd::loginReturnReceiver(User loginReturn)
+		MessageEnd::registerSender(User register)
+		ExecutionEnd::registerStart(UserProcessService register)
+		ExecutionEnd::registerFinish(UserProcessService register)
+		MessageEnd::registerReturnReceiver(User registerReturn)
+		MessageEnd::userInfoSendingEnd(User userInfo)
+		ExecutionEnd::userInfoStartEnd(UserProcessService userInfo)
+		ExecutionEnd::userInfoFinishEnd(UserProcessService userInfo)
+		MessageEnd::userInfoReturnReceivingEnd(User userInfoReturn)
+
+	}
+
+	Service TestSystem {
+
+	}
+
+	Service ThirdPartyServices {
+
+	}
+
+	Service UserProcessService {
+
+		[Operation]
+		login(name, password)
+		register(id, name, password)
+		userInfo()
+
+		[TempProperty]
+		currentUser : User
+
+	}
+
+//	Contract UserProcessService::register(id : Integer, name : String, password : String) : Boolean {
+//
+//		definition:
+//			user:User = User.allInstance()->any(u:User | u.Id = id)
+//
+//		precondition:
+//			user.oclIsUndefined() = true
+//
+//		postcondition:
+//			let u:User in
+//			u.oclIsNew() and
+//			u.Name = name and
+//			u.Password = password and
+//			User.allInstance()->includes(u) and
+//			result = true
+//	}
+//
+//
+//
+//
+	Contract UserProcessService::login(name : String, password : String) : Boolean {
+
+		definition:
+			user:User = User.allInstance()->any(u:User | u.Name = name and u.Password = password)
+
+		precondition:
+			user.oclIsUndefined() = false
+
+		postcondition:
+			self.currentUser = user and
+			result = true
+	}
+
+//
+//
+//
+//	Contract UserProcessService::userInfo() : User {
+//
+//		precondition:
+//			currentUser.oclIsUndefined() = false
+//		postcondition:
+//			result = currentUser
+//	}
+	Contract  UserProcessService::submitRepair(departmentid:Integer, repairName : String, phone : String, place : String, repairsStatus : Integer, deviceId : String, describeContent:String, failureTypeId:Integer) : Boolean {
+
+		definition:
+			dp:Department = Department.allInstance()->any(dp:Department | dp.id = departmentid),
+			eft:EquipmentFailureType = EquipmentFailureType.allInstance()->any(e:EquipmentFailureType | e.id = FailureTypeId)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			repairName.oclIsUndefined() = false and
+			phone.oclIsUndefined() = false and
+			place.oclIsUndefined() = false and
+			repairsStatus.oclIsUndefined() = false and
+			dp.oclIsUndefined() = false and
+			DeviceId.oclIsUndefined() = false and
+			eft.oclIsUndefined() = false
+
+		postcondition:
+			let tr:TbRepair in
+			tr.oclIsNew() and
+			tr.BelongedDepartment = dp and
+			tr.repairName = repairName and
+			tr.phone = phone and
+			tr.place = place and
+			tr.repairsStatus = repairsStatus and
+			tr.DeviceId = DeviceId and
+			tr.describeContent = describeContent and
+			tr.time.isEqual(Now) and
+			tr.status = 0 and
+			tr.BelongedEFT = eft and
+			tr.BelongedUser = currentUser and
+			TbRepair.allInstance()->includes(tr) and
+			self.currentTbRepair = tr and
+			result = true
+	}
+
+	// 编写合约
+	Contract  UserProcessService::allocation(userId : Integer, tbId : Integer) : Boolean {
+
+		definition:
+			user:User = User.allInstance()->any(user:User | user.id = userId),
+			tbRepairExtra:TbRepairExtra = TbRepairExtra.allInstance()->any(tre:TbRepairExtra | tre.id = tbId)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			user.oclIsUndefined() = false and
+			tbRepairExtra.oclIsUndefined() = false
+
+		postcondition:
+			tbRepairExtra.BelongedDistribution = user and
+			result = true
+	}
+
+	// ------------------------------------------------------------
+//          部门员工
+//接收工单
+	Contract  UserProcessService::receiveTb(tbId : Integer) : Boolean {
+
+		definition:
+			tre:TbRepairExtra = TbRepairExtra.allInstance()->any(tre:TbRepairExtra | tre.id = tbId),
+			role:Role = Role.allInstance()->any(role:Role | role.id = 3) // 维修人员角色
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			tre.oclIsUndefined() = false and
+			currentUser.BelongedRole = role
+		postcondition:
+			tre.isAccept = true and
+			tre.BelongedTbRepair.status = 1 and
+			result = true
+	}
+
+//完成工单
+	Contract  UserProcessService::completeTb(tbId : Integer, cause:String, resolvent:String) : Boolean {
+
+		definition:
+			tre:TbRepairExtra = TbRepairExtra.allInstance()->any(tre:TbRepairExtra | tre.id = tbId),
+			role:Role = Role.allInstance()->any(role:Role | role.id = 3) // 维修人员角色
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			tre.oclIsUndefined() = false and
+			currentUser.BelongedRole = role
+		postcondition:
+			tre.isComplete = true and
+			tre.cause = cause and
+			tre.resolvent = resolvent and
+			tre.BelongedTbRepair.status = 2 and
+			result = true
+	}
+
+}
+
+DomainModel Test {
+
+	Entity User {
+		Id : Integer
+		Name : String
+		Password : String
+
+		[Refer]
+		BelongedRole : Role Association
+	}
+
+	Entity Role {
+		Id : Integer
+		Name : String
+		Password : String
+
+		[Refer]
+		ContainedUser : User* ! Association
+	}
+
+}
+

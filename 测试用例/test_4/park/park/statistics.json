@@ -1,0 +1,50 @@
+{
+  "/car/manage/renew" : {
+    "transaction" : "/car/manage/renew",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 2648.3689999999924,
+    "medianResTime" : 2550.0,
+    "minResTime" : 8.0,
+    "maxResTime" : 10783.0,
+    "pct1ResTime" : 3251.9,
+    "pct2ResTime" : 4344.399999999998,
+    "pct3ResTime" : 10156.29,
+    "throughput" : 168.57720836142954,
+    "receivedKBytesPerSec" : 33.58374072825354,
+    "sentKBytesPerSec" : 43.62593771072151
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 4000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 2624.6552499999984,
+    "medianResTime" : 2552.0,
+    "minResTime" : 2.0,
+    "maxResTime" : 10783.0,
+    "pct1ResTime" : 3621.8,
+    "pct2ResTime" : 4312.9,
+    "pct3ResTime" : 8349.99,
+    "throughput" : 305.9039461609055,
+    "receivedKBytesPerSec" : 127.85828999694095,
+    "sentKBytesPerSec" : 78.86586111960844
+  },
+  "/car/manage/getByPlateNumber" : {
+    "transaction" : "/car/manage/getByPlateNumber",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 2600.941500000004,
+    "medianResTime" : 2562.0,
+    "minResTime" : 2.0,
+    "maxResTime" : 10270.0,
+    "pct1ResTime" : 3684.8,
+    "pct2ResTime" : 4298.799999999999,
+    "pct3ResTime" : 5475.98,
+    "throughput" : 153.12763188117296,
+    "receivedKBytesPerSec" : 97.49923436184059,
+    "sentKBytesPerSec" : 39.32867889135594
+  }
+}

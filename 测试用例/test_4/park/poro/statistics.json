@@ -1,0 +1,50 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 4000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 2072.0410000000056,
+    "medianResTime" : 1978.0,
+    "minResTime" : 2.0,
+    "maxResTime" : 5621.0,
+    "pct1ResTime" : 3174.8,
+    "pct2ResTime" : 3663.3499999999976,
+    "pct3ResTime" : 4278.949999999999,
+    "throughput" : 399.12193175014966,
+    "receivedKBytesPerSec" : 94.12885402115346,
+    "sentKBytesPerSec" : 83.80001496707244
+  },
+  "/CarManageService/getByPlateNumberCM" : {
+    "transaction" : "/CarManageService/getByPlateNumberCM",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 2204.7274999999986,
+    "medianResTime" : 2204.5,
+    "minResTime" : 2.0,
+    "maxResTime" : 5621.0,
+    "pct1ResTime" : 2990.4000000000005,
+    "pct2ResTime" : 3443.749999999999,
+    "pct3ResTime" : 4218.82,
+    "throughput" : 207.6196408180214,
+    "receivedKBytesPerSec" : 56.568241980691376,
+    "sentKBytesPerSec" : 37.91491487594727
+  },
+  "/CarManageService/renewCM" : {
+    "transaction" : "/CarManageService/renewCM",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 1939.3545,
+    "medianResTime" : 1780.0,
+    "minResTime" : 4.0,
+    "maxResTime" : 5517.0,
+    "pct1ResTime" : 3268.8,
+    "pct2ResTime" : 3969.8499999999995,
+    "pct3ResTime" : 4293.85,
+    "throughput" : 199.62072063080146,
+    "receivedKBytesPerSec" : 39.76819043816748,
+    "sentKBytesPerSec" : 47.37093272781715
+  }
+}

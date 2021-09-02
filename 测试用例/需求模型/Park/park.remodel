@@ -1,0 +1,942 @@
+UseCaseModel Park {
+
+	UC::saveCM
+	UC::listCM
+	UC::getByPlateNumberCM
+	UC::renewCM
+	UC::exportDataCM // 导出
+	//
+	UC::saveCR
+	UC::listCR
+	UC::getByPlateNumberCR
+	//
+	UC::savePM
+	UC::listPM
+	UC::selectPM
+	//
+	UC::saveOM
+	UC::listOM
+	UC::exportDataOM // 导出
+	//
+	UC::getByCarParkIdP
+	UC::udeleteP
+	UC::saveP
+	//
+	UC::manageRole
+	UC::selectByUser
+	UC::getMenuByRole
+	UC::saveMenuByRole
+	UC::getOrgByRole
+	UC::saveOrgByRole
+	//
+	UC::manageOrg
+	//
+	UC::manageMenu
+	UC::getByUser
+	UC::drop
+	//
+	UC::manageUser
+	UC::updatePwd
+	UC::info
+	UC::updateInfo
+	//
+	UC::getUser
+	UC::listUserRoles // 没有对应的转换规则
+	UC::listUserPerms // 没有对应的转换规则
+	UC::listUserByRole
+
+	Actor CarManage {
+		saveCM
+		listCM
+		getByPlateNumberCM
+		renewCM
+		exportDataCM
+	}
+
+	Actor CarParkingRecord {
+		saveCR
+		listCR
+		getByPlateNumberCR
+	}
+
+	Actor ParkManage {
+		savePM
+		selectPM
+		listPM
+	}
+
+	Actor OrderManage {
+		saveOM
+		listOM
+		exportDataOM
+	}
+
+	Actor PayManage {
+		getByCarParkIdP
+		saveP
+		udeleteP
+	}
+
+	Actor SystemManage {
+		manageUser
+		manageRole
+		manageOrg
+		manageMenu
+	}
+
+	Actor Menue {
+		getByUser
+		drop
+	}
+
+	Actor Role {
+		selectByUser
+		getMenuByRole
+		saveMenuByRole
+		getOrgByRole
+		saveOrgByRole
+	}
+
+	Actor User {
+		updateInfo
+		info
+		updatePwd
+		getUser
+		listUserRoles
+		listUserPerms
+		listUserByRole
+	}
+
+	Service ParkSystem {
+
+		[Operation]
+		manageUser()
+		manageRole()
+		manageOrg()
+		manageMenu()
+
+	}
+
+	Service ThirdPartyServices {
+
+		[Operation]
+		thirdPartyServices()
+
+	}
+
+	Service CarManageService {
+
+		[Operation]
+		saveCM(description, name, org_id, park_manage_id) // 1111
+		listCM(description, name, org_id, park_manage_id) // 1111
+		renewCM(oId, carId, userid) // 续租
+		getByPlateNumberCM(plateNumber, parkManageId) // 根据车牌号和停车场获取车辆信息
+		exportDataCM(orgId,parkManageId) // 1111
+
+	}
+
+	Service CarParkingRecordService {
+
+		[Operation]
+		saveCR(entity) // 1111
+		listCR(orgId, parkManageId) // 1111
+		getByPlateNumberCR(plate_number, park_manage_id) // 1111
+
+	}
+
+	Service PayManageService {
+
+		[Operation]
+		getByCarParkId(id)
+		deleteP(id)
+
+	}
+
+	Service FinanceManageService {
+
+		[Operation]
+		saveOM(id)
+		listOM(order)
+		exportDataOM(orgId,  parkManageId)
+
+	}
+
+	Service ParkManageService {
+
+		[Operation]
+		savePM(entity)
+		listPM()
+		selectPM(id, org_id)
+
+	}
+
+	Service MenueService {
+
+		[Operation]
+		getByUser(username)
+		drop(id, parentId, menuId)
+
+	}
+
+	Service RoleService {
+
+		[Operation]
+		selectByUser(id)
+		getMenuByRole(roleId)
+		saveMenuByRole(roleId)
+		getOrgByRole(roleId)
+		saveOrgByRole(roleId)
+
+	}
+
+	Service UserManageService {
+
+		[Operation]
+		updatePwd(id,pwd)
+		info(id)
+		updateInfo(id,name)
+		getUser()
+		listUserRoles(userid)
+		listUserByRole(roleId)
+
+	}
+
+	Contract CarManageService::saveCM(description:String, name:String, org_id:Integer, park_manage_id:Integer) : Boolean {
+
+		precondition:
+			name.oclIsUndefined() = false and
+			org_id.oclIsUndefined() = false and
+			park_manage_id.oclIsUndefined() = false
+		postcondition:
+			let entity:CarManage in
+			entity.oclIsNew() and
+			entity.name = name and
+			entity.ParkManageId = park_manage_id and
+			entity.OrgId = org_id and
+			CarManage.allInstance()->includes(entity) and
+			result = true
+
+	}
+
+	Contract CarManageService::listCM(description:String, name:String, org_id:Integer, park_manage_id:Integer) : Set(CarManage) {
+
+		definition:
+			cms:Set(CarManage) = CarManage.allInstance()->select(cm:CarManage |cm.Like = name and cm.description = description and cm.org_id = org_id and cm.park_manage_id = park_manage_id)
+
+		precondition:
+			cms.oclIsUndefined() = false
+
+		postcondition:
+			result = cms
+	}
+
+	Contract CarManageService::renewCM(oId:Integer, carId:Integer, userid:Integer) : Boolean {
+
+		definition:
+			user:SysUser = SysUser.allInstance()->any(user:SysUser | user.id = userid),
+			o:Order_S = Order_S.allInstance()->any(o:Order_S | o.id = oId),
+			cm:CarManage = CarManage.allInstance()->any(cm:CarManage | cm.id = carId)
+
+		precondition:
+			user.oclIsUndefined() = false and
+			cm.oclIsUndefined() = false
+		postcondition:
+			o.orgId = user.orgId and
+			o.userCreate = user.id and
+			o.body = "车位续租" and
+			o.status = 1 and
+			Order_S.allInstance()->includes(o) and
+			cm.ValidityTime.isEqual(Now) and
+			CarManage.allInstance()->includes(cm) and
+			result = true
+	}
+
+	Contract CarManageService::getByPlateNumberCM(plateNumber:String, parkManageId : Integer) : CarManage {
+
+		definition:
+			cm:CarManage = CarManage.allInstance()->any(cm:Order_S | cm.PlateNumber = plateNumber and cm.parkManageId = parkManageId)
+
+		precondition:
+			cm.oclIsUndefined() = false
+		postcondition:
+			result = cm
+	}
+
+	// 导出需要调用第三方API
+	Contract CarManageService::exportDataCM(orgId:Real, parkManageId:Real) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract CarParkingRecordService::saveCR(entity:CarParkingRecord) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			if
+				entity.id.oclIsUndefined() = false and
+				entity.type <> 2
+			then
+				let order:Order_S in
+				order.oclIsNew() and
+				order.orgId = entity.orgId and
+				order.parkManageId = entity.ParkManageId and
+				order.body = "临时车辆" and
+				order.status = 0 and
+				Order_S.allInstance()->includes(order) and
+				CarParkingRecord.allInstance()->includes(entity) and
+				result = true
+			else
+				CarParkingRecord.allInstance()->includes(entity) and
+				result = true
+			endif
+
+	}
+
+	Contract CarParkingRecordService::listCR(orgId:String, parkManageId:String) : Set(CarParkingRecord) {
+
+		precondition:
+			orgId.oclIsUndefined() = false and
+			parkManageId.oclIsUndefined() = false
+		postcondition:
+			orgId = orgId and
+			parkManageId = parkManageId and
+			result = CarParkingRecord.allInstance()->select(cr:CarParkingRecord | cm.orgId = orgId and cm.parkManageId = parkManageId)
+	}
+
+	Contract CarParkingRecordService::getByPlateNumberCR(plate_number:Integer, park_manage_id : Integer) : CarManage {
+
+		definition:
+			cm:CarManage = CarManage.allInstance()->any(cm:CarManage | cm.plateNumber = plate_number and cm.parkManageId = park_manage_id)
+
+		precondition:
+			true
+		postcondition:
+			result = cm
+	}
+
+	Contract PayManageService::getByCarParkId(id:Integer) : AppPayConfig {
+
+		definition:
+			apc:AppPayConfig = AppPayConfig.allInstance()->any(apc:AppPayConfig | apc.Id = id)
+
+		precondition:
+			true
+		postcondition:
+			result = apc
+	}
+
+	Contract PayManageService::deleteP(id : Integer) : Boolean {
+
+		definition:
+			apf:AppPayConfig = AppPayConfig.allInstance()->any(apf:AppPayConfig | apf.Id = id)
+
+		precondition:
+			apf.oclIsUndefined() = false
+		postcondition:
+			AppPayConfig.allInstance()->excludes(apf) and
+			result = true
+	}
+
+	// 导出需要调用第三方API
+	Contract FinanceManageService::exportDataOM(orgId : String, parkManageId : String) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract FinanceManageService::listOM(order : Order_S) : Set(Order_S) {
+
+		precondition:
+			true
+		postcondition:
+			result = Order_S.allInstance()
+	}
+
+	Contract FinanceManageService::saveOM(id : Integer) : Boolean {
+
+		definition:
+			o:Order_S = Order_S.allInstance()->any(o:Order_S | o.Id = id)
+
+		precondition:
+			o.oclIsUndefined() = true
+		postcondition:
+			Order_S.allInstance()->includes(o) and
+			result = true
+	}
+
+	Contract UserManageService::updateInfo(id : Integer, name : String) : Boolean {
+
+		definition:
+			user:SysUser = SysUser.allInstance()->any(user:SysUser | user.id = id)
+
+		precondition:
+			user.oclIsUndefined() = false
+		postcondition:
+			user.Id = id and
+			user.username = name and
+			result = true
+	}
+
+	Contract UserManageService::info(id:Integer) : SysUser {
+
+		definition:
+			u:SysUser = SysUser.allInstance()->any(u:SysUser | u.Id = id)
+
+		precondition:
+			u.oclIsUndefined() = true
+		postcondition:
+			result = u
+	}
+
+	Contract UserManageService::updatePwd(id : Integer, pwd : String) : Boolean {
+
+		definition:
+			user:SysUser = SysUser.allInstance()->any(user:SysUser | user.id = id)
+
+		precondition:
+			user.oclIsUndefined() = false
+		postcondition:
+			user.Id = id and
+			user.password = pwd and
+			result = true
+	}
+
+	Contract ParkManageService::selectPM(id:Integer, org_id:Integer) : CarParkManage {
+
+		definition:
+			cpm:CarParkManage = CarParkManage.allInstance()->any(cpm:CarParkManage | cpm.id = id and cpm.orgId = org_id)
+
+		precondition:
+			cpm.oclIsUndefined() = false
+		postcondition:
+			result = cpm
+	}
+
+	Contract ParkManageService::listPM() : Set(CarParkManage) {
+
+		precondition:
+			true
+		postcondition:
+			result = CarParkManage.allInstance()
+	}
+
+	Contract ParkManageService::savePM(entity:CarParkManage) : Boolean {
+
+		precondition:
+			entity.oclIsUndefined() = false
+		postcondition:
+			CarParkManage.allInstance()->includes(entity) and
+			result = true
+	}
+
+// -----------------------------------------------------------------------------------------------------------------------------
+	Contract ParkSystem::createUser(id : Integer) : Boolean {
+
+		definition:
+			user:SysUser = SysUser.allInstance()->any(u:SysUser | u.id = id)
+
+		precondition:
+			user.oclIsUndefined() = true
+		postcondition:
+			let u:SysUser in
+			u.oclIsNew() and
+			u.Id = id and
+			SysUser.allInstance()->includes(u) and
+			result = true
+	}
+
+//entity query operation 
+	Contract ParkSystem::queryUser(id : Integer) : SysUser {
+
+		definition:
+			user:SysUser = SysUser.allInstance()->any(u:SysUser | u.Id = id)
+
+		precondition:
+			user.oclIsUndefined() = false
+
+		postcondition:
+			result = user
+	}
+
+//entity modify operation 
+	Contract ParkSystem::modifyUser(id : Integer, name : String) : Boolean {
+
+		definition:
+			user:SysUser = SysUser.allInstance()->any(u:SysUser | u.id = id)
+
+		precondition:
+			user.oclIsUndefined() = false
+
+		postcondition:
+			user.Id = id and
+			user.Username = name and
+			result = true
+	}
+
+//entity delete operation 
+	Contract ParkSystem::deleteUser(id : Integer) : Boolean {
+
+		definition:
+			user:SysUser = SysUser.allInstance()->any(u:SysUser | u.Id = id)
+
+		precondition:
+			user.oclIsUndefined() = false
+
+		postcondition:
+			SysUser.allInstance()->excludes(user) and
+			result = true
+	}
+
+	Contract ParkSystem::createSysMenu(id : Integer) : Boolean {
+
+		definition:
+			menu:SysMenu = SysMenu.allInstance()->any(menu:SysMenu | menu.id = id)
+
+		precondition:
+			menu.oclIsUndefined() = true
+		postcondition:
+			let m:SysMenu in
+			m.oclIsNew() and
+			m.Id = id and
+			SysMenu.allInstance()->includes(m) and
+			result = true
+	}
+
+//entity query operation 
+	Contract ParkSystem::querySysMenu(id : Integer) : SysMenu {
+
+		definition:
+			menu:SysMenu = SysMenu.allInstance()->any(menu:SysMenu | menu.Id = id)
+
+		precondition:
+			menu.oclIsUndefined() = false
+
+		postcondition:
+			result = menu
+	}
+
+//entity modify operation 
+	Contract ParkSystem::modifySysMenu(id : Integer, name : String) : Boolean {
+
+		definition:
+			menu:SysMenu = SysMenu.allInstance()->any(menu:SysMenu | menu.id = id)
+
+		precondition:
+			menu.oclIsUndefined() = false
+
+		postcondition:
+			menu.Id = id and
+			menu.name = name and
+			result = true
+	}
+
+//entity delete operation 
+	Contract ParkSystem::deleteSysMenu(id : Integer) : Boolean {
+
+		definition:
+			menu:SysMenu = SysMenu.allInstance()->any(menu:SysMenu | menu.Id = id)
+
+		precondition:
+			menu.oclIsUndefined() = false
+
+		postcondition:
+			SysMenu.allInstance()->excludes(menu) and
+			result = true
+	}
+
+	Contract ParkSystem::createSysOrg(id : Integer) : Boolean {
+
+		definition:
+			org:SysOrg = SysOrg.allInstance()->any(org:SysOrg | org.id = id)
+
+		precondition:
+			org.oclIsUndefined() = true
+		postcondition:
+			let o:SysOrg in
+			o.oclIsNew() and
+			o.Id = id and
+			SysOrg.allInstance()->includes(o) and
+			result = true
+	}
+
+//entity query operation 
+	Contract ParkSystem::querySysOrg(id : Integer) : SysOrg {
+
+		definition:
+			org:SysOrg = SysOrg.allInstance()->any(org:SysOrg | org.Id = id)
+
+		precondition:
+			org.oclIsUndefined() = false
+
+		postcondition:
+			result = org
+	}
+
+//entity modify operation 
+	Contract ParkSystem::modifySysOrg(id : Integer, name : String) : Boolean {
+
+		definition:
+			org:SysOrg = SysOrg.allInstance()->any(org:SysOrg | org.id = id)
+
+		precondition:
+			org.oclIsUndefined() = false
+
+		postcondition:
+			org.Id = id and
+			org.name = name and
+			result = true
+	}
+
+//entity delete operation 
+	Contract ParkSystem::deleteSysOrg(id : Integer) : Boolean {
+
+		definition:
+			org:SysOrg = SysOrg.allInstance()->any(org:SysOrg | org.Id = id)
+
+		precondition:
+			org.oclIsUndefined() = false
+
+		postcondition:
+			SysOrg.allInstance()->excludes(org) and
+			result = true
+	}
+
+	Contract ParkSystem::createSysRole(id : Integer) : Boolean {
+
+		definition:
+			role:SysRole = SysRole.allInstance()->any(role:SysRole | role.id = id)
+
+		precondition:
+			role.oclIsUndefined() = true
+		postcondition:
+			let r:SysRole in
+			r.oclIsNew() and
+			r.Id = id and
+			SysRole.allInstance()->includes(r) and
+			result = true
+	}
+
+//entity query operation 
+	Contract ParkSystem::querySysRole(id : Integer) : SysRole {
+
+		definition:
+			role:SysRole = SysRole.allInstance()->any(role:SysRole | role.Id = id)
+
+		precondition:
+			role.oclIsUndefined() = false
+
+		postcondition:
+			result = role
+	}
+
+//entity modify operation 
+	Contract ParkSystem::modifySysRole(id : Integer, name : String) : Boolean {
+
+		definition:
+			role:SysRole = SysRole.allInstance()->any(role:SysRole | role.id = id)
+
+		precondition:
+			role.oclIsUndefined() = false
+
+		postcondition:
+			role.Id = id and
+			result = true
+	}
+
+//entity delete operation 
+	Contract ParkSystem::deleteSysRole(id : Integer) : Boolean {
+
+		definition:
+			role:SysRole = SysRole.allInstance()->any(role:SysRole | role.Id = id)
+
+		precondition:
+			role.oclIsUndefined() = false
+
+		postcondition:
+			SysRole.allInstance()->excludes(role) and
+			result = true
+	}
+
+//----------------------------------------------------------------------------------
+	Contract MenueService::getByUser(username:String) : SysUser {
+
+		definition:
+			su:SysUser = SysUser.allInstance()->any(su:SysUser | su.username = username)
+
+		precondition:
+			su.oclIsUndefined() = false
+		postcondition:
+			result = su
+	}
+
+	Contract MenueService::drop(id:Integer, parentId:Integer, menuId:Integer) : Boolean {
+
+		definition:
+			sm:SysMenu = SysMenu.allInstance()->any(sm:SysMenu | sm.id = id)
+
+		precondition:
+			sm.oclIsUndefined() = false and
+			parentId.oclIsUndefined() = false and
+			menuId.oclIsUndefined() = false
+		postcondition:
+			sm.parentId = parentId and
+			sm.Id = menuId and
+			result = true
+	}
+
+	Contract RoleService::selectByUser(id:Integer) : Set(SysMenu) {
+
+		definition:
+			sm:SysMenu = SysMenu.allInstance()->any(sm:SysMenu | sm.id = id)
+
+		precondition:
+			true
+		postcondition:
+			result = SysMenu.allInstance()
+	}
+
+	Contract RoleService::getMenuByRole(roleId:Integer) : SysMenu {
+
+		definition:
+			role:SysRole = SysRole.allInstance()->any(role:SysRole | role.Id = roleId),
+			sm:SysMenu = SysMenu.allInstance()->any(sm:SysMenu | sm.BelongedRole = role)
+
+		precondition:
+			sm.oclIsUndefined() = false
+		postcondition:
+			result = sm
+	}
+
+	Contract RoleService::saveMenuByRole(roleId:Integer) : Boolean {
+
+		definition:
+			role:SysRole = SysRole.allInstance()->any(role:SysRole | role.Id = roleId)
+
+		precondition:
+			role.oclIsUndefined() = false
+		postcondition:
+			let sm:SysMenu in
+			sm.oclIsNew() and
+			sm.BelongedRole = role and
+			SysMenu.allInstance()->includes(sm) and
+			result = true
+	}
+
+	Contract RoleService::getOrgByRole(roleId:Integer) : SysOrg {
+
+		definition:
+			role:SysRole = SysRole.allInstance()->any(role:SysRole | role.Id = roleId),
+			so:SysOrg = SysOrg.allInstance()->any(so:SysOrg | so.BelongedRole = role)
+
+		precondition:
+			so.oclIsUndefined() = false
+		postcondition:
+			result = so
+	}
+
+	Contract RoleService::saveOrgByRole(roleId:Integer) : Boolean {
+
+		definition:
+			role:SysRole = SysRole.allInstance()->any(role:SysRole | role.Id = roleId)
+
+		precondition:
+			role.oclIsUndefined() = false
+		postcondition:
+			let so:SysOrg in
+			so.oclIsNew() and
+			so.BelongedRole = role and
+			SysOrg.allInstance()->includes(so) and
+			result = true
+	}
+
+	Contract UserManageService::listUserByRole(roleId:Integer) : Set(SysUser) {
+
+		definition:
+			role:SysRole = SysRole.allInstance()->any(role:SysRole | role.Id = roleId),
+			sus:Set(SysUser) = SysUser.allInstance()->select(su:SysUser | su.SysRoletoSysUser = role)
+
+		precondition:
+			sus.oclIsUndefined() = false
+		postcondition:
+			result = sus
+	}
+
+	Contract UserManageService::listUserRoles(userid:Integer) : Set(String) {
+
+		definition:
+			su:SysUser = SysUser.allInstance()->any(su:SysUser | su.Id = userid),
+			ss:Set(String),
+			roles:Set(SysRole),
+			s:String = null
+
+		precondition:
+			su.oclIsUndefined() = false
+		postcondition:
+			roles = SysUser.SysUsertoSysRole and
+			roles->forAll(role:SysRole|
+				s = role.RoleSign and
+				ss->includes(s)
+			)
+			and
+			result = ss
+	}
+
+	Contract UserManageService::listUserPerms() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract ThirdPartyServices::thirdPartyServices() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+}
+
+DomainModel Parking{
+
+	Entity CarManage {
+		Id : Integer
+		Name : String
+		OrgId : Integer
+		OrgName : String
+		ParkManageId : Integer
+		ParkManageName : String
+		PlateNumber : String
+		Gender : String
+		Nickname : String
+		Mobile : String
+		ParkingLot : String
+		Type : String
+		Status : String
+		Remark : String
+		ValidityTime : Date
+	}
+
+	Entity Order_S {
+		Id : Integer
+		Body : String
+		OrderNo : String
+		TotalFee : String
+		Type : Integer
+		ParkManageId : Integer
+		OrgId : Integer
+		Remark : String
+		PlateNumber : String
+		ValidityTime : Date
+		Status : Integer
+		UserCreate : Integer
+		CarId : String
+	}
+
+	Entity CarParkingRecord {
+		Id : Integer
+		OrderNo : String
+		OrgId : Integer
+		OrgName : String
+		ParkManageId : Integer
+		ParkManageName : String
+		PlateNumber : String
+		Type : Integer
+		GmtInto : String
+		GmtOut : String
+		Cost : String
+	}
+
+	Entity CarParkManage {
+		Id : Integer
+		Name : String
+		OrgId : Integer
+		OrgName : String
+		Status : String
+		ParkingSpaceNumber : String
+		FreeTime : String
+		TimeUnit : String
+		UnitCost : String
+		MaxMoney : String
+	}
+
+	Entity AppPayConfig {
+		Id : Integer
+		CarParkId : Integer
+		MchId : String
+		SecretKey : String
+	}
+
+	Entity SysUser {
+		Id : Integer
+		OrgId : Integer
+		Username : String
+		Password : String
+		Nickname : String
+		Email : String
+		Mobile : String
+		Status : String
+		Remark : String
+		Avatar_status : String
+		OrgName : String
+
+		[Refer]
+		LinkedRole : SysRole* Association
+	}
+
+	Entity SysMenu {
+		Id : Integer
+		ParentId : Integer
+		Name : String
+		Url : String
+		Perms : String
+		Type : String
+		Icon : String
+		ParentName : String
+		IsParent : String
+
+		[Refer]
+		BelongedRole : SysRole Association
+	}
+
+	Entity SysOrg {
+		Id : Integer
+		ParentId : Integer
+		Code : String
+		Name : String
+		Full_name : String
+		Director : String
+		Email : String
+		Phone : String
+		Address : String
+		Order_num : Integer
+		Status : Integer
+		ParentName : String
+
+		[Refer]
+		BelongedRole : SysRole ! Association
+	}
+
+	Entity SysRole {
+		Id : Integer
+		OrgId : Integer
+		RoleSign : String
+		Remark : String
+		UserIdCreate : String
+
+		[Refer]
+		LinkedMenu : SysMenu ! Association
+		LinkedUser : SysUser ! Association
+		LinkedOrg : SysOrg Association
+	}
+
+}
+

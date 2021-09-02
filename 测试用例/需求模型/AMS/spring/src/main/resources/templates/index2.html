@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Prototype</title>
+	<link rel="stylesheet" href="/css/layui.css"></link>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script src="/js/layui.js"></script>
+	<script>
+	function formatDate(t) { 
+	if(isNaN(t)){
+	return ""; 
+	}else{
+	var now=new Date(t);
+	var year=now.getFullYear();
+	var month=now.getMonth()+1; 
+	var date=now.getDate(); 
+	return year+"-"+month+"-"+date; 
+	}
+	} 
+		//JavaScript代码区域
+		layui.use("element", function() {
+			var element = layui.element;
+			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+		});
+		$(document).ready(function() {
+	$.ajax({
+	type: "GET",
+	url: "/state/WorkReportTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.content+'</td>';
+	html+='<td >'+formatDate(item.time)+'</td>';
+	html+='</tr>';
+	});
+	$("#WorkReport_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/WorkTaskTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.staffName+'</td>';
+	html+='<td >'+item.adminName+'</td>';
+	html+='<td >'+item.phone+'</td>';
+	html+='<td >'+item.section+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='</tr>';
+	});
+	$("#WorkTask_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/TerminalEquipmentTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.address+'</td>';
+	html+='<td >'+item.description+'</td>';
+	html+='<td >'+item.type+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='</tr>';
+	});
+	$("#TerminalEquipment_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/OperationStatusTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='<td >'+item.status+'</td>';
+	html+='<td >'+item.value+'</td>';
+	html+='<td >'+item.valueUnit+'</td>';
+	html+='<td >'+formatDate(item.time)+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='</tr>';
+	});
+	$("#OperationStatus_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/UserTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.password+'</td>';
+	html+='<td >'+item.phone+'</td>';
+	html+='</tr>';
+	});
+	$("#User_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/RoleTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.roleCode+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='</tr>';
+	});
+	$("#Role_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/DepartmentTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.contactRerson+'</td>';
+	html+='<td >'+item.principal+'</td>';
+	html+='<td >'+item.phone+'</td>';
+	html+='<td >'+item.briefInfo+'</td>';
+	html+='<td >'+item.describeContent+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='</tr>';
+	});
+	$("#Department_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/TbRepairTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.repairName+'</td>';
+	html+='<td >'+item.phone+'</td>';
+	html+='<td >'+item.place+'</td>';
+	html+='<td >'+item.repairsStatus+'</td>';
+	html+='<td >'+item.deviceId+'</td>';
+	html+='<td >'+item.status+'</td>';
+	html+='<td >'+item.describeContent+'</td>';
+	html+='<td >'+item.score+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='<td >'+formatDate(item.time)+'</td>';
+	html+='</tr>';
+	});
+	$("#TbRepair_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/TbRepairExtraTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.admin+'</td>';
+	html+='<td >'+item.isReject+'</td>';
+	html+='<td >'+item.rejectCause+'</td>';
+	html+='<td >'+item.relayNum+'</td>';
+	html+='<td >'+item.arbitrate+'</td>';
+	html+='<td >'+item.isAccept+'</td>';
+	html+='<td >'+item.isComplete+'</td>';
+	html+='<td >'+formatDate(item.time)+'</td>';
+	html+='<td >'+item.resolvent+'</td>';
+	html+='<td >'+item.cause+'</td>';
+	html+='</tr>';
+	});
+	$("#TbRepairExtra_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/ProcessingFeesTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.projectName+'</td>';
+	html+='<td >'+item.price+'</td>';
+	html+='<td >'+item.number+'</td>';
+	html+='<td >'+item.totalPrice+'</td>';
+	html+='<td >'+item.remake+'</td>';
+	html+='</tr>';
+	});
+	$("#ProcessingFees_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/DeviceInfoTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.brand+'</td>';
+	html+='<td >'+item.type+'</td>';
+	html+='<td >'+item.address+'</td>';
+	html+='<td >'+item.adminName+'</td>';
+	html+='<td >'+item.contactsName+'</td>';
+	html+='<td >'+item.status+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='</tr>';
+	});
+	$("#DeviceInfo_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/DeviceLocationGroupTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='</tr>';
+	});
+	$("#DeviceLocationGroup_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/EquipmentFailureTypeTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.describeContent+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='</tr>';
+	});
+	$("#EquipmentFailureType_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/DeviceStatusTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='</tr>';
+	});
+	$("#DeviceStatus_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/DeviceAssociationGroupTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='</tr>';
+	});
+	$("#DeviceAssociationGroup_table").html(html);
+	}
+	});
+	});
+	</script>
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">Prototype Airport</div>
+				<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item"><a href="/main/index" id="s_function">System Function</a></li>
+						<li class="layui-nav-item layui-this"><a href="/main/index2" id="s_state">System State</a></li>
+				</ul>
+			</div>
+		<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title">
+			<li class="layui-this" id="WorkReport">WorkReport</li>
+			<li id="WorkTask">WorkTask</li>
+			<li id="TerminalEquipment">TerminalEquipment</li>
+			<li id="OperationStatus">OperationStatus</li>
+			<li id="User">User</li>
+			<li id="Role">Role</li>
+			<li id="Department">Department</li>
+			<li id="TbRepair">TbRepair</li>
+			<li id="TbRepairExtra">TbRepairExtra</li>
+			<li id="ProcessingFees">ProcessingFees</li>
+			<li id="DeviceInfo">DeviceInfo</li>
+			<li id="DeviceLocationGroup">DeviceLocationGroup</li>
+			<li id="EquipmentFailureType">EquipmentFailureType</li>
+			<li id="DeviceStatus">DeviceStatus</li>
+			<li id="DeviceAssociationGroup">DeviceAssociationGroup</li>
+				</ul>
+				<div class="layui-tab-content" style="height: 100px;">
+					<div class="layui-tab-item layui-show" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Content</td>
+								<td style="font-weight: bold">Time</td>
+								</tr>
+							</thead>
+							<tbody id="WorkReport_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">StaffName</td>
+								<td style="font-weight: bold">AdminName</td>
+								<td style="font-weight: bold">Phone</td>
+								<td style="font-weight: bold">Section</td>
+								<td style="font-weight: bold">Remark</td>
+								</tr>
+							</thead>
+							<tbody id="WorkTask_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Address</td>
+								<td style="font-weight: bold">Description</td>
+								<td style="font-weight: bold">Type</td>
+								<td style="font-weight: bold">Remark</td>
+								</tr>
+							</thead>
+							<tbody id="TerminalEquipment_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Remark</td>
+								<td style="font-weight: bold">Status</td>
+								<td style="font-weight: bold">Value</td>
+								<td style="font-weight: bold">ValueUnit</td>
+								<td style="font-weight: bold">Time</td>
+								<td style="font-weight: bold">Name</td>
+								</tr>
+							</thead>
+							<tbody id="OperationStatus_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Password</td>
+								<td style="font-weight: bold">Phone</td>
+								</tr>
+							</thead>
+							<tbody id="User_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">RoleCode</td>
+								<td style="font-weight: bold">Remark</td>
+								</tr>
+							</thead>
+							<tbody id="Role_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">ContactRerson</td>
+								<td style="font-weight: bold">Principal</td>
+								<td style="font-weight: bold">Phone</td>
+								<td style="font-weight: bold">BriefInfo</td>
+								<td style="font-weight: bold">DescribeContent</td>
+								<td style="font-weight: bold">Remark</td>
+								</tr>
+							</thead>
+							<tbody id="Department_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">RepairName</td>
+								<td style="font-weight: bold">Phone</td>
+								<td style="font-weight: bold">Place</td>
+								<td style="font-weight: bold">RepairsStatus</td>
+								<td style="font-weight: bold">DeviceId</td>
+								<td style="font-weight: bold">Status</td>
+								<td style="font-weight: bold">DescribeContent</td>
+								<td style="font-weight: bold">Score</td>
+								<td style="font-weight: bold">Remark</td>
+								<td style="font-weight: bold">Time</td>
+								</tr>
+							</thead>
+							<tbody id="TbRepair_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Admin</td>
+								<td style="font-weight: bold">IsReject</td>
+								<td style="font-weight: bold">RejectCause</td>
+								<td style="font-weight: bold">RelayNum</td>
+								<td style="font-weight: bold">Arbitrate</td>
+								<td style="font-weight: bold">IsAccept</td>
+								<td style="font-weight: bold">IsComplete</td>
+								<td style="font-weight: bold">Time</td>
+								<td style="font-weight: bold">Resolvent</td>
+								<td style="font-weight: bold">Cause</td>
+								</tr>
+							</thead>
+							<tbody id="TbRepairExtra_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">ProjectName</td>
+								<td style="font-weight: bold">Price</td>
+								<td style="font-weight: bold">Number</td>
+								<td style="font-weight: bold">TotalPrice</td>
+								<td style="font-weight: bold">Remake</td>
+								</tr>
+							</thead>
+							<tbody id="ProcessingFees_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Brand</td>
+								<td style="font-weight: bold">Type</td>
+								<td style="font-weight: bold">Address</td>
+								<td style="font-weight: bold">AdminName</td>
+								<td style="font-weight: bold">ContactsName</td>
+								<td style="font-weight: bold">Status</td>
+								<td style="font-weight: bold">Remark</td>
+								</tr>
+							</thead>
+							<tbody id="DeviceInfo_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Remark</td>
+								</tr>
+							</thead>
+							<tbody id="DeviceLocationGroup_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">DescribeContent</td>
+								<td style="font-weight: bold">Remark</td>
+								</tr>
+							</thead>
+							<tbody id="EquipmentFailureType_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Remark</td>
+								</tr>
+							</thead>
+							<tbody id="DeviceStatus_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Remark</td>
+								</tr>
+							</thead>
+							<tbody id="DeviceAssociationGroup_table">
+							</tbody>
+						</table>
+					</div>
+			</div> 
+		</div>
+	</body>
+	</html>
+	

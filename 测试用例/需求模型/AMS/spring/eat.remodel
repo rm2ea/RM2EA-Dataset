@@ -1,0 +1,788 @@
+UseCaseModel Eat {
+
+	UC::getByPhone
+	UC::getByName
+	UC::loginByPhone
+	UC::register
+	//
+	UC::toEvaluationCheck
+	//
+	UC::toEvaluateOrdering // 返回值返回了两种类型，但是单个系统操作只能用OCL表示一种返回类型，但是如果一个实体类中包含另一实体类的引用集合，则可以实现
+	UC::toEvaluateStore
+	//
+	UC::submitEvaluation1 // //上传//无法编写后置条件
+	UC::submitEvaluation2
+	//
+	UC::selectOne
+	UC::submitOrdering
+	UC::toOrderingCheck // 无法用OCL表达后置条件
+	UC::deliveryConfirmine
+	//
+	UC::toStreet
+	UC::suggestByStr
+	UC::enterStoreBystoreId
+	UC::enterStoreBystoreId2
+	UC::search
+	//
+	UC::managerOrderingDishes
+	UC::managerEvaluation
+	UC::managerCustomer
+	UC::managerDishes
+	UC::managerStore
+	UC::managerOrdering
+
+	Actor Customer {
+		getByPhone
+		getByName
+		loginByPhone
+	}
+
+	Actor System {
+		managerCustomer
+		managerDishes
+		managerStore
+		managerOrdering
+		managerOrderingDishes
+		managerEvaluation
+	}
+
+	Actor Evaluation {
+		toEvaluationCheck
+		submitEvaluation1
+		submitEvaluation2
+		toEvaluateOrdering
+		toEvaluateStore
+	}
+
+	Actor Order {
+		selectOne
+		submitOrdering
+		deliveryConfirmine
+		toOrderingCheck
+	}
+
+	Actor Store {
+		toStreet
+		enterStoreBystoreId
+		enterStoreBystoreId2
+		suggestByStr
+		search
+	}
+
+	Service EatSystem {
+
+		[Operation]
+		managerOrdering()
+		managerStore()
+		managerDishes()
+		managerCustomer()
+		managerEvaluation()
+		managerOrderingDishes()
+
+	}
+
+	Service CustomerService{
+
+		[Operation]
+		getByPhone(phone)
+		getByName(name)
+		loginByPhone(phone, password)
+
+		[TempProperty]
+		currentCustomer : Customer
+
+	}
+
+	Service EvaluationService {
+
+		[Operation]
+		toEvaluationCheck()
+		submitEvaluation1()
+		submitEvaluation2(orderingId,uid,evluation)
+		toEvaluateOrdering(orderingId)
+		toEvaluateStore(orderingId)
+
+		[TempProperty]
+		currentCustomer : Customer
+
+	}
+
+	Service OrderService {
+
+		[Operation]
+		selectOne(id)
+		submitOrdering(storeId, customerid, dishesid) // 逻辑复杂，后置条件无法编写
+		deliveryConfirmine(customerId)
+		toOrderingCheck() // 逻辑复杂
+
+	}
+
+	Service StoreService {
+
+		[Operation]
+		toStreet()
+		enterStoreBystoreId(storeId)
+		enterStoreBystoreId2(storeId)
+		suggestByStr(str)
+		search(name)
+
+	}
+
+	Service ThirdPartyServices {
+
+		[Operation]
+		thirdPartyServices()
+
+	}
+
+
+//---------------------------------------------------------------------------------------------------
+//entity create operation 
+	Contract EatSystem::createOrdering(id : Integer) : Boolean {
+
+		definition:
+			ordering:Ordering = Ordering.allInstance()->any(ordering:Ordering | ordering.id = id)
+
+		precondition:
+			ordering.oclIsUndefined() = true
+		postcondition:
+			let o:Ordering in
+			o.oclIsNew() and
+			o.Id = id and
+			Ordering.allInstance()->includes(o) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EatSystem::queryOrdering(id : Integer) : Ordering {
+
+		definition:
+			ordering:Ordering = Ordering.allInstance()->any(ordering:Ordering | ordering.Id = id)
+
+		precondition:
+			ordering.oclIsUndefined() = false
+
+		postcondition:
+			result = ordering
+	}
+
+//entity modify operation 
+	Contract EatSystem::modifyOrdering(id : Integer, address : String) : Boolean {
+
+		definition:
+			ordering:Ordering = Ordering.allInstance()->any(ordering:Ordering | ordering.id = id)
+
+		precondition:
+			ordering.oclIsUndefined() = false
+
+		postcondition:
+			ordering.Id = id and
+			ordering.Address = address and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EatSystem::deleteOrdering(id : Integer) : Boolean {
+
+		definition:
+			ordering:Ordering = Ordering.allInstance()->any(ordering:Ordering | ordering.Id = id)
+
+		precondition:
+			ordering.oclIsUndefined() = false
+
+		postcondition:
+			Ordering.allInstance()->excludes(ordering) and
+			result = true
+	}
+
+//---------------------------------------------------------------------------------------------------
+//entity create operation 
+	Contract EatSystem::createStore(id : Integer) : Boolean {
+
+		definition:
+			store:Store = Store.allInstance()->any(store:Store | store.id = id)
+
+		precondition:
+			store.oclIsUndefined() = true
+		postcondition:
+			let s:Store in
+			s.oclIsNew() and
+			s.Id = id and
+			Store.allInstance()->includes(s) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EatSystem::queryStore(id : Integer) : Store {
+
+		definition:
+			store:Store = Store.allInstance()->any(store:Store | store.Id = id)
+
+		precondition:
+			store.oclIsUndefined() = false
+
+		postcondition:
+			result = store
+	}
+
+//entity modify operation 
+	Contract EatSystem::modifyStore(id : Integer, address : String, name : String) : Boolean {
+
+		definition:
+			store:Store = Store.allInstance()->any(store:Store | store.id = id)
+
+		precondition:
+			store.oclIsUndefined() = false
+
+		postcondition:
+			store.Id = id and
+			store.Address = address and
+			store.Name = name and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EatSystem::deleteStore(id : Integer) : Boolean {
+
+		definition:
+			store:Store = Store.allInstance()->any(store:Store | store.Id = id)
+
+		precondition:
+			store.oclIsUndefined() = false
+
+		postcondition:
+			Store.allInstance()->excludes(store) and
+			result = true
+	}
+
+//---------------------------------------------------------------------------------------------------
+//entity create operation 
+	Contract EatSystem::createDishes(id : Integer) : Boolean {
+
+		definition:
+			dishes:Dishes = Dishes.allInstance()->any(dishes:Dishes | dishes.id = id)
+
+		precondition:
+			dishes.oclIsUndefined() = true
+		postcondition:
+			let d:Dishes in
+			d.oclIsNew() and
+			d.Id = id and
+			Dishes.allInstance()->includes(d) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EatSystem::queryDishes(id : Integer) : Dishes {
+
+		definition:
+			dishes:Dishes = Dishes.allInstance()->any(dishes:Dishes | dishes.Id = id)
+
+		precondition:
+			dishes.oclIsUndefined() = false
+
+		postcondition:
+			result = dishes
+	}
+
+//entity modify operation 
+	Contract EatSystem::modifyDishes(id : Integer, name : String) : Boolean {
+
+		definition:
+			dishes:Dishes = Dishes.allInstance()->any(dishes:Dishes | dishes.id = id)
+
+		precondition:
+			dishes.oclIsUndefined() = false
+
+		postcondition:
+			dishes.Id = id and
+			dishes.Name = name and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EatSystem::deleteDishes(id : Integer) : Boolean {
+
+		definition:
+			dishes:Dishes = Dishes.allInstance()->any(dishes:Dishes | dishes.Id = id)
+
+		precondition:
+			dishes.oclIsUndefined() = false
+
+		postcondition:
+			Dishes.allInstance()->excludes(dishes) and
+			result = true
+	}
+
+//---------------------------------------------------------------------------------------------------
+//entity create operation 
+	Contract EatSystem::createCustomer(id : Integer) : Boolean {
+
+		definition:
+			customer:Customer = Customer.allInstance()->any(customer:Customer | customer.id = id)
+
+		precondition:
+			customer.oclIsUndefined() = true
+		postcondition:
+			let c:Customer in
+			c.oclIsNew() and
+			c.Id = id and
+			customer.allInstance()->includes(c) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EatSystem::queryCustomer(id : Integer) : Customer {
+
+		definition:
+			customer:Customer = Customer.allInstance()->any(customer:Customer | customer.Id = id)
+
+		precondition:
+			customer.oclIsUndefined() = false
+
+		postcondition:
+			result = customer
+	}
+
+//entity modify operation 
+	Contract EatSystem::modifyCustomer(id : Integer, address : String) : Boolean {
+
+		definition:
+			customer:Customer = Customer.allInstance()->any(customer:Customer | customer.id = id)
+
+		precondition:
+			customer.oclIsUndefined() = false
+
+		postcondition:
+			customer.Id = id and
+			customer.Address = address and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EatSystem::deleteCustomer(id : Integer) : Boolean {
+
+		definition:
+			customer:Customer = Customer.allInstance()->any(customer:Customer | customer.Id = id)
+
+		precondition:
+			customer.oclIsUndefined() = false
+
+		postcondition:
+			Customer.allInstance()->excludes(customer) and
+			result = true
+	}
+
+//---------------------------------------------------------------------------------------------------
+//entity create operation 
+	Contract EatSystem::createEvaluation(id : Integer) : Boolean {
+
+		definition:
+			evaluation:Evaluation = Evaluation.allInstance()->any(evaluation:Evaluation | evaluation.id = id)
+
+		precondition:
+			evaluation.oclIsUndefined() = true
+		postcondition:
+			let e:Evaluation in
+			e.oclIsNew() and
+			e.Id = id and
+			Evaluation.allInstance()->includes(e) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EatSystem::queryEvaluation(id : Integer) : Evaluation {
+
+		definition:
+			evaluation:Evaluation = Evaluation.allInstance()->any(evaluation:Evaluation | evaluation.Id = id)
+
+		precondition:
+			evaluation.oclIsUndefined() = false
+
+		postcondition:
+			result = evaluation
+	}
+
+//entity modify operation 
+	Contract EatSystem::modifyEvaluation(id : Integer, anonymity : String) : Boolean {
+
+		definition:
+			evaluation:Evaluation = Evaluation.allInstance()->any(evaluation:Evaluation | evaluation.id = id)
+
+		precondition:
+			evaluation.oclIsUndefined() = false
+
+		postcondition:
+			evaluation.Id = id and
+			evaluation.Anonymity = anonymity and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EatSystem::deleteEvaluation(id : Integer) : Boolean {
+
+		definition:
+			evaluation:Evaluation = Evaluation.allInstance()->any(evaluation:Evaluation | evaluation.Id = id)
+
+		precondition:
+			evaluation.oclIsUndefined() = false
+
+		postcondition:
+			Evaluation.allInstance()->excludes(evaluation) and
+			result = true
+	}
+
+//---------------------------------------------------------------------------------------------------
+//entity create operation 
+	Contract EatSystem::createOrderingDishes(id : Integer) : Boolean {
+
+		definition:
+			orderingdishes:OrderingDishes = OrderingDishes.allInstance()->any(orderingdishes:OrderingDishes | orderingdishes.id = id)
+
+		precondition:
+			orderingdishes.oclIsUndefined() = true
+		postcondition:
+			let o:OrderingDishes in
+			o.oclIsNew() and
+			o.Id = id and
+			OrderingDishes.allInstance()->includes(o) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EatSystem::queryOrderingDishes(id : Integer) : OrderingDishes {
+
+		definition:
+			orderingdishes:OrderingDishes = OrderingDishes.allInstance()->any(orderingdishes:OrderingDishes | orderingdishes.Id = id)
+
+		precondition:
+			orderingdishes.oclIsUndefined() = false
+
+		postcondition:
+			result = orderingdishes
+	}
+
+//entity modify operation 
+	Contract EatSystem::modifyOrderingDishes(id : Integer, dishesName : String) : Boolean {
+
+		definition:
+			orderingdishes:OrderingDishes = OrderingDishes.allInstance()->any(orderingdishes:OrderingDishes | orderingdishes.id = id)
+
+		precondition:
+			orderingdishes.oclIsUndefined() = false
+
+		postcondition:
+			orderingdishes.Id = id and
+			orderingdishes.DishesName = dishesName and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EatSystem::deleteOrderingDishes(id : Integer) : Boolean {
+
+		definition:
+			orderingdishes:OrderingDishes = OrderingDishes.allInstance()->any(orderingdishes:OrderingDishes | orderingdishes.Id = id)
+
+		precondition:
+			orderingdishes.oclIsUndefined() = false
+
+		postcondition:
+			OrderingDishes.allInstance()->excludes(orderingdishes) and
+			result = true
+	}
+
+//------------------------------------------------------------------------------
+	Contract CustomerService::getByPhone(phone:String) : Customer {
+
+		definition:
+			customer:Customer = Customer.allInstance()->any(customer:Customer | customer.Phone = phone)
+
+		precondition:
+			customer.oclIsUndefined() = false
+		postcondition:
+			result = customer
+	}
+
+	Contract CustomerService::getByName(name:String) : Customer {
+
+		definition:
+			customer:Customer = Customer.allInstance()->any(customer:Customer | customer.Name = name)
+
+		precondition:
+			customer.oclIsUndefined() = false
+		postcondition:
+			result = customer
+	}
+
+	Contract CustomerService::loginByPhone(phone:String, password:String) : Boolean {
+
+		definition:
+			customer:Customer = Customer.allInstance()->any(customer:Customer | customer.Phone = phone and customer.Password = password)
+
+		precondition:
+			customer.oclIsUndefined() = false
+		postcondition:
+			self.currentCustomer = customer and
+			result = true
+	}
+
+	Contract EvaluationService::toEvaluationCheck() : Set(Evaluation) {
+
+		definition:
+			aid:Integer = 0
+
+		precondition:
+			currentCustomer.oclIsUndefined() = false
+		postcondition:
+			aid = currentCustomer.Id and
+			result = Evaluation.allInstance()->select(e:Evaluation | e.CustomerId = aid)
+	}
+
+	Contract EvaluationService::submitEvaluation2(orderingId:Integer, uid:Integer, evluation:String) : Boolean {
+
+		definition:
+			o:Ordering = Ordering.allInstance()->any(o:Ordering | o.Id = orderingId),
+			customer:Customer = Customer.allInstance()->any(c:Customer | c.Id = uid)
+
+		precondition:
+			customer.oclIsUndefined() = false and
+			o.oclIsUndefined() = false and
+			evluation.oclIsUndefined() = false
+		postcondition:
+			let e:Evaluation in
+			tre.oclIsNew() and
+			e.CustomerId = currentCustomer.Id and
+			e.CustomerImage = currentCustomer.Image and
+			e.CustomerName = currentCustomer.Name and
+			e.evaluation = evluation and
+			e.TimeDate.isEqual(Now) and
+			o.OrderingState = 3 and
+			Evaluation.allInstance()->includes(e) and
+			Ordering.allInstance()->includes(o) and
+			result = true
+	}
+
+	Contract EvaluationService::toEvaluateOrdering(orderingId:Integer) : Ordering {
+
+		definition:
+			o:Ordering = Ordering.allInstance()->any(o:Ordering | o.Id = orderingId)
+
+		precondition:
+			o.oclIsUndefined() = false
+		postcondition:
+			result = o
+	}
+
+	Contract EvaluationService::toEvaluateStore(orderingId:Integer) : Store {
+
+		definition:
+			store:Store = Store.allInstance()->any(store:Store | store.Id = orderingId)
+
+		precondition:
+			store.oclIsUndefined() = false
+		postcondition:
+			result = store
+	}
+
+	Contract OrderService::selectOne(id:Integer) : Ordering {
+
+		definition:
+			o:Ordering = Ordering.allInstance()->any(o:Ordering | o.Id = id)
+
+		precondition:
+			o.oclIsUndefined() = false
+		postcondition:
+			result = o
+	}
+
+	// 当前合约无法编写后置条件
+	Contract OrderService::submitOrdering(storeId:Integer, customerid:Integer, dishesid:Integer) : Boolean {
+
+		definition:
+			c:Customer = Customer.allInstance()->any(c:Customer | c.Id = customerid),
+			dishesNum:Integer = 0,
+			dishesPrice:Real = 0.0,
+			priceSum:Real = 0.0
+
+		precondition:
+			c.oclIsUndefined() = false
+		postcondition:
+			Store.allInstance()->forAll(o:Store |
+				dishesPrice = o.id + 1)
+			and
+			result = true
+	}
+
+	Contract OrderService::deliveryConfirmine(customerId:Integer) : Boolean {
+
+		definition:
+			o:Ordering = Ordering.allInstance()->any(o:Ordering | o.Id = customerId)
+
+		precondition:
+			o.oclIsUndefined() = false
+		postcondition:
+			o.EndTime.isEqual(Now) and
+			o.OrderingState = 2 and
+			result = true
+	}
+	// 后置条件转换规则暂时未更新
+	Contract StoreService::search(name:String) : Set(Store) {
+
+		precondition:
+			name.oclIsUndefined() = false
+		postcondition:
+			// s.Name >= name 集合中的某一个数据Name包含输入参数name(s.Name字符串长，name字符串短，故Name包含name)
+			result = Store.allInstance()->select(s:Store | s.Name >= name)
+	}
+
+
+	Contract StoreService::suggestByStr(str:String) : Set(Store) {
+
+		precondition:
+			str.oclIsUndefined() = false
+		postcondition:
+			if
+				str.oclIsUndefined() = false
+			then
+				result = null
+			else
+				result = Store.allInstance()->select(s:Store | s.Name >= str)
+			endif
+	}
+
+	Contract StoreService::enterStoreBystoreId(storeId:Integer) : Set(Evaluation) {
+
+//		definition:
+//			sub:Set(Real) = Evaluation.allInstance()->select(e:Evaluation | e.StoreId = storeId)
+		precondition:
+			true
+		postcondition:
+			result = Evaluation.allInstance()->select(e:Evaluation | e.StoreId = storeId)
+	}
+
+	Contract StoreService::enterStoreBystoreId2(storeId:Integer) : Set(Dishes) {
+
+		precondition:
+			true
+		postcondition:
+			result = Dishes.allInstance()->select(d:Dishes | d.StoreId = storeId)
+	}
+
+	Contract StoreService::toStreet() : Set(Store) {
+
+		precondition:
+			true
+		postcondition:
+			result = Store.allInstance()
+	}
+
+	// 无法编写后置条件
+	Contract EvaluationService::submitEvaluation1() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	// 无法用OCL表达后置条件
+	Contract OrderService::toOrderingCheck() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract ThirdPartyServices::thirdPartyServices() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+}
+
+DomainModel Eat {
+
+	Entity Customer {
+		Id : Integer
+		Image : String
+		Name : String
+		Password : String
+		Phone : String
+		Address : String
+		RegDate : String
+		LastLoginDate : String
+		Ssuper : String
+		Redpaper : String
+		RegMember : String
+		PastMember : String
+	}
+
+	Entity Dishes {
+		Id : Integer
+		StoreId : String
+		Name : String
+		Price : String
+		Describe : String
+		Image : String
+	}
+
+	Entity Evaluation {
+		Id : Integer
+		Anonymity : String
+		CustomerId : Integer
+		CustomerImage : String
+		CustomerName : String
+		TimeDate : Date
+		OrderingId : Integer
+		StoreId : String
+		Score : String
+		Evaluation : String
+		Image1 : String
+		Image2 : String
+		Image3 : String
+		Image4 : String
+	}
+
+	Entity Ordering {
+		Id : Integer
+		UserId : Integer
+		DelivererId : Integer
+		StoreId : Integer
+		StartTime : String
+		Address : String
+		OrderingState : Integer
+		EndTime : Date
+		PriceSum : String
+	}
+
+	Entity OrderingDishes {
+		Id : Integer
+		OrderingId : Integer
+		DishesId : Integer
+		DishesName : String
+		DishesCount : Integer
+		DishesPrice : Integer
+	}
+
+	Entity Store {
+		Id : Integer
+		Name : String
+		Password : String
+		Phone : String
+		Address : String
+		RegDate : String
+		LastLoginDate : String
+		Ssuper : String
+		MonthlySales : String
+		StoreMark : String
+		StoreState : String
+		Describe : String
+		Logo : String
+		Storefront : String
+	}
+
+}
+

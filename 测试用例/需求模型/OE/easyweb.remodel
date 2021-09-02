@@ -1,0 +1,1021 @@
+UseCaseModel EasyWeb {
+
+	UC::listByDictCode
+	UC::listByDictCodeAndName
+	//
+	UC::sendTextEmail // 需要引入第三方服务的形式
+	UC::sendFullTextEmail // 需要引入第三方服务的形式
+	UC::sendHtmlEmail // 需要引入第三方服务的形式
+	//
+	UC::toMenuTree // 目前还没有对应的转换规则
+	UC::getUserMenu
+//
+	UC::getByUsername
+	UC::getRoleIds
+	UC::getFullById
+	UC::selectRoleAndAuth // 获取用户的全部菜单权限,目前无法生成
+	//
+	UC::getByUserTwoname
+	UC::comparePsw
+	UC::encodePsw // 需要引入第三方服务的形式
+	UC::resetPsw() // 重置密码
+	UC::freezeA() // 冻结用户账户
+	//
+	UC::managerUser
+	UC::managerRole
+	UC::managerUserTwo
+	UC::managerOrganization
+	UC::managerOperRecord
+	UC::managerMenu
+	UC::managerLoginRecord
+	UC::managerDictionaryData
+	UC::managerDictionary
+
+	Actor SystemManager{
+		managerUser
+		managerRole
+		managerUserTwo
+		managerOrganization
+		managerOperRecord
+		managerMenu
+		managerLoginRecord
+		managerDictionaryData
+		managerDictionary
+	}
+
+	Actor User {
+		getByUsername
+		getRoleIds
+		getFullById
+		selectRoleAndAuth
+		//
+		resetPsw // 重置密码
+		freezeA // 冻结用户账户
+//
+		toMenuTree
+		getUserMenu
+		//
+		listByDictCode
+		listByDictCodeAndName
+		//
+		sendTextEmail
+		sendFullTextEmail
+		sendHtmlEmail
+	}
+
+	Actor UserTwo {
+		getByUserTwoname
+		comparePsw
+		encodePsw
+	}
+
+	Service EasyWebSystem {
+
+	}
+
+	Service UserTwoService {
+
+		[Operation]
+		getByUserTwoname(usertwoname)
+		comparePsw(dbPsw, inputPsw)
+		encodePsw(psw)
+
+	}
+
+	Service UserService {
+
+		[Operation]
+		getByUsername(username)
+		getRoleIds(userid)
+		getFullById(userId)
+		selectRoleAndAuth(userId)
+		freezeA(id, state) // 重置密码
+		resetPsw(id, newpwd, oldpwd) // 冻结用户账户
+
+//
+	}
+
+	Service MenuService {
+
+		[Operation]
+		toMenuTree(ms,parentId)
+		getUserMenu(userId,menuType)
+
+	}
+
+	Service EmailService {
+
+		[Operation]
+		//
+		sendTextEmail()
+		sendFullTextEmail()
+		sendHtmlEmail()
+
+	}
+
+	Service DictionaryDataService {
+
+		[Operation]
+		//
+		listByDictCode(dictCode)
+		listByDictCodeAndName(dictCode,dictDataName)
+
+	}
+
+	Service ThirdPartyServices {
+
+		[Operation]
+		thirdPartyServices()
+
+	}
+
+	Contract DictionaryDataService::listByDictCodeAndName(dictCode:String, dictDataName:String) : Set(DictionaryData) {
+
+		definition:
+			dds:Set(DictionaryData) = DictionaryData.allInstance()->select(dd:DictionaryData | dd.dictCode = dictCode and dd.dictDataName = dictDataName)
+
+		precondition:
+			dds.oclIsUndefined() = false
+		postcondition:
+			result = dds
+	}
+
+	Contract DictionaryDataService::listByDictCode(dictCode:String) : Set(DictionaryData) {
+
+		definition:
+			dds:Set(DictionaryData) = DictionaryData.allInstance()->select(dd:DictionaryData | dd.dictCode = dictCode)
+
+		precondition:
+			dds.oclIsUndefined() = false
+		postcondition:
+			result = dds
+	}
+
+	// 需要引入第三方API
+	Contract EmailService::sendHtmlEmail() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	// 需要引入第三方API
+	Contract EmailService::sendFullTextEmail() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	// 需要引入第三方API
+	Contract EmailService::sendTextEmail() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract MenuService::getUserMenu(userId:Integer, menuType: Integer) : Set(Menu) {
+
+		definition:
+			user:User = User.allInstance()->any(user:User | user.Id = userId),
+			ms:Set(Menu) = Menu.allInstance()->select(m:Menu | m.MenutoUser = user)
+
+		precondition:
+			ms.oclIsUndefined() = false
+		postcondition:
+			result = ms
+	}
+
+	// 获取用户的信息
+	Contract UserService::getFullById(userId:Integer) : User {
+
+		definition:
+			user:User = User.allInstance()->any(user:User | user.Id = userId)
+
+		precondition:
+			user.oclIsUndefined() = false
+		postcondition:
+			result = user
+	}
+
+	// 目前还没有对应的转换规则
+	Contract MenuService::toMenuTree(ms:Set(Menu), parentId:Integer) : Set(Menu) {
+
+		definition:
+			ms2:Set(Menu)
+
+		precondition:
+			ms.oclIsUndefined() = false and
+			parentId.oclIsUndefined() = false
+		postcondition:
+			ms->forAll(menu:Menu |
+				if
+					menu.parentId = parentId
+				then
+					menu.Children = toMenuTree(menus, menu.MenuId) and
+					ms2->includes(menu)
+				else
+					menu.Children = null
+				endif)
+			and
+			result = ms
+	}
+
+	// 获取用户的全部菜单权限
+	Contract UserService::selectRoleAndAuth(userId:Integer) : User {
+
+		definition:
+			user:User = User.allInstance()->any(user:User | user.Id = userId),
+			auths:Set(String),
+			menus:Set(Menu) = Menu.allInstance()->select(user:Menu | user.MenutoUser = user)
+
+		precondition:
+			menus.oclIsUndefined() = false
+		postcondition:
+//			menus->forAll(menu:Menu |
+//				auths->includes(menu))
+//			and
+//			user.Authorities = auths and
+			result = user
+	}
+
+	// 获取用户的角色
+	Contract UserService::getRoleIds(userid:Integer) : Set(Integer) {
+
+		definition:
+			user:User = User.allInstance()->any(user:User | user.id = userid),
+			rolds:Set(Integer),
+			id:Integer = 0
+
+		precondition:
+			user.oclIsUndefined() = false
+		postcondition:
+			user.UsertoRole->forAll(role:Role|
+				id = role.id and
+				rolds->includes(id)
+			)
+			and
+			result = rolds
+	}
+
+	// 通过用户名获取用户的信息
+	Contract UserService::getByUsername(username:String) : User {
+
+		definition:
+			user:User = User.allInstance()->any(user:User | user.Username = username)
+
+		precondition:
+			user.oclIsUndefined() = false
+		postcondition:
+			result = user
+	}
+
+	// 调用第三方API实现字符串加密功能
+	Contract UserTwoService::encodePsw(psw:String) : String {
+
+		precondition:
+			psw.oclIsUndefined() = false
+		postcondition:
+			psw = MD5(psw) and
+			result = psw
+	}
+
+// 密码比较
+	Contract UserTwoService::comparePsw(dbPsw:String, inputPsw:String) : Boolean {
+
+		precondition:
+			dbPsw = inputPsw
+		postcondition:
+			if
+				dbPsw = inputPsw
+			then
+				result = true
+			else
+				result = false
+			endif
+
+	}
+
+//
+// 获取用户附表信息
+	Contract UserTwoService::getByUserTwoname(usertwoname:String) : UserTwo {
+
+		definition:
+			ut:UserTwo = UserTwo.allInstance()->any(ut:UserTwo | ut.Username = usertwoname)
+
+		precondition:
+			ut.oclIsUndefined() = false
+		postcondition:
+			result = ut
+	}
+
+// 冻结账户
+	Contract UserService::freezeA(id:Integer, state:Integer) : Boolean {
+
+		precondition:
+			id.oclIsUndefined() = false and
+			state.oclIsUndefined() = false and
+			state <> 1
+		postcondition:
+			let user:User in
+			user.oclIsNew() and
+			user.Id = id and
+			user.state = state and
+			User.allInstance()->includes(user) and
+			result = true
+	}
+
+// 修改密码
+	Contract UserService::resetPsw(id:Integer, newpwd:String, oldpwd:String) : Boolean {
+
+		definition:
+			user:User = User.allInstance()->any(user:User | user.Id = id)
+
+		precondition:
+			id.oclIsUndefined() = false and
+			user.password = oldpwd
+		postcondition:
+			let u:User in
+			u.oclIsNew() and
+			u.Id = id and
+			u.password = newpwd and
+			User.allInstance()->includes(u) and
+			result = true
+	}
+
+// -----------------------------------------------------------------------------------------------------------------------------
+	Contract EasyWebSystem::createDictionary(id : Integer, dictcode : String, dictname : String) : Boolean {
+
+		definition:
+			d:Dictionary = Dictionary.allInstance()->any(d:Dictionary | d.Id = id)
+
+		precondition:
+			d.oclIsUndefined() = true
+		postcondition:
+			let dd:Dictionary in
+			dd.oclIsNew() and
+			dd.Id = id and
+			dd.Dictcode = dictcode and
+			dd.Dictname = dictname and
+			Dictionary.allInstance()->includes(dd) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EasyWebSystem::queryDictionary(id : Integer) : Dictionary {
+
+		definition:
+			d:Dictionary = Dictionary.allInstance()->any(d:Dictionary | d.Id = id)
+
+		precondition:
+			d.oclIsUndefined() = false
+
+		postcondition:
+			result = d
+	}
+
+//entity modify operation 
+	Contract EasyWebSystem::modifyDictionary(id : Integer, dictcode : String, dictname : String) : Boolean {
+
+		definition:
+			d:Dictionary = Dictionary.allInstance()->any(d:Dictionary | d.id = id)
+
+		precondition:
+			d.oclIsUndefined() = false
+
+		postcondition:
+			d.Id = id and
+			d.Dictcode = dictcode and
+			d.Dictname = dictname and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EasyWebSystem::deleteDictionary(id : Integer) : Boolean {
+
+		definition:
+			d:Dictionary = Dictionary.allInstance()->any(d:Dictionary | d.Id = id)
+
+		precondition:
+			d.oclIsUndefined() = false
+
+		postcondition:
+			Dictionary.allInstance()->excludes(d) and
+			result = true
+	}
+
+// -----------------------------------------------------------------------------------------------------------------------------	
+	Contract EasyWebSystem::createDictionaryData(id : Integer, dictcode : String, dictname : String) : Boolean {
+
+		definition:
+			dd:DictionaryData = DictionaryData.allInstance()->any(dd:DictionaryData | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = true
+		postcondition:
+			let ddd:DictionaryData in
+			ddd.oclIsNew() and
+			ddd.Id = id and
+			DictionaryData.allInstance()->includes(ddd) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EasyWebSystem::queryDictionaryData(id : Integer) : DictionaryData {
+
+		definition:
+			dd:DictionaryData = DictionaryData.allInstance()->any(d:DictionaryData | d.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			result = dd
+	}
+
+//entity modify operation 
+	Contract EasyWebSystem::modifyDictionaryData(id : Integer) : Boolean {
+
+		definition:
+			dd:DictionaryData = DictionaryData.allInstance()->any(dd:DictionaryData | dd.id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			dd.Id = id and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EasyWebSystem::deleteDictionaryData(id : Integer) : Boolean {
+
+		definition:
+			dd:DictionaryData = DictionaryData.allInstance()->any(dd:DictionaryData | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			DictionaryData.allInstance()->excludes(dd) and
+			result = true
+	}
+
+// -----------------------------------------------------------------------------------------------------------------------------	
+	Contract EasyWebSystem::createLoginRecord(id : Integer) : Boolean {
+
+		definition:
+			dd:LoginRecord = LoginRecord.allInstance()->any(dd:LoginRecord | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = true
+		postcondition:
+			let ddd:LoginRecord in
+			ddd.oclIsNew() and
+			ddd.Id = id and
+			LoginRecord.allInstance()->includes(ddd) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EasyWebSystem::queryLoginRecord(id : Integer) : LoginRecord {
+
+		definition:
+			dd:LoginRecord = LoginRecord.allInstance()->any(d:LoginRecord | d.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			result = dd
+	}
+
+//entity modify operation 
+	Contract EasyWebSystem::modifyLoginRecord(id : Integer) : Boolean {
+
+		definition:
+			dd:LoginRecord = LoginRecord.allInstance()->any(dd:LoginRecord | dd.id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			dd.Id = id and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EasyWebSystem::deleteLoginRecord(id : Integer) : Boolean {
+
+		definition:
+			dd:LoginRecord = LoginRecord.allInstance()->any(dd:LoginRecord | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			LoginRecord.allInstance()->excludes(dd) and
+			result = true
+	}
+
+// -----------------------------------------------------------------------------------------------------------------------------	
+	Contract EasyWebSystem::createMenu(id : Integer) : Boolean {
+
+		definition:
+			dd:Menu = Menu.allInstance()->any(dd:Menu | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = true
+		postcondition:
+			let ddd:Menu in
+			ddd.oclIsNew() and
+			ddd.Id = id and
+			Menu.allInstance()->includes(ddd) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EasyWebSystem::queryMenu(id : Integer) : Menu {
+
+		definition:
+			dd:Menu = Menu.allInstance()->any(d:Menu | d.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			result = dd
+	}
+
+//entity modify operation 
+	Contract EasyWebSystem::modifyMenu(id : Integer) : Boolean {
+
+		definition:
+			dd:Menu = Menu.allInstance()->any(dd:Menu | dd.id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			dd.Id = id and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EasyWebSystem::deleteMenu(id : Integer) : Boolean {
+
+		definition:
+			dd:Menu = Menu.allInstance()->any(dd:Menu | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			Menu.allInstance()->excludes(dd) and
+			result = true
+	}
+
+// -----------------------------------------------------------------------------------------------------------------------------	
+	Contract EasyWebSystem::createOperRecord(id : Integer) : Boolean {
+
+		definition:
+			dd:OperRecord = OperRecord.allInstance()->any(dd:OperRecord | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = true
+		postcondition:
+			let ddd:OperRecord in
+			ddd.oclIsNew() and
+			ddd.Id = id and
+			OperRecord.allInstance()->includes(ddd) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EasyWebSystem::queryOperRecord(id : Integer) : OperRecord {
+
+		definition:
+			dd:OperRecord = OperRecord.allInstance()->any(d:OperRecord | d.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			result = dd
+	}
+
+//entity modify operation 
+	Contract EasyWebSystem::modifyOperRecord(id : Integer) : Boolean {
+
+		definition:
+			dd:OperRecord = OperRecord.allInstance()->any(dd:OperRecord | dd.id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			dd.Id = id and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EasyWebSystem::deleteOperRecord(id : Integer) : Boolean {
+
+		definition:
+			dd:OperRecord = OperRecord.allInstance()->any(dd:OperRecord | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			OperRecord.allInstance()->excludes(dd) and
+			result = true
+	}
+
+// -----------------------------------------------------------------------------------------------------------------------------	
+	Contract EasyWebSystem::createOrganization(id : Integer) : Boolean {
+
+		definition:
+			dd:Organization = Organization.allInstance()->any(dd:Organization | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = true
+		postcondition:
+			let ddd:Organization in
+			ddd.oclIsNew() and
+			ddd.Id = id and
+			Organization.allInstance()->includes(ddd) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EasyWebSystem::queryOrganization(id : Integer) : Organization {
+
+		definition:
+			dd:Organization = Organization.allInstance()->any(d:Organization | d.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			result = dd
+	}
+
+//entity modify operation 
+	Contract EasyWebSystem::modifyOrganization(id : Integer) : Boolean {
+
+		definition:
+			dd:Organization = Organization.allInstance()->any(dd:Organization | dd.id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			dd.Id = id and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EasyWebSystem::deleteOrganization(id : Integer) : Boolean {
+
+		definition:
+			dd:Organization = Organization.allInstance()->any(dd:Organization | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			Organization.allInstance()->excludes(dd) and
+			result = true
+	}
+
+// -----------------------------------------------------------------------------------------------------------------------------	
+	Contract EasyWebSystem::createUser(id : Integer) : Boolean {
+
+		definition:
+			dd:User = User.allInstance()->any(dd:User | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = true
+		postcondition:
+			let ddd:User in
+			ddd.oclIsNew() and
+			ddd.Id = id and
+			User.allInstance()->includes(ddd) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EasyWebSystem::queryUser(id : Integer) : User {
+
+		definition:
+			dd:User = User.allInstance()->any(d:User | d.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			result = dd
+	}
+
+//entity modify operation 
+	Contract EasyWebSystem::modifyUser(id : Integer) : Boolean {
+
+		definition:
+			dd:User = User.allInstance()->any(dd:User | dd.id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			dd.Id = id and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EasyWebSystem::deleteUser(id : Integer) : Boolean {
+
+		definition:
+			dd:User = User.allInstance()->any(dd:User | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			User.allInstance()->excludes(dd) and
+			result = true
+	}
+
+// -----------------------------------------------------------------------------------------------------------------------------	
+	Contract EasyWebSystem::createRole(id : Integer) : Boolean {
+
+		definition:
+			dd:Role = Role.allInstance()->any(dd:Role | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = true
+		postcondition:
+			let ddd:Role in
+			ddd.oclIsNew() and
+			ddd.Id = id and
+			Role.allInstance()->includes(ddd) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EasyWebSystem::queryRole(id : Integer) : Role {
+
+		definition:
+			dd:Role = Role.allInstance()->any(d:Role | d.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			result = dd
+	}
+
+//entity modify operation 
+	Contract EasyWebSystem::modifyRole(id : Integer) : Boolean {
+
+		definition:
+			dd:Role = Role.allInstance()->any(dd:Role | dd.id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			dd.Id = id and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EasyWebSystem::deleteRole(id : Integer) : Boolean {
+
+		definition:
+			dd:Role = Role.allInstance()->any(dd:Role | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			Role.allInstance()->excludes(dd) and
+			result = true
+	}
+
+// -----------------------------------------------------------------------------------------------------------------------------	
+	Contract EasyWebSystem::createUserTwo(id : Integer) : Boolean {
+
+		definition:
+			dd:UserTwo = UserTwo.allInstance()->any(dd:UserTwo | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = true
+		postcondition:
+			let ddd:UserTwo in
+			ddd.oclIsNew() and
+			ddd.Id = id and
+			UserTwo.allInstance()->includes(ddd) and
+			result = true
+	}
+
+//entity query operation 
+	Contract EasyWebSystem::queryUserTwo(id : Integer) : UserTwo {
+
+		definition:
+			dd:UserTwo = UserTwo.allInstance()->any(d:UserTwo | d.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			result = dd
+	}
+
+//entity modify operation 
+	Contract EasyWebSystem::modifyUserTwo(id : Integer) : Boolean {
+
+		definition:
+			dd:UserTwo = UserTwo.allInstance()->any(dd:UserTwo | dd.id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			dd.Id = id and
+			result = true
+	}
+
+//entity delete operation 
+	Contract EasyWebSystem::deleteUserTwo(id : Integer) : Boolean {
+
+		definition:
+			dd:UserTwo = UserTwo.allInstance()->any(dd:UserTwo | dd.Id = id)
+
+		precondition:
+			dd.oclIsUndefined() = false
+
+		postcondition:
+			UserTwo.allInstance()->excludes(dd) and
+			result = true
+	}
+
+	Contract ThirdPartyServices::thirdPartyServices() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+}
+
+DomainModel EasyWeb {
+
+	Entity Dictionary {
+		Id : Integer
+		Dictcode : String
+		Dictname : String
+		Sortnumber : String
+		Comments : String
+		Createtime : String
+		Updatetime : String
+	}
+
+	Entity DictionaryData {
+		Id : Integer
+		DictId : Integer
+		DictDataCode : String
+		DictDataName : String
+		SortNumber : Integer
+		Comments : String
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity LoginRecord {
+		Id : Integer
+		Username : String
+		Os : String
+		Device : String
+		Browser : String
+		Ip : String
+		OperType : Integer
+		Comments : String
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity Menu {
+		Id : Integer
+		ParentId : String
+		MenuName : String
+		MenuIcon : String
+		IconColor : String
+		Path : String
+		Target : String
+		Hide : Integer
+		SortNumber : Integer
+		Authority : String
+		MenuType : Integer
+		CreateTime : String
+		UpdateTime : String
+
+		[Refer]
+		LinkedRole : Role Association
+		MenutoUser : User Association
+	}
+
+	Entity OperRecord {
+		Id : Integer
+		UserId : Integer
+		Model : String
+		Description : String
+		Url : String
+		RequestMethod : String
+		OperMethod : String
+		Param : String
+		ResultS : String
+		Ip : String
+		SpendTime : String
+		State : String
+		Comments : String
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity Organization {
+		Id : Integer
+		ParentId : Integer
+		OrganizationName : String
+		OrganizationFullName : String
+		OrganizationType : Integer
+		LeaderId : Integer
+		SortNumber : Integer
+		Comments : String
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity Role {
+		Id : Integer
+		RoleName : String
+		RoleCode : String
+		Comments : String
+		CreateTime : String
+		UpdateTime : String
+
+		[Refer]
+		RoletoMenu : Menu Association
+	}
+
+	Entity UserTwo {
+		Id : Integer
+		Username : String
+		Password : String
+		NickName : String
+		Avatar : String
+		Sex : Integer
+		Phone : String
+		Email : String
+		EmailVerified : Integer
+		TrueName : String
+		IdCard : String
+		Birthday : String
+		Introduction : String
+		Present : Integer
+		State : Integer
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity User {
+		Id : Integer
+		Username : String
+		Password : String
+		NickName : String
+		Avatar : String
+		Sex : Integer
+		Phone : String
+		Email : String
+		EmailVerified : Integer
+		TrueName : String
+		IdCard : String
+		Birthday : String
+		Introduction : String
+		OrganizationId : String
+		State : Integer
+		CreateTime : String
+		UpdateTime : String
+
+//		Authorities: Set(String)
+		[Refer]
+		UsertoRole : Role* Association
+	}
+
+}
+

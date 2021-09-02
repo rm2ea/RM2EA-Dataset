@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Prototype</title>
+	<link rel="stylesheet" href="/css/layui.css"></link>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script src="/js/layui.js"></script>
+	<script>
+	function formatDate(t) { 
+	if(isNaN(t)){
+	return ""; 
+	}else{
+	var now=new Date(t);
+	var year=now.getFullYear();
+	var month=now.getMonth()+1; 
+	var date=now.getDate(); 
+	return year+"-"+month+"-"+date; 
+	}
+	} 
+		//JavaScript代码区域
+		layui.use("element", function() {
+			var element = layui.element;
+			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+		});
+		$(document).ready(function() {
+	$.ajax({
+	type: "GET",
+	url: "/state/DictionaryTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.dictcode+'</td>';
+	html+='<td >'+item.dictname+'</td>';
+	html+='<td >'+item.sortnumber+'</td>';
+	html+='<td >'+item.comments+'</td>';
+	html+='<td >'+item.createtime+'</td>';
+	html+='<td >'+item.updatetime+'</td>';
+	html+='</tr>';
+	});
+	$("#Dictionary_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/DictionaryDataTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.dictId+'</td>';
+	html+='<td >'+item.dictDataCode+'</td>';
+	html+='<td >'+item.dictDataName+'</td>';
+	html+='<td >'+item.sortNumber+'</td>';
+	html+='<td >'+item.comments+'</td>';
+	html+='<td >'+item.createTime+'</td>';
+	html+='<td >'+item.updateTime+'</td>';
+	html+='</tr>';
+	});
+	$("#DictionaryData_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/LoginRecordTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.username+'</td>';
+	html+='<td >'+item.os+'</td>';
+	html+='<td >'+item.device+'</td>';
+	html+='<td >'+item.browser+'</td>';
+	html+='<td >'+item.ip+'</td>';
+	html+='<td >'+item.operType+'</td>';
+	html+='<td >'+item.comments+'</td>';
+	html+='<td >'+item.createTime+'</td>';
+	html+='<td >'+item.updateTime+'</td>';
+	html+='</tr>';
+	});
+	$("#LoginRecord_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/MenuTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.parentId+'</td>';
+	html+='<td >'+item.menuName+'</td>';
+	html+='<td >'+item.menuIcon+'</td>';
+	html+='<td >'+item.iconColor+'</td>';
+	html+='<td >'+item.path+'</td>';
+	html+='<td >'+item.target+'</td>';
+	html+='<td >'+item.hide+'</td>';
+	html+='<td >'+item.sortNumber+'</td>';
+	html+='<td >'+item.authority+'</td>';
+	html+='<td >'+item.menuType+'</td>';
+	html+='<td >'+item.createTime+'</td>';
+	html+='<td >'+item.updateTime+'</td>';
+	html+='</tr>';
+	});
+	$("#Menu_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/OperRecordTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.userId+'</td>';
+	html+='<td >'+item.model+'</td>';
+	html+='<td >'+item.description+'</td>';
+	html+='<td >'+item.url+'</td>';
+	html+='<td >'+item.requestMethod+'</td>';
+	html+='<td >'+item.operMethod+'</td>';
+	html+='<td >'+item.param+'</td>';
+	html+='<td >'+item.resultS+'</td>';
+	html+='<td >'+item.ip+'</td>';
+	html+='<td >'+item.spendTime+'</td>';
+	html+='<td >'+item.state+'</td>';
+	html+='<td >'+item.comments+'</td>';
+	html+='<td >'+item.createTime+'</td>';
+	html+='<td >'+item.updateTime+'</td>';
+	html+='</tr>';
+	});
+	$("#OperRecord_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/OrganizationTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.parentId+'</td>';
+	html+='<td >'+item.organizationName+'</td>';
+	html+='<td >'+item.organizationFullName+'</td>';
+	html+='<td >'+item.organizationType+'</td>';
+	html+='<td >'+item.leaderId+'</td>';
+	html+='<td >'+item.sortNumber+'</td>';
+	html+='<td >'+item.comments+'</td>';
+	html+='<td >'+item.createTime+'</td>';
+	html+='<td >'+item.updateTime+'</td>';
+	html+='</tr>';
+	});
+	$("#Organization_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/RoleTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.roleName+'</td>';
+	html+='<td >'+item.roleCode+'</td>';
+	html+='<td >'+item.comments+'</td>';
+	html+='<td >'+item.createTime+'</td>';
+	html+='<td >'+item.updateTime+'</td>';
+	html+='</tr>';
+	});
+	$("#Role_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/UserTwoTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.username+'</td>';
+	html+='<td >'+item.password+'</td>';
+	html+='<td >'+item.nickName+'</td>';
+	html+='<td >'+item.avatar+'</td>';
+	html+='<td >'+item.sex+'</td>';
+	html+='<td >'+item.phone+'</td>';
+	html+='<td >'+item.email+'</td>';
+	html+='<td >'+item.emailVerified+'</td>';
+	html+='<td >'+item.trueName+'</td>';
+	html+='<td >'+item.idCard+'</td>';
+	html+='<td >'+item.birthday+'</td>';
+	html+='<td >'+item.introduction+'</td>';
+	html+='<td >'+item.present+'</td>';
+	html+='<td >'+item.state+'</td>';
+	html+='<td >'+item.createTime+'</td>';
+	html+='<td >'+item.updateTime+'</td>';
+	html+='</tr>';
+	});
+	$("#UserTwo_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/UserTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.username+'</td>';
+	html+='<td >'+item.password+'</td>';
+	html+='<td >'+item.nickName+'</td>';
+	html+='<td >'+item.avatar+'</td>';
+	html+='<td >'+item.sex+'</td>';
+	html+='<td >'+item.phone+'</td>';
+	html+='<td >'+item.email+'</td>';
+	html+='<td >'+item.emailVerified+'</td>';
+	html+='<td >'+item.trueName+'</td>';
+	html+='<td >'+item.idCard+'</td>';
+	html+='<td >'+item.birthday+'</td>';
+	html+='<td >'+item.introduction+'</td>';
+	html+='<td >'+item.organizationId+'</td>';
+	html+='<td >'+item.state+'</td>';
+	html+='<td >'+item.createTime+'</td>';
+	html+='<td >'+item.updateTime+'</td>';
+	html+='</tr>';
+	});
+	$("#User_table").html(html);
+	}
+	});
+	});
+	</script>
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">Prototype EasyWeb</div>
+				<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item"><a href="/main/index" id="s_function">System Function</a></li>
+						<li class="layui-nav-item layui-this"><a href="/main/index2" id="s_state">System State</a></li>
+				</ul>
+			</div>
+		<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title">
+			<li class="layui-this" id="Dictionary">Dictionary</li>
+			<li id="DictionaryData">DictionaryData</li>
+			<li id="LoginRecord">LoginRecord</li>
+			<li id="Menu">Menu</li>
+			<li id="OperRecord">OperRecord</li>
+			<li id="Organization">Organization</li>
+			<li id="Role">Role</li>
+			<li id="UserTwo">UserTwo</li>
+			<li id="User">User</li>
+				</ul>
+				<div class="layui-tab-content" style="height: 100px;">
+					<div class="layui-tab-item layui-show" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Dictcode</td>
+								<td style="font-weight: bold">Dictname</td>
+								<td style="font-weight: bold">Sortnumber</td>
+								<td style="font-weight: bold">Comments</td>
+								<td style="font-weight: bold">Createtime</td>
+								<td style="font-weight: bold">Updatetime</td>
+								</tr>
+							</thead>
+							<tbody id="Dictionary_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">DictId</td>
+								<td style="font-weight: bold">DictDataCode</td>
+								<td style="font-weight: bold">DictDataName</td>
+								<td style="font-weight: bold">SortNumber</td>
+								<td style="font-weight: bold">Comments</td>
+								<td style="font-weight: bold">CreateTime</td>
+								<td style="font-weight: bold">UpdateTime</td>
+								</tr>
+							</thead>
+							<tbody id="DictionaryData_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Username</td>
+								<td style="font-weight: bold">Os</td>
+								<td style="font-weight: bold">Device</td>
+								<td style="font-weight: bold">Browser</td>
+								<td style="font-weight: bold">Ip</td>
+								<td style="font-weight: bold">OperType</td>
+								<td style="font-weight: bold">Comments</td>
+								<td style="font-weight: bold">CreateTime</td>
+								<td style="font-weight: bold">UpdateTime</td>
+								</tr>
+							</thead>
+							<tbody id="LoginRecord_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">ParentId</td>
+								<td style="font-weight: bold">MenuName</td>
+								<td style="font-weight: bold">MenuIcon</td>
+								<td style="font-weight: bold">IconColor</td>
+								<td style="font-weight: bold">Path</td>
+								<td style="font-weight: bold">Target</td>
+								<td style="font-weight: bold">Hide</td>
+								<td style="font-weight: bold">SortNumber</td>
+								<td style="font-weight: bold">Authority</td>
+								<td style="font-weight: bold">MenuType</td>
+								<td style="font-weight: bold">CreateTime</td>
+								<td style="font-weight: bold">UpdateTime</td>
+								</tr>
+							</thead>
+							<tbody id="Menu_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">UserId</td>
+								<td style="font-weight: bold">Model</td>
+								<td style="font-weight: bold">Description</td>
+								<td style="font-weight: bold">Url</td>
+								<td style="font-weight: bold">RequestMethod</td>
+								<td style="font-weight: bold">OperMethod</td>
+								<td style="font-weight: bold">Param</td>
+								<td style="font-weight: bold">ResultS</td>
+								<td style="font-weight: bold">Ip</td>
+								<td style="font-weight: bold">SpendTime</td>
+								<td style="font-weight: bold">State</td>
+								<td style="font-weight: bold">Comments</td>
+								<td style="font-weight: bold">CreateTime</td>
+								<td style="font-weight: bold">UpdateTime</td>
+								</tr>
+							</thead>
+							<tbody id="OperRecord_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">ParentId</td>
+								<td style="font-weight: bold">OrganizationName</td>
+								<td style="font-weight: bold">OrganizationFullName</td>
+								<td style="font-weight: bold">OrganizationType</td>
+								<td style="font-weight: bold">LeaderId</td>
+								<td style="font-weight: bold">SortNumber</td>
+								<td style="font-weight: bold">Comments</td>
+								<td style="font-weight: bold">CreateTime</td>
+								<td style="font-weight: bold">UpdateTime</td>
+								</tr>
+							</thead>
+							<tbody id="Organization_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">RoleName</td>
+								<td style="font-weight: bold">RoleCode</td>
+								<td style="font-weight: bold">Comments</td>
+								<td style="font-weight: bold">CreateTime</td>
+								<td style="font-weight: bold">UpdateTime</td>
+								</tr>
+							</thead>
+							<tbody id="Role_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Username</td>
+								<td style="font-weight: bold">Password</td>
+								<td style="font-weight: bold">NickName</td>
+								<td style="font-weight: bold">Avatar</td>
+								<td style="font-weight: bold">Sex</td>
+								<td style="font-weight: bold">Phone</td>
+								<td style="font-weight: bold">Email</td>
+								<td style="font-weight: bold">EmailVerified</td>
+								<td style="font-weight: bold">TrueName</td>
+								<td style="font-weight: bold">IdCard</td>
+								<td style="font-weight: bold">Birthday</td>
+								<td style="font-weight: bold">Introduction</td>
+								<td style="font-weight: bold">Present</td>
+								<td style="font-weight: bold">State</td>
+								<td style="font-weight: bold">CreateTime</td>
+								<td style="font-weight: bold">UpdateTime</td>
+								</tr>
+							</thead>
+							<tbody id="UserTwo_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Username</td>
+								<td style="font-weight: bold">Password</td>
+								<td style="font-weight: bold">NickName</td>
+								<td style="font-weight: bold">Avatar</td>
+								<td style="font-weight: bold">Sex</td>
+								<td style="font-weight: bold">Phone</td>
+								<td style="font-weight: bold">Email</td>
+								<td style="font-weight: bold">EmailVerified</td>
+								<td style="font-weight: bold">TrueName</td>
+								<td style="font-weight: bold">IdCard</td>
+								<td style="font-weight: bold">Birthday</td>
+								<td style="font-weight: bold">Introduction</td>
+								<td style="font-weight: bold">OrganizationId</td>
+								<td style="font-weight: bold">State</td>
+								<td style="font-weight: bold">CreateTime</td>
+								<td style="font-weight: bold">UpdateTime</td>
+								</tr>
+							</thead>
+							<tbody id="User_table">
+							</tbody>
+						</table>
+					</div>
+			</div> 
+		</div>
+	</body>
+	</html>
+	

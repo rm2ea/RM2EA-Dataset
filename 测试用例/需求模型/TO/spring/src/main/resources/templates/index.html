@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Prototype</title>
+	<link rel="stylesheet" href="/css/layui.css"></link>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script src="/js/layui.js"></script>
+	 <style>
+        ol li a {
+            background-color: rgba(0,0,0,1) !important;
+        }
+
+        .three_this {
+            background-color: #808080 !important;
+        }
+    </style>
+	<script>
+		//JavaScript代码区域
+		layui.use("element", function() {
+			var element = layui.element;
+			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+			
+			 $(".menu_three").on("click", function () {
+                
+                $(this).next().toggle();
+                $.each($(this).parent().siblings(), function (i, e) {
+                    $(e).find("ol").hide();;
+                });
+               
+            })
+            $("ol").on("click", "li a", function () {
+                $.each($(this).parent().siblings(), function (i, e) {
+                    $(e).find("a").removeClass('three_this')
+                });
+                $(this).addClass('three_this');                            // 添加当前元素的样式
+
+            })
+		
+		});
+		$(document).ready(function() {
+			$("dd>a").click(function(e) {
+				e.preventDefault();
+				$("#iframeMain").attr("src", $(this).attr("href"));
+			});
+										
+			$("ol>li>a").click(function(e) {
+					e.preventDefault();
+					$("#iframeMain").attr("src", $(this).attr("href"));
+			});
+		});
+	</script>
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">Prototype Eat</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layui-this"><a href="/main/index" id="s_function">System Function</a></li>
+					<li class="layui-nav-item"><a href="/main/index2" id="s_state">System State</a></li>
+				</ul>
+			</div>
+			
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Customer">Customer</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getByPhone" id="getByPhone"> getByPhone</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getByName" id="getByName"> getByName</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/loginByPhone" id="loginByPhone"> loginByPhone</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="System">System</a>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerCustomer"> managerCustomer</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrCustomer" id="createrCustomer">&emsp;createrCustomer</a></li>
+									<li><a href="/main/queryrCustomer" id="queryrCustomer">&emsp;queryrCustomer</a></li>
+									<li><a href="/main/modifyrCustomer" id="modifyrCustomer">&emsp;modifyrCustomer</a></li>
+									<li><a href="/main/deleterCustomer" id="deleterCustomer">&emsp;deleterCustomer</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerDishes"> managerDishes</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrDishes" id="createrDishes">&emsp;createrDishes</a></li>
+									<li><a href="/main/queryrDishes" id="queryrDishes">&emsp;queryrDishes</a></li>
+									<li><a href="/main/modifyrDishes" id="modifyrDishes">&emsp;modifyrDishes</a></li>
+									<li><a href="/main/deleterDishes" id="deleterDishes">&emsp;deleterDishes</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerStore"> managerStore</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrStore" id="createrStore">&emsp;createrStore</a></li>
+									<li><a href="/main/queryrStore" id="queryrStore">&emsp;queryrStore</a></li>
+									<li><a href="/main/modifyrStore" id="modifyrStore">&emsp;modifyrStore</a></li>
+									<li><a href="/main/deleterStore" id="deleterStore">&emsp;deleterStore</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerOrdering"> managerOrdering</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrOrdering" id="createrOrdering">&emsp;createrOrdering</a></li>
+									<li><a href="/main/queryrOrdering" id="queryrOrdering">&emsp;queryrOrdering</a></li>
+									<li><a href="/main/modifyrOrdering" id="modifyrOrdering">&emsp;modifyrOrdering</a></li>
+									<li><a href="/main/deleterOrdering" id="deleterOrdering">&emsp;deleterOrdering</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerOrderingDishes"> managerOrderingDishes</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrOrderingDishes" id="createrOrderingDishes">&emsp;createrOrderingDishes</a></li>
+									<li><a href="/main/queryrOrderingDishes" id="queryrOrderingDishes">&emsp;queryrOrderingDishes</a></li>
+									<li><a href="/main/modifyrOrderingDishes" id="modifyrOrderingDishes">&emsp;modifyrOrderingDishes</a></li>
+									<li><a href="/main/deleterOrderingDishes" id="deleterOrderingDishes">&emsp;deleterOrderingDishes</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerEvaluation"> managerEvaluation</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrEvaluation" id="createrEvaluation">&emsp;createrEvaluation</a></li>
+									<li><a href="/main/queryrEvaluation" id="queryrEvaluation">&emsp;queryrEvaluation</a></li>
+									<li><a href="/main/modifyrEvaluation" id="modifyrEvaluation">&emsp;modifyrEvaluation</a></li>
+									<li><a href="/main/deleterEvaluation" id="deleterEvaluation">&emsp;deleterEvaluation</a></li>
+								</ol>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Evaluation">Evaluation</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/toEvaluationCheck" id="toEvaluationCheck"> toEvaluationCheck</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/submitEvaluation1" id="submitEvaluation1"> submitEvaluation1</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/submitEvaluation2" id="submitEvaluation2"> submitEvaluation2</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/toEvaluateOrdering" id="toEvaluateOrdering"> toEvaluateOrdering</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/toEvaluateStore" id="toEvaluateStore"> toEvaluateStore</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Order">Order</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/selectOne" id="selectOne"> selectOne</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/submitOrdering" id="submitOrdering"> submitOrdering</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/deliveryConfirmine" id="deliveryConfirmine"> deliveryConfirmine</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/toOrderingCheck" id="toOrderingCheck"> toOrderingCheck</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Store">Store</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/toStreet" id="toStreet"> toStreet</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/enterStoreBystoreId" id="enterStoreBystoreId"> enterStoreBystoreId</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/enterStoreBystoreId2" id="enterStoreBystoreId2"> enterStoreBystoreId2</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/suggestByStr" id="suggestByStr"> suggestByStr</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/search" id="search"> search</a>
+							</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-body">
+						<iframe id="iframeMain" 
+					style="width: 100%; height: 100%;" src="/main/welcome">
+				</iframe>
+			</div>
+		</div>
+	</body>
+	</html>
+	

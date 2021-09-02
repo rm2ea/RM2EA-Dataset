@@ -1,0 +1,12 @@
+package spring.net.mydream.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import java.util.List;
+import java.util.Date;
+import spring.net.mydream.entity.*;
+
+public interface EvaluationRepository extends JpaRepository<Evaluation, Integer> ,JpaSpecificationExecutor<Evaluation>{
+	List<Evaluation> findByCustomerId(Object aid);
+	List<Evaluation> findByStoreId(Object storeId);
+}

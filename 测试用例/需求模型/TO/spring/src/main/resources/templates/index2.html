@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Prototype</title>
+	<link rel="stylesheet" href="/css/layui.css"></link>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script src="/js/layui.js"></script>
+	<script>
+	function formatDate(t) { 
+	if(isNaN(t)){
+	return ""; 
+	}else{
+	var now=new Date(t);
+	var year=now.getFullYear();
+	var month=now.getMonth()+1; 
+	var date=now.getDate(); 
+	return year+"-"+month+"-"+date; 
+	}
+	} 
+		//JavaScript代码区域
+		layui.use("element", function() {
+			var element = layui.element;
+			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+		});
+		$(document).ready(function() {
+	$.ajax({
+	type: "GET",
+	url: "/state/CustomerTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.image+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.password+'</td>';
+	html+='<td >'+item.phone+'</td>';
+	html+='<td >'+item.address+'</td>';
+	html+='<td >'+item.regDate+'</td>';
+	html+='<td >'+item.lastLoginDate+'</td>';
+	html+='<td >'+item.ssuper+'</td>';
+	html+='<td >'+item.redpaper+'</td>';
+	html+='<td >'+item.regMember+'</td>';
+	html+='<td >'+item.pastMember+'</td>';
+	html+='</tr>';
+	});
+	$("#Customer_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/DishesTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.storeId+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.price+'</td>';
+	html+='<td >'+item.describe_S+'</td>';
+	html+='<td >'+item.image+'</td>';
+	html+='</tr>';
+	});
+	$("#Dishes_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/EvaluationTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.anonymity+'</td>';
+	html+='<td >'+item.customerId+'</td>';
+	html+='<td >'+item.customerImage+'</td>';
+	html+='<td >'+item.customerName+'</td>';
+	html+='<td >'+formatDate(item.timeDate)+'</td>';
+	html+='<td >'+item.orderingId+'</td>';
+	html+='<td >'+item.storeId+'</td>';
+	html+='<td >'+item.score+'</td>';
+	html+='<td >'+item.evaluation+'</td>';
+	html+='<td >'+item.image1+'</td>';
+	html+='<td >'+item.image2+'</td>';
+	html+='<td >'+item.image3+'</td>';
+	html+='<td >'+item.image4+'</td>';
+	html+='</tr>';
+	});
+	$("#Evaluation_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/OrderingTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.userId+'</td>';
+	html+='<td >'+item.delivererId+'</td>';
+	html+='<td >'+item.storeId+'</td>';
+	html+='<td >'+item.startTime+'</td>';
+	html+='<td >'+item.address+'</td>';
+	html+='<td >'+item.orderingState+'</td>';
+	html+='<td >'+formatDate(item.endTime)+'</td>';
+	html+='<td >'+item.priceSum+'</td>';
+	html+='</tr>';
+	});
+	$("#Ordering_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/OrderingDishesTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.orderingId+'</td>';
+	html+='<td >'+item.dishesId+'</td>';
+	html+='<td >'+item.dishesName+'</td>';
+	html+='<td >'+item.dishesCount+'</td>';
+	html+='<td >'+item.dishesPrice+'</td>';
+	html+='</tr>';
+	});
+	$("#OrderingDishes_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/StoreTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.password+'</td>';
+	html+='<td >'+item.phone+'</td>';
+	html+='<td >'+item.address+'</td>';
+	html+='<td >'+item.regDate+'</td>';
+	html+='<td >'+item.lastLoginDate+'</td>';
+	html+='<td >'+item.ssuper+'</td>';
+	html+='<td >'+item.monthlySales+'</td>';
+	html+='<td >'+item.storeMark+'</td>';
+	html+='<td >'+item.storeState+'</td>';
+	html+='<td >'+item.describe_S+'</td>';
+	html+='<td >'+item.logo+'</td>';
+	html+='<td >'+item.storefront+'</td>';
+	html+='</tr>';
+	});
+	$("#Store_table").html(html);
+	}
+	});
+	});
+	</script>
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">Prototype Eat</div>
+				<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item"><a href="/main/index" id="s_function">System Function</a></li>
+						<li class="layui-nav-item layui-this"><a href="/main/index2" id="s_state">System State</a></li>
+				</ul>
+			</div>
+		<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title">
+			<li class="layui-this" id="Customer">Customer</li>
+			<li id="Dishes">Dishes</li>
+			<li id="Evaluation">Evaluation</li>
+			<li id="Ordering">Ordering</li>
+			<li id="OrderingDishes">OrderingDishes</li>
+			<li id="Store">Store</li>
+				</ul>
+				<div class="layui-tab-content" style="height: 100px;">
+					<div class="layui-tab-item layui-show" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Image</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Password</td>
+								<td style="font-weight: bold">Phone</td>
+								<td style="font-weight: bold">Address</td>
+								<td style="font-weight: bold">RegDate</td>
+								<td style="font-weight: bold">LastLoginDate</td>
+								<td style="font-weight: bold">Ssuper</td>
+								<td style="font-weight: bold">Redpaper</td>
+								<td style="font-weight: bold">RegMember</td>
+								<td style="font-weight: bold">PastMember</td>
+								</tr>
+							</thead>
+							<tbody id="Customer_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">StoreId</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Price</td>
+								<td style="font-weight: bold">Describe_S</td>
+								<td style="font-weight: bold">Image</td>
+								</tr>
+							</thead>
+							<tbody id="Dishes_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Anonymity</td>
+								<td style="font-weight: bold">CustomerId</td>
+								<td style="font-weight: bold">CustomerImage</td>
+								<td style="font-weight: bold">CustomerName</td>
+								<td style="font-weight: bold">TimeDate</td>
+								<td style="font-weight: bold">OrderingId</td>
+								<td style="font-weight: bold">StoreId</td>
+								<td style="font-weight: bold">Score</td>
+								<td style="font-weight: bold">Evaluation</td>
+								<td style="font-weight: bold">Image1</td>
+								<td style="font-weight: bold">Image2</td>
+								<td style="font-weight: bold">Image3</td>
+								<td style="font-weight: bold">Image4</td>
+								</tr>
+							</thead>
+							<tbody id="Evaluation_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">UserId</td>
+								<td style="font-weight: bold">DelivererId</td>
+								<td style="font-weight: bold">StoreId</td>
+								<td style="font-weight: bold">StartTime</td>
+								<td style="font-weight: bold">Address</td>
+								<td style="font-weight: bold">OrderingState</td>
+								<td style="font-weight: bold">EndTime</td>
+								<td style="font-weight: bold">PriceSum</td>
+								</tr>
+							</thead>
+							<tbody id="Ordering_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">OrderingId</td>
+								<td style="font-weight: bold">DishesId</td>
+								<td style="font-weight: bold">DishesName</td>
+								<td style="font-weight: bold">DishesCount</td>
+								<td style="font-weight: bold">DishesPrice</td>
+								</tr>
+							</thead>
+							<tbody id="OrderingDishes_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Password</td>
+								<td style="font-weight: bold">Phone</td>
+								<td style="font-weight: bold">Address</td>
+								<td style="font-weight: bold">RegDate</td>
+								<td style="font-weight: bold">LastLoginDate</td>
+								<td style="font-weight: bold">Ssuper</td>
+								<td style="font-weight: bold">MonthlySales</td>
+								<td style="font-weight: bold">StoreMark</td>
+								<td style="font-weight: bold">StoreState</td>
+								<td style="font-weight: bold">Describe_S</td>
+								<td style="font-weight: bold">Logo</td>
+								<td style="font-weight: bold">Storefront</td>
+								</tr>
+							</thead>
+							<tbody id="Store_table">
+							</tbody>
+						</table>
+					</div>
+			</div> 
+		</div>
+	</body>
+	</html>
+	

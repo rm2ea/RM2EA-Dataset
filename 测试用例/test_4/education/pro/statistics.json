@@ -1,0 +1,50 @@
+{
+  "/UserService/resetPsw" : {
+    "transaction" : "/UserService/resetPsw",
+    "sampleCount" : 1000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 2899.341999999998,
+    "medianResTime" : 3534.5,
+    "minResTime" : 8.0,
+    "maxResTime" : 9362.0,
+    "pct1ResTime" : 3723.9,
+    "pct2ResTime" : 3749.0,
+    "pct3ResTime" : 7575.350000000004,
+    "throughput" : 103.79904504878556,
+    "receivedKBytesPerSec" : 20.678716005812745,
+    "sentKBytesPerSec" : 25.837548817988374
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 3399.3359999999943,
+    "medianResTime" : 3503.5,
+    "minResTime" : 8.0,
+    "maxResTime" : 10137.0,
+    "pct1ResTime" : 6003.500000000004,
+    "pct2ResTime" : 8649.9,
+    "pct3ResTime" : 9445.92,
+    "throughput" : 192.49278152069297,
+    "receivedKBytesPerSec" : 38.34817131857555,
+    "sentKBytesPerSec" : 46.129278452839266
+  },
+  "/UserService/freezeA" : {
+    "transaction" : "/UserService/freezeA",
+    "sampleCount" : 1000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 3899.3300000000004,
+    "medianResTime" : 3345.0,
+    "minResTime" : 39.0,
+    "maxResTime" : 10137.0,
+    "pct1ResTime" : 8630.599999999999,
+    "pct2ResTime" : 9038.85,
+    "pct3ResTime" : 9555.85,
+    "throughput" : 96.487842531841,
+    "receivedKBytesPerSec" : 19.222187379390196,
+    "sentKBytesPerSec" : 22.227350232776917
+  }
+}

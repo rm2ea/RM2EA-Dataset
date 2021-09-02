@@ -1,0 +1,50 @@
+{
+  "/CustomerService/loginByPhone" : {
+    "transaction" : "/CustomerService/loginByPhone",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 3728.5705000000003,
+    "medianResTime" : 3531.0,
+    "minResTime" : 3.0,
+    "maxResTime" : 13226.0,
+    "pct1ResTime" : 5940.9,
+    "pct2ResTime" : 7282.0499999999965,
+    "pct3ResTime" : 8939.02,
+    "throughput" : 141.1333004022299,
+    "receivedKBytesPerSec" : 28.11639968950674,
+    "sentKBytesPerSec" : 24.808587961329476
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 4000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 2840.1912499999994,
+    "medianResTime" : 2684.0,
+    "minResTime" : 3.0,
+    "maxResTime" : 13226.0,
+    "pct1ResTime" : 4961.200000000001,
+    "pct2ResTime" : 5966.699999999999,
+    "pct3ResTime" : 8454.319999999985,
+    "throughput" : 281.59098908834915,
+    "receivedKBytesPerSec" : 56.098204857444564,
+    "sentKBytesPerSec" : 62.69799366420275
+  },
+  "/EvaluationService/submitEvaluation2" : {
+    "transaction" : "/EvaluationService/submitEvaluation2",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 1951.8120000000017,
+    "medianResTime" : 2084.0,
+    "minResTime" : 9.0,
+    "maxResTime" : 11486.0,
+    "pct1ResTime" : 3249.0,
+    "pct2ResTime" : 3814.95,
+    "pct3ResTime" : 4848.97,
+    "throughput" : 150.7386192342478,
+    "receivedKBytesPerSec" : 30.029959300572806,
+    "sentKBytesPerSec" : 40.62876846548085
+  }
+}

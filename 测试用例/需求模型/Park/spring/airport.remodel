@@ -1,0 +1,1868 @@
+UseCaseModel Airport {
+
+	UC::manageUser()
+	UC::manageRole()
+	UC::manageDepartment()
+	UC::manageDeviceInfo()
+	UC::manageDeviceLocationGroup()
+	UC::manageEquipmentFailureType()
+	UC::manageDeviceStatus()
+	UC::manageDeviceAssociationGroup()
+//	UC::manageUser() definedBySSD(ManageUserSSD) relatedService(ManageUserService)
+//	UC::manageRole() definedBySSD(ManageRoleSSD) relatedService(ManageRoleService)
+//	UC::manageDepartment() definedBySSD(ManageDepartmentSSD) relatedService(ManageDepartmentService)
+//	UC::manageDeviceInfo() definedBySSD(ManageDeviceInfoSSD) relatedService(ManageDeviceInfoService)
+//	UC::manageDeviceLocationGroup() definedBySSD(ManageDeviceLocationGroupSSD) relatedService(ManageDeviceLocationGroupService)
+//	UC::manageEquipmentFailureType() definedBySSD(ManageEquipmentFailureTypeSSD) relatedService(ManageEquipmentFailureTypeService)
+//	UC::manageDeviceStatus() definedBySSD(ManageDeviceStatusSSD) relatedService(ManageDeviceStatusService)
+//	UC::manageDeviceAssociationGroup() definedBySSD(ManageDeviceAssociationGroupSSD) relatedService(ManageDeviceAssociationGroupService)
+	UC::userLogin()
+	UC::workReportSubmit()
+	UC::submitRepair()
+//	UC::submitRepairExtra()
+	UC::notAcceptAa()
+	UC::acceptedAa()
+	UC::completedAa()
+	UC::tbInfo()
+	UC::scoring()
+	UC::notAcceptBa()
+	UC::acceptedBa()
+	UC::completedBa()
+	UC::allocation()
+	UC::transmit()
+	UC::backtransmit()
+	UC::setWorkTask()
+	UC::setTerminalEquipment()
+	UC::arbitration()
+	UC::approval()
+	UC::receiveTb()
+	UC::completeTb()
+	UC::rocessingFees()
+	UC::setOperationStatus()
+	// 以下用例目前无法实现
+	UC::sendVoice() // 发送语音
+	UC::pushInfo() // 推送
+	UC::savePwd() // 保存密码
+
+	Actor Share{
+		userLogin
+		workReportSubmit
+	}
+
+	Actor Ordinary{ // 普通用户
+		submitRepair
+//		submitRepairExtra
+		notAcceptAa
+		acceptedAa
+		completedAa
+		scoring
+		tbInfo // 报修工单信息
+		//
+		sendVoice // 发送语音
+		pushInfo // 推送
+		savePwd // 保存密码
+	}
+
+	Actor Manage{ // 候管管理用户和部门经理
+		approval
+		arbitration
+	}
+
+	Actor Master{ // 部门队长
+		notAcceptBa
+		acceptedBa
+		completedBa
+		allocation // 分配给部门员工
+		transmit // 转发
+		backtransmit // 退回
+		setWorkTask // 设置值班表
+		setTerminalEquipment // 设置候机楼设备
+	}
+
+	Actor Worker{ // 部门人员
+		completeTb
+		receiveTb
+		rocessingFees // 维修费用
+		setOperationStatus
+	}
+
+	Actor SystemManage {
+		manageUser
+		manageRole
+		manageDepartment
+		manageDeviceInfo
+		manageDeviceLocationGroup
+		manageEquipmentFailureType
+		manageDeviceStatus
+		manageDeviceAssociationGroup
+	}
+
+//
+//	Interaction ManageDeviceStatusSSD {
+//
+//		[Participants: SystemManage ManageDeviceStatusService]
+//
+//		CallMessage::ManageDeviceStatusSSDCallMessage1(createDeviceStatus ManageDeviceStatusSSDCallMessage1SendingEnd -> ManageDeviceStatusSSDExecution1StartEnd)
+//		ReturnMessage::ManageDeviceStatusSSDCallMessage1Return(ManageDeviceStatusSSDExecution1FinishEnd -> ManageDeviceStatusSSDCallMessage1ReturnReceivingEnd ManageDeviceStatusSSDCallMessage1)
+//		CallMessage::ManageDeviceStatusSSDCallMessage3(queryDeviceStatus ManageDeviceStatusSSDCallMessage3SendingEnd -> ManageDeviceStatusSSDExecution2StartEnd)
+//		ReturnMessage::ManageDeviceStatusSSDCallMessage3Return(ManageDeviceStatusSSDExecution2FinishEnd -> ManageDeviceStatusSSDCallMessage3ReturnReceivingEnd ManageDeviceStatusSSDCallMessage3)
+//		CallMessage::ManageDeviceStatusSSDCallMessage5(modifyDeviceStatus ManageDeviceStatusSSDCallMessage5SendingEnd -> ManageDeviceStatusSSDExecution3StartEnd)
+//		ReturnMessage::ManageDeviceStatusSSDCallMessage5Return(ManageDeviceStatusSSDExecution3FinishEnd -> ManageDeviceStatusSSDCallMessage5ReturnReceivingEnd ManageDeviceStatusSSDCallMessage5)
+//		CallMessage::ManageDeviceStatusSSDCallMessage7(deleteDeviceStatus ManageDeviceStatusSSDCallMessage7SendingEnd -> ManageDeviceStatusSSDExecution4StartEnd)
+//		ReturnMessage::ManageDeviceStatusSSDCallMessage7Return(ManageDeviceStatusSSDExecution4FinishEnd -> ManageDeviceStatusSSDCallMessage7ReturnReceivingEnd ManageDeviceStatusSSDCallMessage7)
+//
+//		Execution::ManageDeviceStatusSSDExecution1(ManageDeviceStatusService ManageDeviceStatusSSDExecution1StartEnd ManageDeviceStatusSSDExecution1FinishEnd)
+//		Execution::ManageDeviceStatusSSDExecution2(ManageDeviceStatusService ManageDeviceStatusSSDExecution2StartEnd ManageDeviceStatusSSDExecution2FinishEnd)
+//		Execution::ManageDeviceStatusSSDExecution3(ManageDeviceStatusService ManageDeviceStatusSSDExecution3StartEnd ManageDeviceStatusSSDExecution3FinishEnd)
+//		Execution::ManageDeviceStatusSSDExecution4(ManageDeviceStatusService ManageDeviceStatusSSDExecution4StartEnd ManageDeviceStatusSSDExecution4FinishEnd)
+//
+//		MessageEnd::ManageDeviceStatusSSDCallMessage1SendingEnd(SystemManage ManageDeviceStatusSSDCallMessage1)
+//		ExecutionEnd::ManageDeviceStatusSSDExecution1StartEnd(ManageDeviceStatusService ManageDeviceStatusSSDExecution1)
+//		ExecutionEnd::ManageDeviceStatusSSDExecution1FinishEnd(ManageDeviceStatusService ManageDeviceStatusSSDExecution1)
+//		MessageEnd::ManageDeviceStatusSSDCallMessage1ReturnReceivingEnd(SystemManage ManageDeviceStatusSSDCallMessage1Return)
+//		MessageEnd::ManageDeviceStatusSSDCallMessage3SendingEnd(SystemManage ManageDeviceStatusSSDCallMessage3)
+//		ExecutionEnd::ManageDeviceStatusSSDExecution2StartEnd(ManageDeviceStatusService ManageDeviceStatusSSDExecution2)
+//		ExecutionEnd::ManageDeviceStatusSSDExecution2FinishEnd(ManageDeviceStatusService ManageDeviceStatusSSDExecution2)
+//		MessageEnd::ManageDeviceStatusSSDCallMessage3ReturnReceivingEnd(SystemManage ManageDeviceStatusSSDCallMessage3Return)
+//		MessageEnd::ManageDeviceStatusSSDCallMessage5SendingEnd(SystemManage ManageDeviceStatusSSDCallMessage5)
+//		ExecutionEnd::ManageDeviceStatusSSDExecution3StartEnd(ManageDeviceStatusService ManageDeviceStatusSSDExecution3)
+//		ExecutionEnd::ManageDeviceStatusSSDExecution3FinishEnd(ManageDeviceStatusService ManageDeviceStatusSSDExecution3)
+//		MessageEnd::ManageDeviceStatusSSDCallMessage5ReturnReceivingEnd(SystemManage ManageDeviceStatusSSDCallMessage5Return)
+//		MessageEnd::ManageDeviceStatusSSDCallMessage7SendingEnd(SystemManage ManageDeviceStatusSSDCallMessage7)
+//		ExecutionEnd::ManageDeviceStatusSSDExecution4StartEnd(ManageDeviceStatusService ManageDeviceStatusSSDExecution4)
+//		ExecutionEnd::ManageDeviceStatusSSDExecution4FinishEnd(ManageDeviceStatusService ManageDeviceStatusSSDExecution4)
+//		MessageEnd::ManageDeviceStatusSSDCallMessage7ReturnReceivingEnd(SystemManage ManageDeviceStatusSSDCallMessage7Return)
+//
+//	}
+//
+//	Interaction ManageUserSSD {
+//
+//		[Participants: SystemManage ManageUserService]
+//
+//		CallMessage::ManageUserSSDCallMessage1(createUser ManageUserSSDCallMessage1SendingEnd -> ManageUserSSDExecution1StartEnd)
+//		ReturnMessage::ManageUserSSDCallMessage1Return(ManageUserSSDExecution1FinishEnd -> ManageUserSSDCallMessage1ReturnReceivingEnd ManageUserSSDCallMessage1)
+//		CallMessage::ManageUserSSDCallMessage3(queryUser ManageUserSSDCallMessage3SendingEnd -> ManageUserSSDExecution2StartEnd)
+//		ReturnMessage::ManageUserSSDCallMessage3Return(ManageUserSSDExecution2FinishEnd -> ManageUserSSDCallMessage3ReturnReceivingEnd ManageUserSSDCallMessage3)
+//		CallMessage::ManageUserSSDCallMessage5(modifyUser ManageUserSSDCallMessage5SendingEnd -> ManageUserSSDExecution3StartEnd)
+//		ReturnMessage::ManageUserSSDCallMessage5Return(ManageUserSSDExecution3FinishEnd -> ManageUserSSDCallMessage5ReturnReceivingEnd ManageUserSSDCallMessage5)
+//		CallMessage::ManageUserSSDCallMessage7(deleteUser ManageUserSSDCallMessage7SendingEnd -> ManageUserSSDExecution4StartEnd)
+//		ReturnMessage::ManageUserSSDCallMessage7Return(ManageUserSSDExecution4FinishEnd -> ManageUserSSDCallMessage7ReturnReceivingEnd ManageUserSSDCallMessage7)
+//
+//		Execution::ManageUserSSDExecution1(ManageUserService ManageUserSSDExecution1StartEnd ManageUserSSDExecution1FinishEnd)
+//		Execution::ManageUserSSDExecution2(ManageUserService ManageUserSSDExecution2StartEnd ManageUserSSDExecution2FinishEnd)
+//		Execution::ManageUserSSDExecution3(ManageUserService ManageUserSSDExecution3StartEnd ManageUserSSDExecution3FinishEnd)
+//		Execution::ManageUserSSDExecution4(ManageUserService ManageUserSSDExecution4StartEnd ManageUserSSDExecution4FinishEnd)
+//
+//		MessageEnd::ManageUserSSDCallMessage1SendingEnd(SystemManage ManageUserSSDCallMessage1)
+//		ExecutionEnd::ManageUserSSDExecution1StartEnd(ManageUserService ManageUserSSDExecution1)
+//		ExecutionEnd::ManageUserSSDExecution1FinishEnd(ManageUserService ManageUserSSDExecution1)
+//		MessageEnd::ManageUserSSDCallMessage1ReturnReceivingEnd(SystemManage ManageUserSSDCallMessage1Return)
+//		MessageEnd::ManageUserSSDCallMessage3SendingEnd(SystemManage ManageUserSSDCallMessage3)
+//		ExecutionEnd::ManageUserSSDExecution2StartEnd(ManageUserService ManageUserSSDExecution2)
+//		ExecutionEnd::ManageUserSSDExecution2FinishEnd(ManageUserService ManageUserSSDExecution2)
+//		MessageEnd::ManageUserSSDCallMessage3ReturnReceivingEnd(SystemManage ManageUserSSDCallMessage3Return)
+//		MessageEnd::ManageUserSSDCallMessage5SendingEnd(SystemManage ManageUserSSDCallMessage5)
+//		ExecutionEnd::ManageUserSSDExecution3StartEnd(ManageUserService ManageUserSSDExecution3)
+//		ExecutionEnd::ManageUserSSDExecution3FinishEnd(ManageUserService ManageUserSSDExecution3)
+//		MessageEnd::ManageUserSSDCallMessage5ReturnReceivingEnd(SystemManage ManageUserSSDCallMessage5Return)
+//		MessageEnd::ManageUserSSDCallMessage7SendingEnd(SystemManage ManageUserSSDCallMessage7)
+//		ExecutionEnd::ManageUserSSDExecution4StartEnd(ManageUserService ManageUserSSDExecution4)
+//		ExecutionEnd::ManageUserSSDExecution4FinishEnd(ManageUserService ManageUserSSDExecution4)
+//		MessageEnd::ManageUserSSDCallMessage7ReturnReceivingEnd(SystemManage ManageUserSSDCallMessage7Return)
+//
+//	}
+//
+//	Interaction ManageEquipmentFailureTypeSSD {
+//
+//		[Participants: SystemManage ManageEquipmentFailureTypeService]
+//
+//		CallMessage::ManageEquipmentFailureTypeSSDCallMessage1(createEquipmentFailureType ManageEquipmentFailureTypeSSDCallMessage1SendingEnd -> ManageEquipmentFailureTypeSSDExecution1StartEnd)
+//		ReturnMessage::ManageEquipmentFailureTypeSSDCallMessage1Return(ManageEquipmentFailureTypeSSDExecution1FinishEnd -> ManageEquipmentFailureTypeSSDCallMessage1ReturnReceivingEnd ManageEquipmentFailureTypeSSDCallMessage1)
+//		CallMessage::ManageEquipmentFailureTypeSSDCallMessage3(queryEquipmentFailureType ManageEquipmentFailureTypeSSDCallMessage3SendingEnd -> ManageEquipmentFailureTypeSSDExecution2StartEnd)
+//		ReturnMessage::ManageEquipmentFailureTypeSSDCallMessage3Return(ManageEquipmentFailureTypeSSDExecution2FinishEnd -> ManageEquipmentFailureTypeSSDCallMessage3ReturnReceivingEnd ManageEquipmentFailureTypeSSDCallMessage3)
+//		CallMessage::ManageEquipmentFailureTypeSSDCallMessage5(modifyEquipmentFailureType ManageEquipmentFailureTypeSSDCallMessage5SendingEnd -> ManageEquipmentFailureTypeSSDExecution3StartEnd)
+//		ReturnMessage::ManageEquipmentFailureTypeSSDCallMessage5Return(ManageEquipmentFailureTypeSSDExecution3FinishEnd -> ManageEquipmentFailureTypeSSDCallMessage5ReturnReceivingEnd ManageEquipmentFailureTypeSSDCallMessage5)
+//		CallMessage::ManageEquipmentFailureTypeSSDCallMessage7(deleteEquipmentFailureType ManageEquipmentFailureTypeSSDCallMessage7SendingEnd -> ManageEquipmentFailureTypeSSDExecution4StartEnd)
+//		ReturnMessage::ManageEquipmentFailureTypeSSDCallMessage7Return(ManageEquipmentFailureTypeSSDExecution4FinishEnd -> ManageEquipmentFailureTypeSSDCallMessage7ReturnReceivingEnd ManageEquipmentFailureTypeSSDCallMessage7)
+//
+//		Execution::ManageEquipmentFailureTypeSSDExecution1(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution1StartEnd ManageEquipmentFailureTypeSSDExecution1FinishEnd)
+//		Execution::ManageEquipmentFailureTypeSSDExecution2(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution2StartEnd ManageEquipmentFailureTypeSSDExecution2FinishEnd)
+//		Execution::ManageEquipmentFailureTypeSSDExecution3(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution3StartEnd ManageEquipmentFailureTypeSSDExecution3FinishEnd)
+//		Execution::ManageEquipmentFailureTypeSSDExecution4(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution4StartEnd ManageEquipmentFailureTypeSSDExecution4FinishEnd)
+//
+//		MessageEnd::ManageEquipmentFailureTypeSSDCallMessage1SendingEnd(SystemManage ManageEquipmentFailureTypeSSDCallMessage1)
+//		ExecutionEnd::ManageEquipmentFailureTypeSSDExecution1StartEnd(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution1)
+//		ExecutionEnd::ManageEquipmentFailureTypeSSDExecution1FinishEnd(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution1)
+//		MessageEnd::ManageEquipmentFailureTypeSSDCallMessage1ReturnReceivingEnd(SystemManage ManageEquipmentFailureTypeSSDCallMessage1Return)
+//		MessageEnd::ManageEquipmentFailureTypeSSDCallMessage3SendingEnd(SystemManage ManageEquipmentFailureTypeSSDCallMessage3)
+//		ExecutionEnd::ManageEquipmentFailureTypeSSDExecution2StartEnd(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution2)
+//		ExecutionEnd::ManageEquipmentFailureTypeSSDExecution2FinishEnd(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution2)
+//		MessageEnd::ManageEquipmentFailureTypeSSDCallMessage3ReturnReceivingEnd(SystemManage ManageEquipmentFailureTypeSSDCallMessage3Return)
+//		MessageEnd::ManageEquipmentFailureTypeSSDCallMessage5SendingEnd(SystemManage ManageEquipmentFailureTypeSSDCallMessage5)
+//		ExecutionEnd::ManageEquipmentFailureTypeSSDExecution3StartEnd(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution3)
+//		ExecutionEnd::ManageEquipmentFailureTypeSSDExecution3FinishEnd(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution3)
+//		MessageEnd::ManageEquipmentFailureTypeSSDCallMessage5ReturnReceivingEnd(SystemManage ManageEquipmentFailureTypeSSDCallMessage5Return)
+//		MessageEnd::ManageEquipmentFailureTypeSSDCallMessage7SendingEnd(SystemManage ManageEquipmentFailureTypeSSDCallMessage7)
+//		ExecutionEnd::ManageEquipmentFailureTypeSSDExecution4StartEnd(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution4)
+//		ExecutionEnd::ManageEquipmentFailureTypeSSDExecution4FinishEnd(ManageEquipmentFailureTypeService ManageEquipmentFailureTypeSSDExecution4)
+//		MessageEnd::ManageEquipmentFailureTypeSSDCallMessage7ReturnReceivingEnd(SystemManage ManageEquipmentFailureTypeSSDCallMessage7Return)
+//
+//	}
+//
+//	Interaction ManageDeviceLocationGroupSSD {
+//
+//		[Participants: SystemManage ManageDeviceLocationGroupService]
+//
+//		CallMessage::ManageDeviceLocationGroupSSDCallMessage1(createDeviceLocationGroup ManageDeviceLocationGroupSSDCallMessage1SendingEnd -> ManageDeviceLocationGroupSSDExecution1StartEnd)
+//		ReturnMessage::ManageDeviceLocationGroupSSDCallMessage1Return(ManageDeviceLocationGroupSSDExecution1FinishEnd -> ManageDeviceLocationGroupSSDCallMessage1ReturnReceivingEnd ManageDeviceLocationGroupSSDCallMessage1)
+//		CallMessage::ManageDeviceLocationGroupSSDCallMessage3(queryDeviceLocationGroup ManageDeviceLocationGroupSSDCallMessage3SendingEnd -> ManageDeviceLocationGroupSSDExecution2StartEnd)
+//		ReturnMessage::ManageDeviceLocationGroupSSDCallMessage3Return(ManageDeviceLocationGroupSSDExecution2FinishEnd -> ManageDeviceLocationGroupSSDCallMessage3ReturnReceivingEnd ManageDeviceLocationGroupSSDCallMessage3)
+//		CallMessage::ManageDeviceLocationGroupSSDCallMessage5(modifyDeviceLocationGroup ManageDeviceLocationGroupSSDCallMessage5SendingEnd -> ManageDeviceLocationGroupSSDExecution3StartEnd)
+//		ReturnMessage::ManageDeviceLocationGroupSSDCallMessage5Return(ManageDeviceLocationGroupSSDExecution3FinishEnd -> ManageDeviceLocationGroupSSDCallMessage5ReturnReceivingEnd ManageDeviceLocationGroupSSDCallMessage5)
+//		CallMessage::ManageDeviceLocationGroupSSDCallMessage7(deleteDeviceLocationGroup ManageDeviceLocationGroupSSDCallMessage7SendingEnd -> ManageDeviceLocationGroupSSDExecution4StartEnd)
+//		ReturnMessage::ManageDeviceLocationGroupSSDCallMessage7Return(ManageDeviceLocationGroupSSDExecution4FinishEnd -> ManageDeviceLocationGroupSSDCallMessage7ReturnReceivingEnd ManageDeviceLocationGroupSSDCallMessage7)
+//
+//		Execution::ManageDeviceLocationGroupSSDExecution1(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution1StartEnd ManageDeviceLocationGroupSSDExecution1FinishEnd)
+//		Execution::ManageDeviceLocationGroupSSDExecution2(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution2StartEnd ManageDeviceLocationGroupSSDExecution2FinishEnd)
+//		Execution::ManageDeviceLocationGroupSSDExecution3(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution3StartEnd ManageDeviceLocationGroupSSDExecution3FinishEnd)
+//		Execution::ManageDeviceLocationGroupSSDExecution4(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution4StartEnd ManageDeviceLocationGroupSSDExecution4FinishEnd)
+//
+//		MessageEnd::ManageDeviceLocationGroupSSDCallMessage1SendingEnd(SystemManage ManageDeviceLocationGroupSSDCallMessage1)
+//		ExecutionEnd::ManageDeviceLocationGroupSSDExecution1StartEnd(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution1)
+//		ExecutionEnd::ManageDeviceLocationGroupSSDExecution1FinishEnd(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution1)
+//		MessageEnd::ManageDeviceLocationGroupSSDCallMessage1ReturnReceivingEnd(SystemManage ManageDeviceLocationGroupSSDCallMessage1Return)
+//		MessageEnd::ManageDeviceLocationGroupSSDCallMessage3SendingEnd(SystemManage ManageDeviceLocationGroupSSDCallMessage3)
+//		ExecutionEnd::ManageDeviceLocationGroupSSDExecution2StartEnd(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution2)
+//		ExecutionEnd::ManageDeviceLocationGroupSSDExecution2FinishEnd(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution2)
+//		MessageEnd::ManageDeviceLocationGroupSSDCallMessage3ReturnReceivingEnd(SystemManage ManageDeviceLocationGroupSSDCallMessage3Return)
+//		MessageEnd::ManageDeviceLocationGroupSSDCallMessage5SendingEnd(SystemManage ManageDeviceLocationGroupSSDCallMessage5)
+//		ExecutionEnd::ManageDeviceLocationGroupSSDExecution3StartEnd(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution3)
+//		ExecutionEnd::ManageDeviceLocationGroupSSDExecution3FinishEnd(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution3)
+//		MessageEnd::ManageDeviceLocationGroupSSDCallMessage5ReturnReceivingEnd(SystemManage ManageDeviceLocationGroupSSDCallMessage5Return)
+//		MessageEnd::ManageDeviceLocationGroupSSDCallMessage7SendingEnd(SystemManage ManageDeviceLocationGroupSSDCallMessage7)
+//		ExecutionEnd::ManageDeviceLocationGroupSSDExecution4StartEnd(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution4)
+//		ExecutionEnd::ManageDeviceLocationGroupSSDExecution4FinishEnd(ManageDeviceLocationGroupService ManageDeviceLocationGroupSSDExecution4)
+//		MessageEnd::ManageDeviceLocationGroupSSDCallMessage7ReturnReceivingEnd(SystemManage ManageDeviceLocationGroupSSDCallMessage7Return)
+//
+//	}
+//
+//	Interaction ManageDeviceInfoSSD {
+//
+//		[Participants: SystemManage ManageDeviceInfoService]
+//
+//		CallMessage::ManageDeviceInfoSSDCallMessage1(createDeviceInfo ManageDeviceInfoSSDCallMessage1SendingEnd -> ManageDeviceInfoSSDExecution1StartEnd)
+//		ReturnMessage::ManageDeviceInfoSSDCallMessage1Return(ManageDeviceInfoSSDExecution1FinishEnd -> ManageDeviceInfoSSDCallMessage1ReturnReceivingEnd ManageDeviceInfoSSDCallMessage1)
+//		CallMessage::ManageDeviceInfoSSDCallMessage3(queryDeviceInfo ManageDeviceInfoSSDCallMessage3SendingEnd -> ManageDeviceInfoSSDExecution2StartEnd)
+//		ReturnMessage::ManageDeviceInfoSSDCallMessage3Return(ManageDeviceInfoSSDExecution2FinishEnd -> ManageDeviceInfoSSDCallMessage3ReturnReceivingEnd ManageDeviceInfoSSDCallMessage3)
+//		CallMessage::ManageDeviceInfoSSDCallMessage5(modifyDeviceInfo ManageDeviceInfoSSDCallMessage5SendingEnd -> ManageDeviceInfoSSDExecution3StartEnd)
+//		ReturnMessage::ManageDeviceInfoSSDCallMessage5Return(ManageDeviceInfoSSDExecution3FinishEnd -> ManageDeviceInfoSSDCallMessage5ReturnReceivingEnd ManageDeviceInfoSSDCallMessage5)
+//		CallMessage::ManageDeviceInfoSSDCallMessage7(deleteDeviceInfo ManageDeviceInfoSSDCallMessage7SendingEnd -> ManageDeviceInfoSSDExecution4StartEnd)
+//		ReturnMessage::ManageDeviceInfoSSDCallMessage7Return(ManageDeviceInfoSSDExecution4FinishEnd -> ManageDeviceInfoSSDCallMessage7ReturnReceivingEnd ManageDeviceInfoSSDCallMessage7)
+//
+//		Execution::ManageDeviceInfoSSDExecution1(ManageDeviceInfoService ManageDeviceInfoSSDExecution1StartEnd ManageDeviceInfoSSDExecution1FinishEnd)
+//		Execution::ManageDeviceInfoSSDExecution2(ManageDeviceInfoService ManageDeviceInfoSSDExecution2StartEnd ManageDeviceInfoSSDExecution2FinishEnd)
+//		Execution::ManageDeviceInfoSSDExecution3(ManageDeviceInfoService ManageDeviceInfoSSDExecution3StartEnd ManageDeviceInfoSSDExecution3FinishEnd)
+//		Execution::ManageDeviceInfoSSDExecution4(ManageDeviceInfoService ManageDeviceInfoSSDExecution4StartEnd ManageDeviceInfoSSDExecution4FinishEnd)
+//
+//		MessageEnd::ManageDeviceInfoSSDCallMessage1SendingEnd(SystemManage ManageDeviceInfoSSDCallMessage1)
+//		ExecutionEnd::ManageDeviceInfoSSDExecution1StartEnd(ManageDeviceInfoService ManageDeviceInfoSSDExecution1)
+//		ExecutionEnd::ManageDeviceInfoSSDExecution1FinishEnd(ManageDeviceInfoService ManageDeviceInfoSSDExecution1)
+//		MessageEnd::ManageDeviceInfoSSDCallMessage1ReturnReceivingEnd(SystemManage ManageDeviceInfoSSDCallMessage1Return)
+//		MessageEnd::ManageDeviceInfoSSDCallMessage3SendingEnd(SystemManage ManageDeviceInfoSSDCallMessage3)
+//		ExecutionEnd::ManageDeviceInfoSSDExecution2StartEnd(ManageDeviceInfoService ManageDeviceInfoSSDExecution2)
+//		ExecutionEnd::ManageDeviceInfoSSDExecution2FinishEnd(ManageDeviceInfoService ManageDeviceInfoSSDExecution2)
+//		MessageEnd::ManageDeviceInfoSSDCallMessage3ReturnReceivingEnd(SystemManage ManageDeviceInfoSSDCallMessage3Return)
+//		MessageEnd::ManageDeviceInfoSSDCallMessage5SendingEnd(SystemManage ManageDeviceInfoSSDCallMessage5)
+//		ExecutionEnd::ManageDeviceInfoSSDExecution3StartEnd(ManageDeviceInfoService ManageDeviceInfoSSDExecution3)
+//		ExecutionEnd::ManageDeviceInfoSSDExecution3FinishEnd(ManageDeviceInfoService ManageDeviceInfoSSDExecution3)
+//		MessageEnd::ManageDeviceInfoSSDCallMessage5ReturnReceivingEnd(SystemManage ManageDeviceInfoSSDCallMessage5Return)
+//		MessageEnd::ManageDeviceInfoSSDCallMessage7SendingEnd(SystemManage ManageDeviceInfoSSDCallMessage7)
+//		ExecutionEnd::ManageDeviceInfoSSDExecution4StartEnd(ManageDeviceInfoService ManageDeviceInfoSSDExecution4)
+//		ExecutionEnd::ManageDeviceInfoSSDExecution4FinishEnd(ManageDeviceInfoService ManageDeviceInfoSSDExecution4)
+//		MessageEnd::ManageDeviceInfoSSDCallMessage7ReturnReceivingEnd(SystemManage ManageDeviceInfoSSDCallMessage7Return)
+//
+//	}
+//
+//	Interaction ManageDepartmentSSD {
+//
+//		[Participants: SystemManage ManageDepartmentService]
+//
+//		CallMessage::ManageDepartmentSSDCallMessage1(createDepartment ManageDepartmentSSDCallMessage1SendingEnd -> ManageDepartmentSSDExecution1StartEnd)
+//		ReturnMessage::ManageDepartmentSSDCallMessage1Return(ManageDepartmentSSDExecution1FinishEnd -> ManageDepartmentSSDCallMessage1ReturnReceivingEnd ManageDepartmentSSDCallMessage1)
+//		CallMessage::ManageDepartmentSSDCallMessage3(queryDepartment ManageDepartmentSSDCallMessage3SendingEnd -> ManageDepartmentSSDExecution2StartEnd)
+//		ReturnMessage::ManageDepartmentSSDCallMessage3Return(ManageDepartmentSSDExecution2FinishEnd -> ManageDepartmentSSDCallMessage3ReturnReceivingEnd ManageDepartmentSSDCallMessage3)
+//		CallMessage::ManageDepartmentSSDCallMessage5(modifyDepartment ManageDepartmentSSDCallMessage5SendingEnd -> ManageDepartmentSSDExecution3StartEnd)
+//		ReturnMessage::ManageDepartmentSSDCallMessage5Return(ManageDepartmentSSDExecution3FinishEnd -> ManageDepartmentSSDCallMessage5ReturnReceivingEnd ManageDepartmentSSDCallMessage5)
+//		CallMessage::ManageDepartmentSSDCallMessage7(deleteDepartment ManageDepartmentSSDCallMessage7SendingEnd -> ManageDepartmentSSDExecution4StartEnd)
+//		ReturnMessage::ManageDepartmentSSDCallMessage7Return(ManageDepartmentSSDExecution4FinishEnd -> ManageDepartmentSSDCallMessage7ReturnReceivingEnd ManageDepartmentSSDCallMessage7)
+//
+//		Execution::ManageDepartmentSSDExecution1(ManageDepartmentService ManageDepartmentSSDExecution1StartEnd ManageDepartmentSSDExecution1FinishEnd)
+//		Execution::ManageDepartmentSSDExecution2(ManageDepartmentService ManageDepartmentSSDExecution2StartEnd ManageDepartmentSSDExecution2FinishEnd)
+//		Execution::ManageDepartmentSSDExecution3(ManageDepartmentService ManageDepartmentSSDExecution3StartEnd ManageDepartmentSSDExecution3FinishEnd)
+//		Execution::ManageDepartmentSSDExecution4(ManageDepartmentService ManageDepartmentSSDExecution4StartEnd ManageDepartmentSSDExecution4FinishEnd)
+//
+//		MessageEnd::ManageDepartmentSSDCallMessage1SendingEnd(SystemManage ManageDepartmentSSDCallMessage1)
+//		ExecutionEnd::ManageDepartmentSSDExecution1StartEnd(ManageDepartmentService ManageDepartmentSSDExecution1)
+//		ExecutionEnd::ManageDepartmentSSDExecution1FinishEnd(ManageDepartmentService ManageDepartmentSSDExecution1)
+//		MessageEnd::ManageDepartmentSSDCallMessage1ReturnReceivingEnd(SystemManage ManageDepartmentSSDCallMessage1Return)
+//		MessageEnd::ManageDepartmentSSDCallMessage3SendingEnd(SystemManage ManageDepartmentSSDCallMessage3)
+//		ExecutionEnd::ManageDepartmentSSDExecution2StartEnd(ManageDepartmentService ManageDepartmentSSDExecution2)
+//		ExecutionEnd::ManageDepartmentSSDExecution2FinishEnd(ManageDepartmentService ManageDepartmentSSDExecution2)
+//		MessageEnd::ManageDepartmentSSDCallMessage3ReturnReceivingEnd(SystemManage ManageDepartmentSSDCallMessage3Return)
+//		MessageEnd::ManageDepartmentSSDCallMessage5SendingEnd(SystemManage ManageDepartmentSSDCallMessage5)
+//		ExecutionEnd::ManageDepartmentSSDExecution3StartEnd(ManageDepartmentService ManageDepartmentSSDExecution3)
+//		ExecutionEnd::ManageDepartmentSSDExecution3FinishEnd(ManageDepartmentService ManageDepartmentSSDExecution3)
+//		MessageEnd::ManageDepartmentSSDCallMessage5ReturnReceivingEnd(SystemManage ManageDepartmentSSDCallMessage5Return)
+//		MessageEnd::ManageDepartmentSSDCallMessage7SendingEnd(SystemManage ManageDepartmentSSDCallMessage7)
+//		ExecutionEnd::ManageDepartmentSSDExecution4StartEnd(ManageDepartmentService ManageDepartmentSSDExecution4)
+//		ExecutionEnd::ManageDepartmentSSDExecution4FinishEnd(ManageDepartmentService ManageDepartmentSSDExecution4)
+//		MessageEnd::ManageDepartmentSSDCallMessage7ReturnReceivingEnd(SystemManage ManageDepartmentSSDCallMessage7Return)
+//
+//	}
+//
+//	Interaction ManageDeviceAssociationGroupSSD {
+//
+//		[Participants: SystemManage ManageDeviceAssociationGroupService]
+//
+//		CallMessage::ManageDeviceAssociationGroupSSDCallMessage1(createDeviceAssociationGroup ManageDeviceAssociationGroupSSDCallMessage1SendingEnd -> ManageDeviceAssociationGroupSSDExecution1StartEnd)
+//		ReturnMessage::ManageDeviceAssociationGroupSSDCallMessage1Return(ManageDeviceAssociationGroupSSDExecution1FinishEnd -> ManageDeviceAssociationGroupSSDCallMessage1ReturnReceivingEnd ManageDeviceAssociationGroupSSDCallMessage1)
+//		CallMessage::ManageDeviceAssociationGroupSSDCallMessage3(queryDeviceAssociationGroup ManageDeviceAssociationGroupSSDCallMessage3SendingEnd -> ManageDeviceAssociationGroupSSDExecution2StartEnd)
+//		ReturnMessage::ManageDeviceAssociationGroupSSDCallMessage3Return(ManageDeviceAssociationGroupSSDExecution2FinishEnd -> ManageDeviceAssociationGroupSSDCallMessage3ReturnReceivingEnd ManageDeviceAssociationGroupSSDCallMessage3)
+//		CallMessage::ManageDeviceAssociationGroupSSDCallMessage5(modifyDeviceAssociationGroup ManageDeviceAssociationGroupSSDCallMessage5SendingEnd -> ManageDeviceAssociationGroupSSDExecution3StartEnd)
+//		ReturnMessage::ManageDeviceAssociationGroupSSDCallMessage5Return(ManageDeviceAssociationGroupSSDExecution3FinishEnd -> ManageDeviceAssociationGroupSSDCallMessage5ReturnReceivingEnd ManageDeviceAssociationGroupSSDCallMessage5)
+//		CallMessage::ManageDeviceAssociationGroupSSDCallMessage7(deleteDeviceAssociationGroup ManageDeviceAssociationGroupSSDCallMessage7SendingEnd -> ManageDeviceAssociationGroupSSDExecution4StartEnd)
+//		ReturnMessage::ManageDeviceAssociationGroupSSDCallMessage7Return(ManageDeviceAssociationGroupSSDExecution4FinishEnd -> ManageDeviceAssociationGroupSSDCallMessage7ReturnReceivingEnd ManageDeviceAssociationGroupSSDCallMessage7)
+//
+//		Execution::ManageDeviceAssociationGroupSSDExecution1(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution1StartEnd ManageDeviceAssociationGroupSSDExecution1FinishEnd)
+//		Execution::ManageDeviceAssociationGroupSSDExecution2(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution2StartEnd ManageDeviceAssociationGroupSSDExecution2FinishEnd)
+//		Execution::ManageDeviceAssociationGroupSSDExecution3(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution3StartEnd ManageDeviceAssociationGroupSSDExecution3FinishEnd)
+//		Execution::ManageDeviceAssociationGroupSSDExecution4(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution4StartEnd ManageDeviceAssociationGroupSSDExecution4FinishEnd)
+//
+//		MessageEnd::ManageDeviceAssociationGroupSSDCallMessage1SendingEnd(SystemManage ManageDeviceAssociationGroupSSDCallMessage1)
+//		ExecutionEnd::ManageDeviceAssociationGroupSSDExecution1StartEnd(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution1)
+//		ExecutionEnd::ManageDeviceAssociationGroupSSDExecution1FinishEnd(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution1)
+//		MessageEnd::ManageDeviceAssociationGroupSSDCallMessage1ReturnReceivingEnd(SystemManage ManageDeviceAssociationGroupSSDCallMessage1Return)
+//		MessageEnd::ManageDeviceAssociationGroupSSDCallMessage3SendingEnd(SystemManage ManageDeviceAssociationGroupSSDCallMessage3)
+//		ExecutionEnd::ManageDeviceAssociationGroupSSDExecution2StartEnd(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution2)
+//		ExecutionEnd::ManageDeviceAssociationGroupSSDExecution2FinishEnd(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution2)
+//		MessageEnd::ManageDeviceAssociationGroupSSDCallMessage3ReturnReceivingEnd(SystemManage ManageDeviceAssociationGroupSSDCallMessage3Return)
+//		MessageEnd::ManageDeviceAssociationGroupSSDCallMessage5SendingEnd(SystemManage ManageDeviceAssociationGroupSSDCallMessage5)
+//		ExecutionEnd::ManageDeviceAssociationGroupSSDExecution3StartEnd(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution3)
+//		ExecutionEnd::ManageDeviceAssociationGroupSSDExecution3FinishEnd(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution3)
+//		MessageEnd::ManageDeviceAssociationGroupSSDCallMessage5ReturnReceivingEnd(SystemManage ManageDeviceAssociationGroupSSDCallMessage5Return)
+//		MessageEnd::ManageDeviceAssociationGroupSSDCallMessage7SendingEnd(SystemManage ManageDeviceAssociationGroupSSDCallMessage7)
+//		ExecutionEnd::ManageDeviceAssociationGroupSSDExecution4StartEnd(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution4)
+//		ExecutionEnd::ManageDeviceAssociationGroupSSDExecution4FinishEnd(ManageDeviceAssociationGroupService ManageDeviceAssociationGroupSSDExecution4)
+//		MessageEnd::ManageDeviceAssociationGroupSSDCallMessage7ReturnReceivingEnd(SystemManage ManageDeviceAssociationGroupSSDCallMessage7Return)
+//
+//	}
+//
+//	Interaction ManageRoleSSD {
+//
+//		[Participants: SystemManage ManageRoleService]
+//
+//		CallMessage::ManageRoleSSDCallMessage1(createRole ManageRoleSSDCallMessage1SendingEnd -> ManageRoleSSDExecution1StartEnd)
+//		ReturnMessage::ManageRoleSSDCallMessage1Return(ManageRoleSSDExecution1FinishEnd -> ManageRoleSSDCallMessage1ReturnReceivingEnd ManageRoleSSDCallMessage1)
+//		CallMessage::ManageRoleSSDCallMessage3(queryRole ManageRoleSSDCallMessage3SendingEnd -> ManageRoleSSDExecution2StartEnd)
+//		ReturnMessage::ManageRoleSSDCallMessage3Return(ManageRoleSSDExecution2FinishEnd -> ManageRoleSSDCallMessage3ReturnReceivingEnd ManageRoleSSDCallMessage3)
+//		CallMessage::ManageRoleSSDCallMessage5(modifyRole ManageRoleSSDCallMessage5SendingEnd -> ManageRoleSSDExecution3StartEnd)
+//		ReturnMessage::ManageRoleSSDCallMessage5Return(ManageRoleSSDExecution3FinishEnd -> ManageRoleSSDCallMessage5ReturnReceivingEnd ManageRoleSSDCallMessage5)
+//		CallMessage::ManageRoleSSDCallMessage7(deleteRole ManageRoleSSDCallMessage7SendingEnd -> ManageRoleSSDExecution4StartEnd)
+//		ReturnMessage::ManageRoleSSDCallMessage7Return(ManageRoleSSDExecution4FinishEnd -> ManageRoleSSDCallMessage7ReturnReceivingEnd ManageRoleSSDCallMessage7)
+//
+//		Execution::ManageRoleSSDExecution1(ManageRoleService ManageRoleSSDExecution1StartEnd ManageRoleSSDExecution1FinishEnd)
+//		Execution::ManageRoleSSDExecution2(ManageRoleService ManageRoleSSDExecution2StartEnd ManageRoleSSDExecution2FinishEnd)
+//		Execution::ManageRoleSSDExecution3(ManageRoleService ManageRoleSSDExecution3StartEnd ManageRoleSSDExecution3FinishEnd)
+//		Execution::ManageRoleSSDExecution4(ManageRoleService ManageRoleSSDExecution4StartEnd ManageRoleSSDExecution4FinishEnd)
+//
+//		MessageEnd::ManageRoleSSDCallMessage1SendingEnd(SystemManage ManageRoleSSDCallMessage1)
+//		ExecutionEnd::ManageRoleSSDExecution1StartEnd(ManageRoleService ManageRoleSSDExecution1)
+//		ExecutionEnd::ManageRoleSSDExecution1FinishEnd(ManageRoleService ManageRoleSSDExecution1)
+//		MessageEnd::ManageRoleSSDCallMessage1ReturnReceivingEnd(SystemManage ManageRoleSSDCallMessage1Return)
+//		MessageEnd::ManageRoleSSDCallMessage3SendingEnd(SystemManage ManageRoleSSDCallMessage3)
+//		ExecutionEnd::ManageRoleSSDExecution2StartEnd(ManageRoleService ManageRoleSSDExecution2)
+//		ExecutionEnd::ManageRoleSSDExecution2FinishEnd(ManageRoleService ManageRoleSSDExecution2)
+//		MessageEnd::ManageRoleSSDCallMessage3ReturnReceivingEnd(SystemManage ManageRoleSSDCallMessage3Return)
+//		MessageEnd::ManageRoleSSDCallMessage5SendingEnd(SystemManage ManageRoleSSDCallMessage5)
+//		ExecutionEnd::ManageRoleSSDExecution3StartEnd(ManageRoleService ManageRoleSSDExecution3)
+//		ExecutionEnd::ManageRoleSSDExecution3FinishEnd(ManageRoleService ManageRoleSSDExecution3)
+//		MessageEnd::ManageRoleSSDCallMessage5ReturnReceivingEnd(SystemManage ManageRoleSSDCallMessage5Return)
+//		MessageEnd::ManageRoleSSDCallMessage7SendingEnd(SystemManage ManageRoleSSDCallMessage7)
+//		ExecutionEnd::ManageRoleSSDExecution4StartEnd(ManageRoleService ManageRoleSSDExecution4)
+//		ExecutionEnd::ManageRoleSSDExecution4FinishEnd(ManageRoleService ManageRoleSSDExecution4)
+//		MessageEnd::ManageRoleSSDCallMessage7ReturnReceivingEnd(SystemManage ManageRoleSSDCallMessage7Return)
+//
+//	}
+	Service AirportSystem {
+
+		[Operation]
+		createUser(id, name, password, phone, roleCode,departmentid)
+		queryUser(id)
+		modifyUser(id, name, password, phone, roleCode,departmentid)
+		deleteUser(id)
+		createDeviceStatus(id,name,remark)
+		queryDeviceStatus(id)
+		modifyDeviceStatus(id,name,remark)
+		deleteDeviceStatus(id)
+		createDepartment(id, name,contactRerson, principal, phone, briefInfo, describeContent, remark)
+		queryDepartment(id)
+		modifyDepartment(id, name,contactRerson, principal, phone, briefInfo, describeContent, remark)
+		deleteDepartment(id)
+		createDeviceAssociationGroup(id,name,remark)
+		queryDeviceAssociationGroup(id)
+		modifyDeviceAssociationGroup(id,name,remark)
+		deleteDeviceAssociationGroup(id)
+		createRole(id, remark, roleCode)
+		queryRole(id)
+		modifyRole(id, remark, roleCode)
+		deleteRole(id)
+		createEquipmentFailureType(id,name, describeContent,remark)
+		queryEquipmentFailureType(id)
+		modifyEquipmentFailureType(id,name, describeContent,remark)
+		deleteEquipmentFailureType(id)
+		createDeviceInfo(id,name,brand,type,address,adminName,contactsName,remark)
+		queryDeviceInfo(id)
+		modifyDeviceInfo(id,name,brand,type,address,adminName,contactsName,remark)
+		deleteDeviceInfo(id)
+		createDeviceLocationGroup(id,name,remark)
+		queryDeviceLocationGroup(id)
+		modifyDeviceLocationGroup(id,name,remark)
+		deleteDeviceLocationGroup(id)
+
+	}
+
+	Service ThirdPartyServices {
+
+		[Operation]
+		thirdPartyCardPaymentService()
+
+	}
+
+	Service RoutineService {
+
+		[Operation]
+		userLogin(name, password)
+		workReportSubmit(name, content, section, remark)
+
+		[TempProperty]
+		currentUser : User
+
+	}
+
+	Service RepairService {
+
+		[Operation]
+		submitRepair(departmentid, assignDepartId, repairName, phone, place, repairsStatus, deviceId, describeContent, failureTypeId)
+//		submitRepairExtra()
+		notAcceptAa() // 普通用户未受理列表
+		acceptedAa() // 普通用户已受理列表
+		completedAa() // 普通用户已完成列表
+		tbInfo(id) // 某条保修单的信息
+		scoring(tbid, score, remark)
+//
+		sendVoice() // 发送语音
+		pushInfo() // 推送
+		savePwd() // 保存密码
+
+		[TempProperty]
+		currentUser : User
+		currentTbRepair : TbRepair
+
+	}
+
+	Service HandleService {
+
+		[Operation]
+		notAcceptBa() // 部门队长未受理列表
+		acceptedBa() // 部门队长已受理列表
+		completedBa() // 部门队长已完成列表
+		allocation(userId, tbId) // 指派员工
+		transmit(departId, tbId) // 转发其他部门
+		backtransmit(tbId, rejectCause) // 退回工单
+		setWorkTask(staffName, adminName, phone, section, remark) // 排班
+		setTerminalEquipment(name, address, description, type, remark, deviceInfoId) // 候机楼设备
+
+		[TempProperty]
+		currentUser : User
+		currentTbRepair : TbRepair
+
+	}
+
+	Service MaintainService{
+
+		[Operation]
+		receiveTb(tbId) // 受理报修单
+		completeTb(tbId, cause, resolvent) // 完成报修
+		rocessingFees(tbId, projectName, price, number, remake) // 设置报修任务处理维修费用
+		setOperationStatus(name, value, valueUnit, status, remark, equipmentId) // 设置候机楼设备运行状况
+
+		[TempProperty]
+		currentUser : User
+		currentTbRepair : TbRepair
+
+	}
+
+	Service ManageService {
+
+		[Operation]
+		approval(tbId, isApproved) // 候管审批
+		arbitration(tbId, departmentid) // 仲裁
+
+		[TempProperty]
+		currentUser : User
+		currentTbRepair : TbRepair
+
+	}
+
+	Contract ThirdPartyServices::thirdPartyCardPaymentService() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+//-----------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------
+// 用户登录
+	Contract  RoutineService::userLogin(name : String, password : String) : Boolean {
+
+		definition:
+			user:User = User.allInstance()->any(u:User | u.name = name and u.password = password)
+
+		precondition:
+			user.oclIsUndefined() = false
+		postcondition:
+			self.currentUser = user and
+			result = true
+	}
+
+//-----------------------------------------------------------------------------------------
+// 工作汇报
+	Contract  RoutineService::workReportSubmit(name:String, content:String, section:String, remark:String) : Boolean {
+
+		precondition:
+			currentUser.oclIsUndefined() = false
+		postcondition:
+			let wr:WorkReport in
+			wr.oclIsNew() and
+			wr.name = name and
+			wr.time.isEqual(Now) and
+			wr.content = content and
+			WorkReport.allInstance()->includes(wr) and
+			result = true
+	}
+
+//-----------------------------------------------------------------------------------------
+// 普通用户
+//报修单位（必选）、报修人（必填）、反馈电话（必填）、报修位置（必填）、故障类别（必选）,、故障描述（必选）
+	Contract  RepairService::submitRepair(departmentid:Integer, assignDepartId:Integer, repairName : String, phone : String, place : String, repairsStatus : Integer, deviceId : String, describeContent:String, failureTypeId:Integer) : Boolean {
+
+		definition:
+			dp:Department = Department.allInstance()->any(dp:Department | dp.id = departmentid),
+			a_dp:Department = Department.allInstance()->any(dp:Department | dp.id = assignDepartId),
+			eft:EquipmentFailureType = EquipmentFailureType.allInstance()->any(e:EquipmentFailureType | e.id = failureTypeId)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			repairName.oclIsUndefined() = false and
+			phone.oclIsUndefined() = false and
+			place.oclIsUndefined() = false and
+			repairsStatus.oclIsUndefined() = false and
+			dp.oclIsUndefined() = false and
+			a_dp.oclIsUndefined() = false and
+			deviceId.oclIsUndefined() = false and
+			eft.oclIsUndefined() = false
+
+		postcondition:
+			let tr:TbRepair in
+			tr.oclIsNew() and
+			tr.BelongedDepartment = dp and
+			tr.repairName = repairName and
+			tr.phone = phone and
+			tr.place = place and
+			tr.repairsStatus = repairsStatus and
+			tr.deviceId = deviceId and
+			tr.describeContent = describeContent and
+			tr.time.isEqual(Now) and
+			tr.status = 0 and
+			tr.BelongedEFT = eft and
+			tr.BelongedUser = currentUser and
+			TbRepair.allInstance()->includes(tr) and
+			self.currentTbRepair = tr and
+			if
+				tr.id.oclIsUndefined() = false
+			then
+				let tre:TbRepairExtra in
+				tre.oclIsNew() and
+				// 如果报修区域是候机楼则需要候管审核
+				tre.id = tr.id and
+				if
+					tr.place = "候机楼"
+				then
+					tre.admin = false
+				else
+					tre.admin = true
+				endif and
+				tre.isReject = false and
+				tre.isAccept = false and
+				tre.isComplete = false and
+				tre.arbitrate = false and
+				tre.relayNum = 0 and
+				tre.BelongedTbRepair = tr and
+				tre.BelongedAssignDepart = a_dp and
+				TbRepairExtra.allInstance()->includes(tre) and
+				result = true
+			else
+				result = false
+			endif
+
+	}
+
+////报修任务处理  --------------上报人将报修任务指定给一个维修部门	
+//	Contract  RepairService::submitRepairExtra(departmentid:Integer, tbRId:Integer) : Boolean {
+//
+//		definition:
+//			tbRepair:TbRepair = TbRepair.allInstance()->any(tbRepair:TbRepair | tbRepair.id = tbRId),
+//			dp:Department = Department.allInstance()->any(dp:Department | dp.id = departmentid)
+//
+//		precondition:
+//			currentUser.oclIsUndefined() = false and
+//			dp.oclIsUndefined() = false and
+//			tbRepair.AssoicatedTRE.oclIsUndefined() = true and
+//			tbRepair.oclIsUndefined() = false
+//
+//		postcondition:
+//			let tre:TbRepairExtra in
+//			tre.oclIsNew() and
+//			// 如果报修区域是候机楼则需要候管审核
+//			tre.id = tbRepair.id and
+//			if
+//				tbRepair.place = "候机楼"
+//			then
+//				tre.admin = false
+//			else
+//				tre.admin = true
+//			endif and
+//			tre.isReject = false and
+//			tre.isAccept = false and
+//			tre.isComplete = false and
+//			tre.arbitrate = false and
+//			tre.relayNum = 0 and
+//			tre.BelongedTbRepair = tbRepair and
+//			tre.BelongedAssignDepart = dp and
+//			TbRepairExtra.allInstance()->includes(tre) and
+//			result = true
+//	}
+////查询当前用户未受理的信息
+	Contract  RepairService::notAcceptAa() : Set(TbRepair) {
+
+		precondition:
+			currentUser.oclIsUndefined() = false
+
+		postcondition:
+			result = TbRepair.allInstance()->select(tr:TbRepair | tr.status = 0 and tr.BelongedUser = currentUser)
+	}
+
+//查询当前用户已受理的信息
+	Contract  RepairService::acceptedAa() : Set(TbRepair) {
+
+		precondition:
+			currentUser.oclIsUndefined() = false
+
+		postcondition:
+			result = TbRepair.allInstance()->select(tr:TbRepair | tr.status = 1 and tr.BelongedUser = currentUser)
+	}
+
+//查询当前用户已完成的信息
+	Contract  RepairService::completedAa() : Set(TbRepair) {
+
+		precondition:
+			currentUser.oclIsUndefined() = false
+
+		postcondition:
+			result = TbRepair.allInstance()->select(tr:TbRepair | tr.status = 2 and tr.BelongedUser = currentUser)
+	}
+
+//用户评价
+	Contract  RepairService::scoring(tbid:Integer, score:Integer, remark:String) : Boolean {
+
+		definition:
+			tr:TbRepair = TbRepair.allInstance()->any(tbRepair:TbRepair | tbRepair.id = tbid)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			tr.oclIsUndefined() = false and
+			tr.BelongedUser = currentUser
+
+		postcondition:
+			tr.score = score and
+			tr.remark = remark and
+			result = true
+	}
+
+//查询某一个保修单的详细信息
+	Contract  RepairService::tbInfo(id:Integer) : TbRepair {
+
+		definition:
+			tr:TbRepair = TbRepair.allInstance()->any(tr:TbRepair | tr.id = id)
+
+		precondition:
+			tr.oclIsUndefined() = false and
+			currentUser.oclIsUndefined() = false
+
+		postcondition:
+			result = tr
+	}
+
+//-----------------------------------------------------------------------------------------
+// 部门队长
+	Contract  HandleService::notAcceptBa() : Set(TbRepairExtra) {
+
+		// 查询当前部门的未受理工单
+		// 1.获取当前队长用户的信息
+		// 2.判断该用户所属部门
+		// 3.根据三个参数进行查询-----是否受理，候管是否审核，所属部门
+		definition:
+			depart1:Department = Department.allInstance()->any(department:Department | department.id = 1),
+			depart2:Department = Department.allInstance()->any(department:Department | department.id = 2),
+			depart3:Department = Department.allInstance()->any(department:Department | department.id = 3),
+			depart4:Department = Department.allInstance()->any(department:Department | department.id = 4)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			depart1.oclIsUndefined() = false and
+			depart2.oclIsUndefined() = false and
+			depart3.oclIsUndefined() = false and
+			depart4.oclIsUndefined() = false
+
+		postcondition:
+			if
+				currentUser.BelongedDepartment = depart1
+			then
+				result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsAccept = false and tbe.Admin = true  and tbe.BelongedAssignDepart = depart1)
+			else
+				if
+					currentUser.BelongedDepartment = depart2
+				then
+					result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsAccept = false and tbe.Admin = true  and tbe.BelongedAssignDepart = depart2)
+				else
+					if
+						currentUser.BelongedDepartment = depart3
+					then
+						result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsAccept = false and tbe.Admin = true  and tbe.BelongedAssignDepart = depart3)
+					else
+						result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsAccept = false and tbe.Admin = true  and tbe.BelongedAssignDepart = depart4)
+					endif
+				endif
+
+			endif
+
+	}
+
+	Contract  HandleService::acceptedBa() : Set(TbRepairExtra) {
+
+		definition:
+			depart1:Department = Department.allInstance()->any(department:Department | department.id = 1),
+			depart2:Department = Department.allInstance()->any(department:Department | department.id = 2),
+			depart3:Department = Department.allInstance()->any(department:Department | department.id = 3),
+			depart4:Department = Department.allInstance()->any(department:Department | department.id = 4)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			depart1.oclIsUndefined() = false and
+			depart2.oclIsUndefined() = false and
+			depart3.oclIsUndefined() = false and
+			depart4.oclIsUndefined() = false
+
+		postcondition:
+			if
+				depart1 = currentUser.BelongedDepartment
+			then
+				result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsAccept = true and tbe.IsComplete = false  and tbe.BelongedAssignDepart = depart1)
+			else
+				if
+					currentUser.BelongedDepartment = depart2
+				then
+					result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsAccept = true and tbe.IsComplete = false  and tbe.BelongedAssignDepart = depart2)
+				else
+					if
+						currentUser.BelongedDepartment = depart3
+					then
+						result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsAccept = true and tbe.IsComplete = false  and tbe.BelongedAssignDepart = depart3)
+					else
+						result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsAccept = true and tbe.IsComplete = false  and tbe.BelongedAssignDepart = depart4)
+					endif
+				endif
+			endif
+
+	}
+
+	Contract  HandleService::completedBa() : Set(TbRepairExtra) {
+
+		definition:
+			depart1:Department = Department.allInstance()->any(department:Department | department.id = 1),
+			depart2:Department = Department.allInstance()->any(department:Department | department.id = 2),
+			depart3:Department = Department.allInstance()->any(department:Department | department.id = 3),
+			depart4:Department = Department.allInstance()->any(department:Department | department.id = 4)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			depart1.oclIsUndefined() = false and
+			depart2.oclIsUndefined() = false and
+			depart3.oclIsUndefined() = false and
+			depart4.oclIsUndefined() = false
+
+		postcondition:
+			if
+				currentUser.BelongedDepartment = depart1
+			then
+				result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsComplete = true and tbe.BelongedAssignDepart = depart1)
+			else
+				if
+					currentUser.BelongedDepartment = depart2
+				then
+					result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsComplete = true and tbe.BelongedAssignDepart = depart2)
+				else
+					if
+						currentUser.BelongedDepartment = depart3
+					then
+						result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsComplete = true and tbe.BelongedAssignDepart = depart3)
+					else
+						result = TbRepairExtra.allInstance()->select(tbe:TbRepairExtra | tbe.IsComplete = true and tbe.BelongedAssignDepart = depart4)
+					endif
+				endif
+			endif
+
+	}
+
+//队长派工
+	Contract  HandleService::allocation(userId : Integer, tbId : Integer) : Boolean {
+
+		definition:
+			user:User = User.allInstance()->any(user:User | user.id = userId),
+			tbRepairExtra:TbRepairExtra = TbRepairExtra.allInstance()->any(tre:TbRepairExtra | tre.id = tbId)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			user.oclIsUndefined() = false and
+			tbRepairExtra.oclIsUndefined() = false
+
+		postcondition:
+			tbRepairExtra.BelongedDistribution = user and
+			result = true
+	}
+
+//队长转发其他部门
+	Contract  HandleService::transmit(departId : Integer, tbId : Integer) : Boolean {
+
+		definition:
+			dp:Department = Department.allInstance()->any(dp:Department | dp.id = departId),
+			tbRepairExtra:TbRepairExtra = TbRepairExtra.allInstance()->any(tre:TbRepairExtra | tre.id = tbId)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			dp.oclIsUndefined() = false and
+			tbRepairExtra.oclIsUndefined() = false and
+			tbRepairExtra.arbitrate = false and
+			currentUser.BelongedDepartment = tbRepairExtra.BelongedAssignDepart
+
+		postcondition:
+			tbRepairExtra.relayNum = tbRepairExtra.relayNum@pre + 1 and
+			tbRepairExtra.BelongedAssignDepart = dp and
+			result = true
+	}
+
+//队长退回工单
+	Contract  HandleService::backtransmit(tbId : Integer, rejectCause:String) : Boolean {
+
+		definition:
+			tbRepairExtra:TbRepairExtra = TbRepairExtra.allInstance()->any(tbRepair:TbRepair | tbRepair.id = tbId)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			tbRepairExtra.oclIsUndefined() = false and
+			currentUser.BelongedDepartment = tbRepairExtra.BelongedAssignDepart
+
+		postcondition:
+			tbRepairExtra.isReject = true and
+			tbRepairExtra.rejectCause = rejectCause and
+			result = true
+	}
+
+//设置值班表
+	Contract  HandleService::setWorkTask(staffName:String, adminName:String, phone:String, section:String, remark:String) : Boolean {
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			staffName.oclIsUndefined() = false and
+			adminName.oclIsUndefined() = false
+
+		postcondition:
+			let wt:WorkTask in
+			wt.oclIsNew() and
+			wt.staffName = staffName and
+			wt.adminName = adminName and
+			wt.phone = phone and
+			wt.section = section and
+			wt.remark = remark and
+			WorkTask.allInstance()->includes(wt) and
+			result = true
+	}
+
+//设置候机楼设备
+	Contract  HandleService::setTerminalEquipment(name:String, address:String, description:String, type:Integer, remark:String, deviceInfoId:Integer) : Boolean {
+
+		definition:
+			d:DeviceInfo = DeviceInfo.allInstance()->any(di:DeviceInfo | di.id = deviceInfoId)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			name.oclIsUndefined() = false and
+			address.oclIsUndefined() = false and
+			d.oclIsUndefined() = false
+
+		postcondition:
+			let te:TerminalEquipment in
+			te.oclIsNew() and
+			te.name = name and
+			te.address = address and
+			te.description = description and
+			te.type = type and
+			te.remark = remark and
+			te.BelongedDeviceInfo = d and
+			TerminalEquipment.allInstance()->includes(te) and
+			result = true
+	}
+
+//------------------------------------------------------------
+//          部门经理
+//仲裁
+	Contract  ManageService::arbitration(tbId : Integer, departmentid : Integer) : Boolean {
+
+		definition:
+			tbRepairExtra:TbRepairExtra = TbRepairExtra.allInstance()->any(tbRepair:TbRepair | tbRepair.id = tbId),
+			dp:Department = Department.allInstance()->any(dp:Department | dp.id = departmentid),
+			role:Role = Role.allInstance()->any(role:Role | role.id = 1) // 部门经理和侯管角色
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			tbRepairExtra.oclIsUndefined() = false and
+			tbRepairExtra.relayNum > 3 and
+			dp.oclIsUndefined() = false and
+			currentUser.BelongedRole = role
+
+		postcondition:
+			tbRepairExtra.arbitrate = true and
+			tbRepairExtra.BelongedAssignDepart = dp and
+			result = true
+	}
+
+//候管审批
+	Contract  ManageService::approval(tbId : Integer, isApproved : Boolean) : Boolean {
+
+		definition:
+			tbRepair:TbRepair = TbRepair.allInstance()->any(tbRepair:TbRepair | tbRepair.id = tbId),
+			tre:TbRepairExtra = TbRepairExtra.allInstance()->any(tre:TbRepairExtra | tre.id = tbId),
+			role:Role = Role.allInstance()->any(role:Role | role.id = 1) // 部门经理和侯管角色
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			currentUser.BelongedRole = role and
+			tbRepair.oclIsUndefined() = false and
+			tre.oclIsUndefined() = false and
+			tbRepair.place = "候机楼"
+
+		postcondition:
+			if
+				isApproved = true
+			then
+				tre.isReject = false and
+				tre.admin = true and
+				result = true
+			else
+				tre.isReject = true and
+				tre.admin = false and
+				result = true
+			endif
+
+	}
+
+//------------------------------------------------------------
+//          部门员工
+//接收工单
+	Contract  MaintainService::receiveTb(tbId : Integer) : Boolean {
+
+		definition:
+			tre:TbRepairExtra = TbRepairExtra.allInstance()->any(tre:TbRepairExtra | tre.id = tbId),
+			role:Role = Role.allInstance()->any(role:Role | role.id = 3) // 维修人员角色
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			tre.oclIsUndefined() = false and
+			currentUser.BelongedRole = role
+		postcondition:
+			tre.isAccept = true and
+			tre.BelongedTbRepair.status = 1 and
+			result = true
+	}
+
+//完成工单
+	Contract  MaintainService::completeTb(tbId : Integer, cause:String, resolvent:String) : Boolean {
+
+		definition:
+			tre:TbRepairExtra = TbRepairExtra.allInstance()->any(tre:TbRepairExtra | tre.id = tbId),
+			role:Role = Role.allInstance()->any(role:Role | role.id = 3) // 维修人员角色
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			tre.oclIsUndefined() = false and
+			currentUser.BelongedRole = role
+		postcondition:
+			tre.isComplete = true and
+			tre.cause = cause and
+			tre.resolvent = resolvent and
+			tre.BelongedTbRepair.status = 2 and
+			result = true
+	}
+
+//维修费用
+	Contract  MaintainService::rocessingFees(tbId : Integer, projectName:String, price:Real, number:Integer, remake:String) : Boolean {
+
+		definition:
+			tre:TbRepairExtra = TbRepairExtra.allInstance()->any(tre:TbRepairExtra | tre.id = tbId),
+			role:Role = Role.allInstance()->any(role:Role | role.id = 3) // 维修人员角色
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			tre.oclIsUndefined() = false and
+			currentUser.BelongedRole = role
+		postcondition:
+			let pf:ProcessingFees in
+			pf.oclIsNew() and
+			pf.projectName = projectName and
+			pf.price = price and
+			pf.number = number and
+			pf.TotalPrice = price * number and
+			pf.remake = remake and
+			pf.BelongedTbRepair = tre.BelongedTbRepair and
+			ProcessingFees.allInstance()->includes(pf) and
+			result = true
+	}
+
+////  候机楼设备运行状况记录
+	Contract  MaintainService::setOperationStatus(name:String, value:String, valueUnit:String, status:String, remark:String, equipmentId:Integer) : Boolean {
+
+		definition:
+			te:TerminalEquipment = TerminalEquipment.allInstance()->any(ter:TerminalEquipment | ter.id = equipmentId)
+
+		precondition:
+			currentUser.oclIsUndefined() = false and
+			name.oclIsUndefined() = false and
+			value.oclIsUndefined() = false and
+			valueUnit.oclIsUndefined() = false and
+			te.oclIsUndefined() = false
+		postcondition:
+			let os:OperationStatus in
+			os.oclIsNew() and
+			os.name = name and
+			os.value = value and
+			os.valueUnit = valueUnit and
+			os.status = status and
+			os.remark = remark and
+			os.time.isEqual(Now) and
+			os.BelongedEquipment = te and
+			OperationStatus.allInstance()->includes(os) and
+			result = true
+	}
+
+//-----------------------------------------------------------------------------------------------------------------------------
+	Contract  AirportSystem::createUser(id : Integer, name : String, password : String, phone : String, roleCode : Integer, departmentid : Integer) : Boolean {
+
+		definition:
+			user:User = User.allInstance()->any(u:User | u.id = id),
+			role:Role = Role.allInstance()->any(r:Role | r.roleCode = roleCode),
+			dp:Department = Department.allInstance()->any(dp:Department | dp.id = departmentid)
+
+		precondition:
+			user.oclIsUndefined() = true and
+			role.oclIsUndefined() = false and
+			dp.oclIsUndefined() = false
+
+		postcondition:
+			let u:User in
+			u.oclIsNew() and
+			u.Id = id and
+			u.name = name and
+			u.password = password and
+			u.phone = phone and
+			u.belongedDepartment = dp and
+			u.belongedRole = role and
+			User.allInstance()->includes(u) and
+			result = true
+	}
+
+//entity query operation 
+	Contract  AirportSystem::queryUser(id : Integer) : User {
+
+		definition:
+			user:User = User.allInstance()->any(u:User | u.Id = id)
+
+		precondition:
+			user.oclIsUndefined() = false
+
+		postcondition:
+			result = user
+	}
+
+//entity modify operation 
+	Contract  AirportSystem::modifyUser(id : Integer, name : String, password : String, phone : String, roleCode : Integer, departmentid : Integer) : Boolean {
+
+		definition:
+			user:User = User.allInstance()->any(u:User | u.id = id),
+			role:Role = Role.allInstance()->any(r:Role | r.roleCode = roleCode),
+			dp:Department = Department.allInstance()->any(dp:Department | dp.id = departmentid)
+
+		precondition:
+			user.oclIsUndefined() = false and
+			dp.oclIsUndefined() = false
+
+		postcondition:
+			user.Id = id and
+			user.name = name and
+			user.password = password and
+			user.belongedDepartment = dp and
+			user.phone = phone and
+			user.belongedRole = role and
+			result = true
+	}
+
+//entity delete operation 
+	Contract  AirportSystem::deleteUser(id : Integer) : Boolean {
+
+		definition:
+			user:User = User.allInstance()->any(u:User | u.Id = id)
+
+		precondition:
+			user.oclIsUndefined() = false
+
+		postcondition:
+			User.allInstance()->excludes(user) and
+			result = true
+	}
+
+	Contract  AirportSystem::createRole(id:Integer, remark : String, roleCode : Integer) : Boolean {
+
+		definition:
+			role:Role = Role.allInstance()->any(ro:Role | ro.id = id)
+
+		precondition:
+			role.oclIsUndefined() = true
+
+		postcondition:
+			let r:Role in
+			r.Id = id and
+			r.oclIsNew() and
+			r.remark = remark and
+			r.roleCode = roleCode and
+			Role.allInstance()->includes(r) and
+			result = true
+	}
+
+//entity query operation 
+	Contract  AirportSystem::queryRole(id : Integer) : Role {
+
+		definition:
+			role:Role = Role.allInstance()->any(r:Role | r.id = id)
+
+		precondition:
+			role.oclIsUndefined() = false
+
+		postcondition:
+			result = role
+	}
+
+//entity modify operation 
+	Contract  AirportSystem::modifyRole(id : Integer, remark : String, roleCode : Integer) : Boolean {
+
+		definition:
+			role:Role = Role.allInstance()->any(r:Role | r.id = id)
+
+		precondition:
+			role.oclIsUndefined() = false
+
+		postcondition:
+			role.Id = id and
+			role.remark = remark and
+			role.roleCode = roleCode and
+			result = true
+	}
+
+//entity delete operation 
+	Contract  AirportSystem::deleteRole(id : Integer) : Boolean {
+
+		definition:
+			role:Role = Role.allInstance()->any(r:Role | r.Id = id)
+
+		precondition:
+			role.oclIsUndefined() = false
+
+		postcondition:
+			Role.allInstance()->excludes(role) and
+			result = true
+	}
+
+	Contract  AirportSystem::createDepartment(id:Integer, name : String, contactRerson:String, principal:String, phone :String, briefInfo :String, describeContent:String, remark:String) : Boolean {
+
+		definition:
+			dep:Department = Department.allInstance()->any(depa:Department | dep.id = id)
+
+		precondition:
+			dep.oclIsUndefined() = true
+
+		postcondition:
+			let d:Department in
+			d.oclIsNew() and
+			d.Id = id and
+			d.name = name and
+			d.contactRerson = contactRerson and
+			d.principal = principal and
+			d.phone = phone and
+			d.briefInfo = briefInfo and
+			d.describeContent = describeContent and
+			d.remark = remark and
+			Department.allInstance()->includes(d) and
+			result = true
+	}
+
+//entity query operation 
+	Contract  AirportSystem::queryDepartment(id : Integer) : Department {
+
+		definition:
+			dep:Department = Department.allInstance()->any(d:Department | dep.id = id)
+
+		precondition:
+			dep.oclIsUndefined() = false
+
+		postcondition:
+			result = dep
+	}
+
+//entity modify operation 
+	Contract  AirportSystem::modifyDepartment(id : Integer, name : String, contactRerson : String, principal : String, phone :String, briefInfo :String, describeContent : String, remark : String) : Boolean {
+
+		definition:
+			dep:Department = Department.allInstance()->any(d:Department | r.id = id)
+
+		precondition:
+			dep.oclIsUndefined() = false
+
+		postcondition:
+			dep.name = name and
+			dep.contactRerson = contactRerson and
+			dep.principal = principal and
+			dep.phone = phone and
+			dep.briefInfo = briefInfo and
+			dep.describeContent = describeContent and
+			dep.remark = remark and
+			result = true
+	}
+
+//entity delete operation 
+	Contract  AirportSystem::deleteDepartment(id : Integer) : Boolean {
+
+		definition:
+			dep:Department = Department.allInstance()->any(d:Department | dep.Id = id)
+
+		precondition:
+			dep.oclIsUndefined() = false
+
+		postcondition:
+			Department.allInstance()->excludes(dep) and
+			result = true
+	}
+
+	Contract  AirportSystem::createDeviceInfo(id:Integer, name : String, brand:String, type:String, address :String, adminName :String, contactsName:String, remark:String) : Boolean {
+
+		definition:
+			di:DeviceInfo = DeviceInfo.allInstance()->any(dev:DeviceInfo | dep.id = id)
+
+		precondition:
+			di.oclIsUndefined() = true
+
+		postcondition:
+			let d:DeviceInfo in
+			d.oclIsNew() and
+			d.Id = id and
+			d.name = name and
+			d.brand = brand and
+			d.type = type and
+			d.address = address and
+			d.adminName = adminName and
+			d.contactsName = contactsName and
+			d.remark = remark and
+			DeviceInfo.allInstance()->includes(d) and
+			result = true
+	}
+
+//entity query operation 
+	Contract  AirportSystem::queryDeviceInfo(id : Integer) : DeviceInfo {
+
+		definition:
+			dep:DeviceInfo = DeviceInfo.allInstance()->any(dev:DeviceInfo | dep.id = id)
+
+		precondition:
+			dep.oclIsUndefined() = false
+
+		postcondition:
+			result = dep
+	}
+
+//entity modify operation 
+	Contract  AirportSystem::modifyDeviceInfo(id:Integer, name : String, brand:String, type:String, address :String, adminName :String, contactsName:String, remark:String) : Boolean {
+
+		definition:
+			dep:DeviceInfo = DeviceInfo.allInstance()->any(dev:DeviceInfo | r.id = id)
+
+		precondition:
+			dep.oclIsUndefined() = false
+
+		postcondition:
+			dep.name = name and
+			dep.brand = brand and
+			dep.type = type and
+			dep.address = address and
+			dep.adminName = adminName and
+			dep.contactsName = contactsName and
+			dep.remark = remark and
+			result = true
+	}
+
+//entity delete operation 
+	Contract  AirportSystem::deleteDeviceInfo(id : Integer) : Boolean {
+
+		definition:
+			dep:DeviceInfo = DeviceInfo.allInstance()->any(dev:DeviceInfo | dep.Id = id)
+
+		precondition:
+			dep.oclIsUndefined() = false
+
+		postcondition:
+			DeviceInfo.allInstance()->excludes(dep) and
+			result = true
+	}
+
+	Contract  AirportSystem::createDeviceLocationGroup(id:Integer, name:String, remark : String): Boolean {
+
+		definition:
+			dg:DeviceLocationGroup = DeviceLocationGroup.allInstance()->any(dg:DeviceLocationGroup | dg.Id = id)
+
+		precondition:
+			dg.oclIsUndefined() = true
+
+		postcondition:
+			let d:DeviceLocationGroup in
+			d.oclIsNew() and
+			d.Id = id and
+			d.name = name and
+			d.remark = remark and
+			DeviceLocationGroup.allInstance()->includes(d) and
+			result = true
+	}
+
+	Contract  AirportSystem::queryDeviceLocationGroup(id:Integer): DeviceLocationGroup {
+
+		definition:
+			dg:DeviceLocationGroup = DeviceLocationGroup.allInstance()->any(dg:DeviceLocationGroup | dg.Id = id)
+
+		precondition:
+			dg.oclIsUndefined() = false
+
+		postcondition:
+			result = dg
+	}
+
+	Contract  AirportSystem::modifyDeviceLocationGroup(id:Integer, name:String, remark : String): Boolean {
+
+		definition:
+			dg:DeviceLocationGroup = DeviceLocationGroup.allInstance()->any(dg:DeviceLocationGroup | dg.Id = id)
+
+		precondition:
+			dg.oclIsUndefined() = false
+
+		postcondition:
+			dg.Id = id and
+			dg.name = name and
+			dg.remark = remark and
+			result = true
+	}
+
+	Contract  AirportSystem::deleteDeviceLocationGroup(id:Integer): Boolean {
+
+		definition:
+			dg:DeviceLocationGroup = DeviceLocationGroup.allInstance()->any(dg:DeviceLocationGroup | dg.Id = id)
+
+		precondition:
+			dg.oclIsUndefined() = false
+
+		postcondition:
+			DeviceLocationGroup.allInstance()->excludes(dg) and
+			result = true
+	}
+
+	Contract  AirportSystem::createEquipmentFailureType(id:Integer, name:String, describeContent:String, remark:String): Boolean {
+
+		definition:
+			eft:EquipmentFailureType = EquipmentFailureType.allInstance()->any(eft:EquipmentFailureType | eft.Id = id)
+
+		precondition:
+			eft.oclIsUndefined() = true
+		postcondition:
+			let e:EquipmentFailureType in
+			e.oclIsNew() and
+			e.Id = id and
+			e.name = name and
+			e.remark = remark and
+			e.describeContent = describeContent and
+			EquipmentFailureType.allInstance()->includes(e) and
+			result = true
+	}
+
+	Contract  AirportSystem::queryEquipmentFailureType(id:Integer): EquipmentFailureType {
+
+		definition:
+			eft:EquipmentFailureType = EquipmentFailureType.allInstance()->any(eft:EquipmentFailureType | eft.Id = id)
+
+		precondition:
+			eft.oclIsUndefined() = false
+		postcondition:
+			result = eft
+	}
+
+	Contract  AirportSystem::modifyEquipmentFailureType(id:Integer, name:String, describeContent:String, remark:String): Boolean {
+
+		definition:
+			eft:EquipmentFailureType = EquipmentFailureType.allInstance()->any(eft:EquipmentFailureType | eft.Id = id)
+
+		precondition:
+			eft.oclIsUndefined() = false
+		postcondition:
+			eft.Id = id and
+			eft.name = name and
+			eft.remark = remark and
+			eft.describeContent = describeContent and
+			result = true
+	}
+
+	Contract  AirportSystem::deleteEquipmentFailureType(id:Integer): Boolean {
+
+		definition:
+			eft:EquipmentFailureType = EquipmentFailureType.allInstance()->any(eft:EquipmentFailureType | eft.Id = id)
+
+		precondition:
+			eft.oclIsUndefined() = false
+		postcondition:
+			EquipmentFailureType.allInstance()->excludes(eft) and
+			result = true
+	}
+
+	Contract  AirportSystem::createDeviceStatus(id:Integer, name:String, remark:String): Boolean {
+
+		definition:
+			ds:DeviceStatus = DeviceStatus.allInstance()->any(ds:DeviceStatus | ds.Id = id)
+
+		precondition:
+			ds.oclIsUndefined() = true
+		postcondition:
+			let d:DeviceStatus in
+			d.oclIsNew() and
+			d.Id = id and
+			d.name = name and
+			d.remark = remark and
+			DeviceStatus.allInstance()->includes(d) and
+			result = true
+	}
+
+	Contract  AirportSystem::queryDeviceStatus(id:Integer): DeviceStatus {
+
+		definition:
+			ds:DeviceStatus = DeviceStatus.allInstance()->any(ds:DeviceStatus | ds.Id = id)
+
+		precondition:
+			ds.oclIsUndefined() = false
+		postcondition:
+			result = ds
+	}
+
+	Contract  AirportSystem::modifyDeviceStatus(id:Integer, name:String, remark:String): Boolean {
+
+		definition:
+			ds:DeviceStatus = DeviceStatus.allInstance()->any(ds:DeviceStatus | ds.Id = id)
+
+		precondition:
+			ds.oclIsUndefined() = false
+		postcondition:
+			ds.Id = id and
+			ds.name = name and
+			ds.remark = remark and
+			result = true
+	}
+
+	Contract  AirportSystem::deleteDeviceStatus(id:Integer): Boolean {
+
+		definition:
+			ds:DeviceStatus = DeviceStatus.allInstance()->any(ds:DeviceStatus | ds.Id = id)
+
+		precondition:
+			ds.oclIsUndefined() = false
+		postcondition:
+			DeviceStatus.allInstance()->excludes(ds) and
+			result = true
+	}
+
+	Contract  AirportSystem::createDeviceAssociationGroup(id:Integer, name:String, remark:String): Boolean {
+
+		definition:
+			dag:DeviceAssociationGroup = DeviceAssociationGroup.allInstance()->any(dag:DeviceAssociationGroup | dag.Id = id)
+
+		precondition:
+			dag.oclIsUndefined() = true
+		postcondition:
+			let d:DeviceAssociationGroup in
+			d.oclIsNew() and
+			d.Id = id and
+			d.name = name and
+			d.remark = remark and
+			DeviceAssociationGroup.allInstance()->includes(d) and
+			result = true
+	}
+
+	Contract  AirportSystem::queryDeviceAssociationGroup(id:Integer): DeviceAssociationGroup {
+
+		definition:
+			dag:DeviceAssociationGroup = DeviceAssociationGroup.allInstance()->any(dag:DeviceAssociationGroup | dag.Id = id)
+
+		precondition:
+			dag.oclIsUndefined() = false
+		postcondition:
+			result = dag
+	}
+
+	Contract  AirportSystem::modifyDeviceAssociationGroup(id:Integer, name:String, remark:String): Boolean {
+
+		definition:
+			dag:DeviceAssociationGroup = DeviceAssociationGroup.allInstance()->any(dag:DeviceAssociationGroup | dag.Id = id)
+
+		precondition:
+			dag.oclIsUndefined() = false
+		postcondition:
+			dag.Id = id and
+			dag.name = name and
+			dag.remark = remark and
+			result = true
+	}
+
+	Contract  AirportSystem::deleteDeviceAssociationGroup(id:Integer): Boolean {
+
+		definition:
+			dag:DeviceAssociationGroup = DeviceAssociationGroup.allInstance()->any(dag:DeviceAssociationGroup | dag.Id = id)
+
+		precondition:
+			dag.oclIsUndefined() = false
+		postcondition:
+			DeviceAssociationGroup.allInstance()->excludes(dag) and
+			result = true
+	}
+
+	Contract RepairService::sendVoice() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract RepairService::pushInfo() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract RepairService::savePwd() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+// Service ManageDeviceStatusService {
+//
+//		[Operation]
+//		createDeviceStatus()
+//		queryDeviceStatus()
+//		modifyDeviceStatus()
+//		deleteDeviceStatus()
+//
+//	}
+//
+//	Service ManageUserService {
+//
+//		[Operation]
+//		createUser()
+//		queryUser()
+//		modifyUser()
+//		deleteUser()
+//
+//	}
+//
+//	Service ManageEquipmentFailureTypeService {
+//
+//		[Operation]
+//		createEquipmentFailureType()
+//		queryEquipmentFailureType()
+//		modifyEquipmentFailureType()
+//		deleteEquipmentFailureType()
+//
+//	}
+//
+//	Service ManageDeviceLocationGroupService {
+//
+//		[Operation]
+//		createDeviceLocationGroup()
+//		queryDeviceLocationGroup()
+//		modifyDeviceLocationGroup()
+//		deleteDeviceLocationGroup()
+//
+//	}
+//
+//	Service ManageDeviceInfoService {
+//
+//		[Operation]
+//		createDeviceInfo()
+//		queryDeviceInfo()
+//		modifyDeviceInfo()
+//		deleteDeviceInfo()
+//
+//	}
+//
+//	Service ManageDepartmentService {
+//
+//		[Operation]
+//		createDepartment()
+//		queryDepartment()
+//		modifyDepartment()
+//		deleteDepartment()
+//
+//	}
+//
+//	Service ManageDeviceAssociationGroupService {
+//
+//		[Operation]
+//		createDeviceAssociationGroup()
+//		queryDeviceAssociationGroup()
+//		modifyDeviceAssociationGroup()
+//		deleteDeviceAssociationGroup()
+//
+//	}
+//
+//	Service ManageRoleService {
+//
+//		[Operation]
+//		createRole()
+//		queryRole()
+//		modifyRole()
+//		deleteRole()
+//
+//	}
+}
+
+DomainModel T {
+
+	// 工作汇报
+	Entity WorkReport {
+		Id:Integer
+		Name:String // 报告人
+		Content:String // 报告内容
+		Time:Date // 报告日期
+	}
+
+//  值班表
+	Entity WorkTask {
+		Id:Integer
+		StaffName:String // 值班人姓名
+		AdminName:String // 排班人姓名
+		Phone:String // 联系电话
+		Section:String // 值班区间
+		Remark:String
+	}
+
+//  候机楼设备表
+	Entity TerminalEquipment {
+		Id:Integer
+		Name:String // 设备名称
+		Address:String // 设备地址
+		Description:String // 设备描述
+		Type:Integer // 设备类型
+		Remark:String
+
+		[Refer]
+		BelongedDeviceInfo : DeviceInfo Association
+	}
+
+//  候机楼设备运行状况表
+	Entity OperationStatus {
+		Id:Integer
+		Remark:String
+		Status:String // 状态
+		Value:String // 当前值
+		ValueUnit:String // 值单位
+		Time :Date // 上报时间
+		Name:String // 上报人
+
+		[Refer]
+		BelongedEquipment : TerminalEquipment Association
+	}
+
+	Entity User {
+		Id : Integer
+		Name : String
+		Password : String
+		Phone : String
+
+		[Refer]
+		BelongedRole : Role Association
+		BelongedDepartment : Department Association
+	}
+
+	Entity Role {
+		Id : Integer // 普通用户，科室经理 ，管理人员 ，部门队长 ，部门人员
+		RoleCode :Integer
+		Remark : String
+
+		[Refer]
+		ContainedUsers : User* ! Association
+	}
+
+	Entity Department { // 部门信息表
+	// 部门层级   ----
+	// 上级部门id ----
+		Id:Integer
+		Name:String
+		ContactRerson:String // 部门联系人
+		Principal:String // 部门负责人
+		Phone :String // 部门联系电话
+		BriefInfo :String // 部门简介
+		DescribeContent:String // 部门职责描述
+		Remark:String // 备注
+	}
+
+	Entity TbRepair { // 报修任务表
+		Id : Integer
+		RepairName : String // 报修人
+		Phone : String // 报修电话
+		Place : String // 报修位置 //应该有具体的几个位置供选择
+		RepairsStatus : Integer // 故障类别   机械设备、制冷制暖设备、照明及供电设备、供水及土建相关、汽车维修预约
+		DeviceId : String // 设备编号
+		Status :Integer // 报修处理状态  ---此字段使用 0 ，1 ，2    分别表示isAccept=0 ，1   isComplete = 1  
+		DescribeContent : String // 故障描述
+		Score:Integer // 评价分数  1~5星
+		Remark:String // 备注
+		Time:Date // 上报时间
+
+		[Refer]
+		BelongedUser : User Association // 报修人
+		BelongedDepartment:Department Association // 报修部门   机关各部室、安检、地勤、逸飞翔、货站、候管、航信、安保、航食、空港、运指、公安
+		AssoicatedTRE : TbRepairExtra Association
+		BelongedEFT : EquipmentFailureType Association // 故障类型
+		[INV]
+//		inv repairsStatus
+	}
+
+	Entity TbRepairExtra { // 报修任务处理  --------------上报人将报修任务指定给一个维修部门
+		Id : Integer
+		Admin:Boolean // 候管审核
+		IsReject:Boolean // 退回
+		RejectCause:String // 退回原因
+		RelayNum:Integer // 转发次数
+		Arbitrate:Boolean // 是否已经仲裁
+		IsAccept:Boolean // 是否受理
+		IsComplete:Boolean // 是否完成维修
+		Time:Date // 完成时间
+		Resolvent:String // 故障处理行为
+		Cause:String // 故障原因
+		//
+
+		[Refer]
+		BelongedTbRepair : TbRepair Association
+		BelongedAssignDepart: Department Association // 所属部门编号
+		BelongedDistribution:User Association // 所派工用户
+		BelongedRelayDep:Department Association // 转发部门    机电队、暖通队、电力队、综合队、汽车修理厂
+		[INV]
+		
+	}
+
+	// 报修任务处理维修费用
+	Entity ProcessingFees {
+		Id:Integer
+		ProjectName:String // 维修项目
+		Price:Real // 维修单价
+		Number:Integer // 维修数量
+		TotalPrice:Real // 维修总价
+		Remake:String // 备注
+
+		[Refer]
+		BelongedTbRepair : TbRepair Association
+	}
+
+	Entity DeviceInfo { // 设备信息表
+		Id:Integer //
+		Name:String // 设备名称
+		Brand:String // 设备品牌
+		Type:String // 设备型号
+		Address:String // 设备安装位置
+		AdminName:String // 设备管理人
+		ContactsName:String // 设备联系人方式
+		Status:Integer // 设备当前状态
+		Remark:String // 备注
+
+		[Refer]
+		BelongedDLG:DeviceLocationGroup Association // 设备位置分组
+		BelongedEFT:EquipmentFailureType Association // 设备故障类型
+		BelongedDAG:DeviceAssociationGroup Association // 设备关联分组
+		BelongedDepartment:Department Association // 设备所属部门
+//		// 故障所属部门 ----
+	}
+
+	Entity DeviceLocationGroup { // 设备位置分组
+		Id:Integer //
+		Name:String // 设备位置名称
+		Remark:String // 备注
+	}
+
+	Entity EquipmentFailureType { // 设备故障类型
+		Id:Integer
+		Name:String //
+		DescribeContent:String // 设备故障自检描述
+		Remark:String // 备注
+
+		[Refer]
+		BelongedDepartment:Department Association // 设备故障类型所属部门
+	}
+
+	Entity DeviceStatus { // 设备状态
+		Id:Integer //
+		Name:String //
+		Remark:String // 备注
+	}
+
+	Entity DeviceAssociationGroup { // 设备关联分组
+		Id:Integer //
+		Name:String //
+		Remark:String
+	}
+
+}
+

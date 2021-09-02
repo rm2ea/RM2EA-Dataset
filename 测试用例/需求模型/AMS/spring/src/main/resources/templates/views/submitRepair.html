@@ -1,0 +1,124 @@
+<head>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<link rel="stylesheet" href="/css/layui.css"></link>
+	<script src="/js/layui.js"></script>
+	<script type="text/javascript">
+	function execute() {
+	
+	var departmentid=$("#departmentid").val();
+	var assignDepartId=$("#assignDepartId").val();
+	var repairName=$("#repairName").val();
+	var phone=$("#phone").val();
+	var place=$("#place").val();
+	var repairsStatus=$("#repairsStatus").val();
+	var deviceId=$("#deviceId").val();
+	var describeContent=$("#describeContent").val();
+	var failureTypeId=$("#failureTypeId").val();
+		 var getToken = sessionStorage.getItem("currentUser");
+		$.ajax({
+			 type : "POST",
+			 url : "/RepairService/submitRepair",
+			 beforeSend: function (request) { request.setRequestHeader("Authorization", getToken);	}, 
+	data : {
+	departmentid:departmentid,
+	assignDepartId:assignDepartId,
+	repairName:repairName,
+	phone:phone,
+	place:place,
+	repairsStatus:repairsStatus,
+	deviceId:deviceId,
+	describeContent:describeContent,
+	failureTypeId:failureTypeId
+	},
+	dataType : "json",
+	success : function(data,info,request) {
+		//console.log(data);
+		var a=JSON.stringify(data.data) 
+		document.getElementById("data").innerHTML=a 
+		var setToken = request.getResponseHeader("Authorization");
+		sessionStorage.setItem("currentTbRepair", setToken);console.log(setToken);
+		if (data.msg == "success") {
+			alert("execute success");
+		} else {
+			alert(data.msg);
+		}
+	},
+	error : function(data) {
+		console.log(data);
+	}
+	});
+	}
+	</script>
+	</head>
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;"><legend>Operation Parameter</legend></fieldset>
+	<div class="layui-form-item">
+	<label class="layui-form-label">departmentid</label>
+	<div class="layui-input-inline">
+	<input type="text" name="departmentid" id="departmentid" placeholder="Please enter content" autocomplete="off" class="layui-input">
+	</div>
+	</div>
+	<div class="layui-form-item">
+	<label class="layui-form-label">assignDepartId</label>
+	<div class="layui-input-inline">
+	<input type="text" name="assignDepartId" id="assignDepartId" placeholder="Please enter content" autocomplete="off" class="layui-input">
+	</div>
+	</div>
+	<div class="layui-form-item">
+	<label class="layui-form-label">repairName</label>
+	<div class="layui-input-inline">
+	<input type="text" name="repairName" id="repairName" placeholder="Please enter content" autocomplete="off" class="layui-input">
+	</div>
+	</div>
+	<div class="layui-form-item">
+	<label class="layui-form-label">phone</label>
+	<div class="layui-input-inline">
+	<input type="text" name="phone" id="phone" placeholder="Please enter content" autocomplete="off" class="layui-input">
+	</div>
+	</div>
+	<div class="layui-form-item">
+	<label class="layui-form-label">place</label>
+	<div class="layui-input-inline">
+	<input type="text" name="place" id="place" placeholder="Please enter content" autocomplete="off" class="layui-input">
+	</div>
+	</div>
+	<div class="layui-form-item">
+	<label class="layui-form-label">repairsStatus</label>
+	<div class="layui-input-inline">
+	<input type="text" name="repairsStatus" id="repairsStatus" placeholder="Please enter content" autocomplete="off" class="layui-input">
+	</div>
+	</div>
+	<div class="layui-form-item">
+	<label class="layui-form-label">deviceId</label>
+	<div class="layui-input-inline">
+	<input type="text" name="deviceId" id="deviceId" placeholder="Please enter content" autocomplete="off" class="layui-input">
+	</div>
+	</div>
+	<div class="layui-form-item">
+	<label class="layui-form-label">describeContent</label>
+	<div class="layui-input-inline">
+	<input type="text" name="describeContent" id="describeContent" placeholder="Please enter content" autocomplete="off" class="layui-input">
+	</div>
+	</div>
+	<div class="layui-form-item">
+	<label class="layui-form-label">failureTypeId</label>
+	<div class="layui-input-inline">
+	<input type="text" name="failureTypeId" id="failureTypeId" placeholder="Please enter content" autocomplete="off" class="layui-input">
+	</div>
+	</div>
+	<div class="layui-form-item">
+	<button class="layui-btn" style="margin-left: 100px; margin-top: 50px;" onclick="execute();" id="executeButton">execute</button>
+	</div>
+	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 100px;"><legend>Operation Return</legend></fieldset>
+	<div style="padding: 15px;margin-left:15px; ">
+	<div class="layui-row layui-col-space15">
+	<div class="layui-col-md6">
+	<div class="layui-card" align="center">
+	<div class="layui-card-body " style="background-color: 	#FFFFFB;">
+	<span id="data" style="font-weight:bold;"></span>
+	</div>
+	</div>
+	</div>
+	</div></div>
+	</body>
+	

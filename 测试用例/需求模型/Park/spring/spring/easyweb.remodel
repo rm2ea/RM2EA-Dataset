@@ -1,0 +1,411 @@
+UseCaseModel EasyWeb {
+
+	UC::listByDictCode
+	UC::listByDictCodeAndName
+	//
+	UC::sendTextEmail // ��Ҫ����������������ʽ
+	UC::sendFullTextEmail // ��Ҫ����������������ʽ
+	UC::sendHtmlEmail // ��Ҫ����������������ʽ
+	//
+	UC::toMenuTree
+	UC::getUserMenu
+//
+	UC::getByUsername
+	UC::getRoleIds
+	UC::getFullById
+	UC::selectRoleAndAuth
+	//
+	UC::getByUserTwoname
+	UC::comparePsw // ��Ҫ����������������ʽ
+	UC::encodePsw // ��Ҫ����������������ʽ
+	UC::resetPsw() // ��������
+	UC::freezeA() // �����û��˻�
+	//
+	UC::managerUser
+	UC::managerRole
+	UC::managerUserTwo
+	UC::managerOrganization
+	UC::managerOperRecord
+	UC::managerMenu
+	UC::managerLoginRecord
+	UC::managerDictionaryData
+	UC::managerDictionary
+
+	Actor SystemManager{
+		managerUser
+		managerRole
+		managerUserTwo
+		managerOrganization
+		managerOperRecord
+		managerMenu
+		managerLoginRecord
+		managerDictionaryData
+		managerDictionary
+	}
+
+	Actor User {
+		getByUsername
+		getRoleIds
+		getFullById
+		selectRoleAndAuth
+		//
+		resetPsw // ��������
+		freezeA // �����û��˻�
+//
+		toMenuTree
+		getUserMenu
+		//
+		listByDictCode
+		listByDictCodeAndName
+		//
+		sendTextEmail
+		sendFullTextEmail
+		sendHtmlEmail
+	}
+
+	Actor UserTwo {
+		getByUserTwoname
+		comparePsw
+		encodePsw
+	}
+
+	Service EasyWebSystem {
+
+	}
+
+	Service UserTwoService {
+
+		[Operation]
+		getByUserTwoname()
+		comparePsw()
+		encodePsw()
+
+	}
+
+	Service UserService {
+
+		[Operation]
+		getByUsername()
+		getRoleIds()
+		getFullById()
+		selectRoleAndAuth()
+		freezeA(id, state) // ��������
+		resetPsw(id, newpwd, oldpwd) // �����û��˻�
+
+//
+	}
+
+	Service MenuService {
+
+		[Operation]
+		toMenuTree()
+		getUserMenu()
+
+	}
+
+	Service EmailService {
+
+		[Operation]
+		//
+		sendTextEmail()
+		sendFullTextEmail()
+		sendHtmlEmail()
+
+	}
+
+	Service DictionaryDataService {
+
+		[Operation]
+		//
+		listByDictCode()
+		listByDictCodeAndName()
+
+	}
+
+	Service ThirdPartyServices {
+
+	}
+
+	Contract DictionaryDataService::listByDictCodeAndName() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract DictionaryDataService::listByDictCode() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract EmailService::sendHtmlEmail() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract EmailService::sendFullTextEmail() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract EmailService::sendTextEmail() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract MenuService::getUserMenu() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract MenuService::toMenuTree() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract UserService::selectRoleAndAuth() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract UserService::getFullById() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract UserService::getRoleIds() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract UserService::getByUsername() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract UserTwoService::encodePsw() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract UserTwoService::comparePsw() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract UserTwoService::getByUserTwoname() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			true
+	}
+
+	Contract UserService::freezeA(id:Integer, state:Integer) : Boolean {
+
+		precondition:
+			id.oclIsUndefined() = false and
+			state.oclIsUndefined() = false
+		postcondition:
+			let user:User in
+			user.oclIsNew() and
+			user.Id = id and
+			user.state = state and
+			User.allInstance()->includes(user) and
+			result = true
+	}
+
+	Contract UserService::resetPsw(id:Integer, newpwd:String, oldpwd:String) : Boolean {
+
+		definition:
+			user:User = User.allInstance()->any(user:User | user.Id = id)
+
+		precondition:
+			id.oclIsUndefined() = false and
+			user.password = oldpwd
+		postcondition:
+			user.oclIsNew() and
+			user.Id = id and
+			user.password = newpwd and
+			result = true
+	}
+
+}
+
+DomainModel EasyWeb {
+
+	Entity Dictionary {
+		Id : Integer
+		Dictcode : String
+		Dictname : String
+		Sortnumber : String
+		Comments : String
+		Createtime : String
+		Updatetime : String
+	}
+
+	Entity DictionaryData {
+		Id : Integer
+		DictId : Integer
+		DictDataCode : String
+		DictDataName : String
+		SortNumber : Integer
+		Comments : String
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity LoginRecord {
+		Id : Integer
+		Username : String
+		Os : String
+		Device : String
+		Browser : String
+		Ip : String
+		OperType : Integer
+		Comments : String
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity Menu {
+		Id : Integer
+		ParentId : String
+		MenuName : String
+		MenuIcon : String
+		IconColor : String
+		Path : String
+		Target : String
+		Hide : Integer
+		SortNumber : Integer
+		Authority : String
+		MenuType : Integer
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity OperRecord {
+		Id : Integer
+		UserId : Integer
+		Model : String
+		Description : String
+		Url : String
+		RequestMethod : String
+		OperMethod : String
+		Param : String
+		ResultS : String
+		Ip : String
+		SpendTime : String
+		State : String
+		Comments : String
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity Organization {
+		Id : Integer
+		ParentId : Integer
+		OrganizationName : String
+		OrganizationFullName : String
+		OrganizationType : Integer
+		LeaderId : Integer
+		SortNumber : Integer
+		Comments : String
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity Role {
+		Id : Integer
+		RoleName : String
+		RoleCode : String
+		Comments : String
+		CreateTime : String
+		UpdateTime : String
+
+		[Refer]
+		RoletoMenu : Menu Association
+	}
+
+	Entity UserTwo {
+		Id : Integer
+		Username : String
+		Password : String
+		NickName : String
+		Avatar : String
+		Sex : Integer
+		Phone : String
+		Email : String
+		EmailVerified : Integer
+		TrueName : String
+		IdCard : String
+		Birthday : String
+		Introduction : String
+		Present : Integer
+		State : Integer
+		CreateTime : String
+		UpdateTime : String
+	}
+
+	Entity User {
+		Id : Integer
+		Username : String
+		Password : String
+		NickName : String
+		Avatar : String
+		Sex : Integer
+		Phone : String
+		Email : String
+		EmailVerified : Integer
+		TrueName : String
+		IdCard : String
+		Birthday : String
+		Introduction : String
+		OrganizationId : String
+		State : Integer
+		CreateTime : String
+		UpdateTime : String
+
+		[Refer]
+		UsertoRole : Role Association
+	}
+
+}
+

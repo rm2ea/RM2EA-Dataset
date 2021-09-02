@@ -1,0 +1,50 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 4000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 5066.866750000003,
+    "medianResTime" : 5271.0,
+    "minResTime" : 44.0,
+    "maxResTime" : 7150.0,
+    "pct1ResTime" : 6302.9,
+    "pct2ResTime" : 6478.95,
+    "pct3ResTime" : 6725.879999999997,
+    "throughput" : 168.77637130801688,
+    "receivedKBytesPerSec" : 33.12895569620253,
+    "sentKBytesPerSec" : 39.22732067510549
+  },
+  "/baoxiu/baoxiuAdd" : {
+    "transaction" : "/baoxiu/baoxiuAdd",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 4887.524499999992,
+    "medianResTime" : 5349.0,
+    "minResTime" : 61.0,
+    "maxResTime" : 7150.0,
+    "pct1ResTime" : 6409.0,
+    "pct2ResTime" : 6576.9,
+    "pct3ResTime" : 6832.88,
+    "throughput" : 104.48774881145185,
+    "receivedKBytesPerSec" : 20.509802256935377,
+    "sentKBytesPerSec" : 29.48921817041952
+  },
+  "/weixiuMaster/backBaoXiu" : {
+    "transaction" : "/weixiuMaster/backBaoXiu",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 5246.208999999999,
+    "medianResTime" : 5196.5,
+    "minResTime" : 44.0,
+    "maxResTime" : 6807.0,
+    "pct1ResTime" : 6125.8,
+    "pct2ResTime" : 6294.0,
+    "pct3ResTime" : 6588.98,
+    "throughput" : 86.36697326942178,
+    "receivedKBytesPerSec" : 16.95289221401736,
+    "sentKBytesPerSec" : 15.772093751349484
+  }
+}

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Prototype</title>
+	<link rel="stylesheet" href="/css/layui.css"></link>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script src="/js/layui.js"></script>
+	<script>
+	function formatDate(t) { 
+	if(isNaN(t)){
+	return ""; 
+	}else{
+	var now=new Date(t);
+	var year=now.getFullYear();
+	var month=now.getMonth()+1; 
+	var date=now.getDate(); 
+	return year+"-"+month+"-"+date; 
+	}
+	} 
+		//JavaScript代码区域
+		layui.use("element", function() {
+			var element = layui.element;
+			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+		});
+		$(document).ready(function() {
+	$.ajax({
+	type: "GET",
+	url: "/state/CarManageTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.orgId+'</td>';
+	html+='<td >'+item.orgName+'</td>';
+	html+='<td >'+item.parkManageId+'</td>';
+	html+='<td >'+item.parkManageName+'</td>';
+	html+='<td >'+item.plateNumber+'</td>';
+	html+='<td >'+item.gender+'</td>';
+	html+='<td >'+item.nickname+'</td>';
+	html+='<td >'+item.mobile+'</td>';
+	html+='<td >'+item.parkingLot+'</td>';
+	html+='<td >'+item.type+'</td>';
+	html+='<td >'+item.status+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='<td >'+formatDate(item.validityTime)+'</td>';
+	html+='</tr>';
+	});
+	$("#CarManage_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/Order_STable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.body+'</td>';
+	html+='<td >'+item.orderNo+'</td>';
+	html+='<td >'+item.totalFee+'</td>';
+	html+='<td >'+item.type+'</td>';
+	html+='<td >'+item.parkManageId+'</td>';
+	html+='<td >'+item.orgId+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='<td >'+item.plateNumber+'</td>';
+	html+='<td >'+formatDate(item.validityTime)+'</td>';
+	html+='<td >'+item.status+'</td>';
+	html+='<td >'+item.userCreate+'</td>';
+	html+='<td >'+item.carId+'</td>';
+	html+='</tr>';
+	});
+	$("#Order_S_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/CarParkingRecordTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.orderNo+'</td>';
+	html+='<td >'+item.orgId+'</td>';
+	html+='<td >'+item.orgName+'</td>';
+	html+='<td >'+item.parkManageId+'</td>';
+	html+='<td >'+item.parkManageName+'</td>';
+	html+='<td >'+item.plateNumber+'</td>';
+	html+='<td >'+item.type+'</td>';
+	html+='<td >'+item.gmtInto+'</td>';
+	html+='<td >'+item.gmtOut+'</td>';
+	html+='<td >'+item.cost+'</td>';
+	html+='</tr>';
+	});
+	$("#CarParkingRecord_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/CarParkManageTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.orgId+'</td>';
+	html+='<td >'+item.orgName+'</td>';
+	html+='<td >'+item.status+'</td>';
+	html+='<td >'+item.parkingSpaceNumber+'</td>';
+	html+='<td >'+item.freeTime+'</td>';
+	html+='<td >'+item.timeUnit+'</td>';
+	html+='<td >'+item.unitCost+'</td>';
+	html+='<td >'+item.maxMoney+'</td>';
+	html+='</tr>';
+	});
+	$("#CarParkManage_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/AppPayConfigTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.carParkId+'</td>';
+	html+='<td >'+item.mchId+'</td>';
+	html+='<td >'+item.secretKey+'</td>';
+	html+='</tr>';
+	});
+	$("#AppPayConfig_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/SysUserTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.orgId+'</td>';
+	html+='<td >'+item.username+'</td>';
+	html+='<td >'+item.password+'</td>';
+	html+='<td >'+item.nickname+'</td>';
+	html+='<td >'+item.email+'</td>';
+	html+='<td >'+item.mobile+'</td>';
+	html+='<td >'+item.status+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='<td >'+item.avatar_status+'</td>';
+	html+='<td >'+item.orgName+'</td>';
+	html+='</tr>';
+	});
+	$("#SysUser_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/SysMenuTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.parentId+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.url+'</td>';
+	html+='<td >'+item.perms+'</td>';
+	html+='<td >'+item.type+'</td>';
+	html+='<td >'+item.icon+'</td>';
+	html+='<td >'+item.parentName+'</td>';
+	html+='<td >'+item.isParent+'</td>';
+	html+='</tr>';
+	});
+	$("#SysMenu_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/SysOrgTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.parentId+'</td>';
+	html+='<td >'+item.code+'</td>';
+	html+='<td >'+item.name+'</td>';
+	html+='<td >'+item.full_name+'</td>';
+	html+='<td >'+item.director+'</td>';
+	html+='<td >'+item.email+'</td>';
+	html+='<td >'+item.phone+'</td>';
+	html+='<td >'+item.address+'</td>';
+	html+='<td >'+item.order_num+'</td>';
+	html+='<td >'+item.status+'</td>';
+	html+='<td >'+item.parentName+'</td>';
+	html+='</tr>';
+	});
+	$("#SysOrg_table").html(html);
+	}
+	});
+	$.ajax({
+	type: "GET",
+	url: "/state/SysRoleTable",
+	data: {},
+	dataType: "json",
+	success: function(data){
+	var html="";
+	$.each(data, function (i, item) {
+	html+='<tr align="center" style="height:60px">';
+	html+='<td >'+item.id+'</td>';
+	html+='<td >'+item.orgId+'</td>';
+	html+='<td >'+item.roleSign+'</td>';
+	html+='<td >'+item.remark+'</td>';
+	html+='<td >'+item.userIdCreate+'</td>';
+	html+='</tr>';
+	});
+	$("#SysRole_table").html(html);
+	}
+	});
+	});
+	</script>
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">Prototype Park</div>
+				<ul class="layui-nav layui-layout-left">
+						<li class="layui-nav-item"><a href="/main/index" id="s_function">System Function</a></li>
+						<li class="layui-nav-item layui-this"><a href="/main/index2" id="s_state">System State</a></li>
+				</ul>
+			</div>
+		<div class="layui-tab layui-tab-brief">
+				<ul class="layui-tab-title">
+			<li class="layui-this" id="CarManage">CarManage</li>
+			<li id="Order_S">Order_S</li>
+			<li id="CarParkingRecord">CarParkingRecord</li>
+			<li id="CarParkManage">CarParkManage</li>
+			<li id="AppPayConfig">AppPayConfig</li>
+			<li id="SysUser">SysUser</li>
+			<li id="SysMenu">SysMenu</li>
+			<li id="SysOrg">SysOrg</li>
+			<li id="SysRole">SysRole</li>
+				</ul>
+				<div class="layui-tab-content" style="height: 100px;">
+					<div class="layui-tab-item layui-show" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">OrgId</td>
+								<td style="font-weight: bold">OrgName</td>
+								<td style="font-weight: bold">ParkManageId</td>
+								<td style="font-weight: bold">ParkManageName</td>
+								<td style="font-weight: bold">PlateNumber</td>
+								<td style="font-weight: bold">Gender</td>
+								<td style="font-weight: bold">Nickname</td>
+								<td style="font-weight: bold">Mobile</td>
+								<td style="font-weight: bold">ParkingLot</td>
+								<td style="font-weight: bold">Type</td>
+								<td style="font-weight: bold">Status</td>
+								<td style="font-weight: bold">Remark</td>
+								<td style="font-weight: bold">ValidityTime</td>
+								</tr>
+							</thead>
+							<tbody id="CarManage_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Body</td>
+								<td style="font-weight: bold">OrderNo</td>
+								<td style="font-weight: bold">TotalFee</td>
+								<td style="font-weight: bold">Type</td>
+								<td style="font-weight: bold">ParkManageId</td>
+								<td style="font-weight: bold">OrgId</td>
+								<td style="font-weight: bold">Remark</td>
+								<td style="font-weight: bold">PlateNumber</td>
+								<td style="font-weight: bold">ValidityTime</td>
+								<td style="font-weight: bold">Status</td>
+								<td style="font-weight: bold">UserCreate</td>
+								<td style="font-weight: bold">CarId</td>
+								</tr>
+							</thead>
+							<tbody id="Order_S_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">OrderNo</td>
+								<td style="font-weight: bold">OrgId</td>
+								<td style="font-weight: bold">OrgName</td>
+								<td style="font-weight: bold">ParkManageId</td>
+								<td style="font-weight: bold">ParkManageName</td>
+								<td style="font-weight: bold">PlateNumber</td>
+								<td style="font-weight: bold">Type</td>
+								<td style="font-weight: bold">GmtInto</td>
+								<td style="font-weight: bold">GmtOut</td>
+								<td style="font-weight: bold">Cost</td>
+								</tr>
+							</thead>
+							<tbody id="CarParkingRecord_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">OrgId</td>
+								<td style="font-weight: bold">OrgName</td>
+								<td style="font-weight: bold">Status</td>
+								<td style="font-weight: bold">ParkingSpaceNumber</td>
+								<td style="font-weight: bold">FreeTime</td>
+								<td style="font-weight: bold">TimeUnit</td>
+								<td style="font-weight: bold">UnitCost</td>
+								<td style="font-weight: bold">MaxMoney</td>
+								</tr>
+							</thead>
+							<tbody id="CarParkManage_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">CarParkId</td>
+								<td style="font-weight: bold">MchId</td>
+								<td style="font-weight: bold">SecretKey</td>
+								</tr>
+							</thead>
+							<tbody id="AppPayConfig_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">OrgId</td>
+								<td style="font-weight: bold">Username</td>
+								<td style="font-weight: bold">Password</td>
+								<td style="font-weight: bold">Nickname</td>
+								<td style="font-weight: bold">Email</td>
+								<td style="font-weight: bold">Mobile</td>
+								<td style="font-weight: bold">Status</td>
+								<td style="font-weight: bold">Remark</td>
+								<td style="font-weight: bold">Avatar_status</td>
+								<td style="font-weight: bold">OrgName</td>
+								</tr>
+							</thead>
+							<tbody id="SysUser_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">ParentId</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Url</td>
+								<td style="font-weight: bold">Perms</td>
+								<td style="font-weight: bold">Type</td>
+								<td style="font-weight: bold">Icon</td>
+								<td style="font-weight: bold">ParentName</td>
+								<td style="font-weight: bold">IsParent</td>
+								</tr>
+							</thead>
+							<tbody id="SysMenu_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">ParentId</td>
+								<td style="font-weight: bold">Code</td>
+								<td style="font-weight: bold">Name</td>
+								<td style="font-weight: bold">Full_name</td>
+								<td style="font-weight: bold">Director</td>
+								<td style="font-weight: bold">Email</td>
+								<td style="font-weight: bold">Phone</td>
+								<td style="font-weight: bold">Address</td>
+								<td style="font-weight: bold">Order_num</td>
+								<td style="font-weight: bold">Status</td>
+								<td style="font-weight: bold">ParentName</td>
+								</tr>
+							</thead>
+							<tbody id="SysOrg_table">
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item" >
+						<table style="margin: auto;width:600px;"  border="1">
+							<thead>
+								<tr align="center" style="height:100px">
+								<td style="font-weight: bold">Id</td>
+								<td style="font-weight: bold">OrgId</td>
+								<td style="font-weight: bold">RoleSign</td>
+								<td style="font-weight: bold">Remark</td>
+								<td style="font-weight: bold">UserIdCreate</td>
+								</tr>
+							</thead>
+							<tbody id="SysRole_table">
+							</tbody>
+						</table>
+					</div>
+			</div> 
+		</div>
+	</body>
+	</html>
+	

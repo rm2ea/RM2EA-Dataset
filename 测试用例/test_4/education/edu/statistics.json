@@ -1,0 +1,50 @@
+{
+  "/sys/user/psw/reset" : {
+    "transaction" : "/sys/user/psw/reset",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 8691.86700000001,
+    "medianResTime" : 7632.0,
+    "minResTime" : 149.0,
+    "maxResTime" : 17715.0,
+    "pct1ResTime" : 13961.8,
+    "pct2ResTime" : 14504.849999999999,
+    "pct3ResTime" : 15687.65,
+    "throughput" : 52.43426054584065,
+    "receivedKBytesPerSec" : 14.87233281663739,
+    "sentKBytesPerSec" : 9.109377457855963
+  },
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 4000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 8323.381749999995,
+    "medianResTime" : 8072.5,
+    "minResTime" : 9.0,
+    "maxResTime" : 17715.0,
+    "pct1ResTime" : 13428.8,
+    "pct2ResTime" : 14100.0,
+    "pct3ResTime" : 15217.919999999998,
+    "throughput" : 103.30578512396694,
+    "receivedKBytesPerSec" : 29.178083435563018,
+    "sentKBytesPerSec" : 16.736646920196282
+  },
+  "/sys/user/state/update" : {
+    "transaction" : "/sys/user/state/update",
+    "sampleCount" : 2000,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 7954.896500000006,
+    "medianResTime" : 8329.0,
+    "minResTime" : 9.0,
+    "maxResTime" : 16340.0,
+    "pct1ResTime" : 11979.900000000001,
+    "pct2ResTime" : 13143.799999999996,
+    "pct3ResTime" : 14190.77,
+    "throughput" : 54.111090067909416,
+    "receivedKBytesPerSec" : 15.218744081599525,
+    "sentKBytesPerSec" : 8.13246352574335
+  }
+}

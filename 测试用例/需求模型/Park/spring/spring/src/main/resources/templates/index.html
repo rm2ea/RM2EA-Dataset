@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Prototype</title>
+	<link rel="stylesheet" href="/css/layui.css"></link>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script src="/js/layui.js"></script>
+	 <style>
+        ol li a {
+            background-color: rgba(0,0,0,1) !important;
+        }
+
+        .three_this {
+            background-color: #808080 !important;
+        }
+    </style>
+	<script>
+		//JavaScript代码区域
+		layui.use("element", function() {
+			var element = layui.element;
+			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+			
+			 $(".menu_three").on("click", function () {
+                
+                $(this).next().toggle();
+                $.each($(this).parent().siblings(), function (i, e) {
+                    $(e).find("ol").hide();;
+                });
+               
+            })
+            $("ol").on("click", "li a", function () {
+                $.each($(this).parent().siblings(), function (i, e) {
+                    $(e).find("a").removeClass('three_this')
+                });
+                $(this).addClass('three_this');                            // 添加当前元素的样式
+
+            })
+		
+		});
+		$(document).ready(function() {
+			$("dd>a").click(function(e) {
+				e.preventDefault();
+				$("#iframeMain").attr("src", $(this).attr("href"));
+			});
+										
+			$("ol>li>a").click(function(e) {
+					e.preventDefault();
+					$("#iframeMain").attr("src", $(this).attr("href"));
+			});
+		});
+	</script>
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">Prototype EasyWeb</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layui-this"><a href="/main/index" id="s_function">System Function</a></li>
+					<li class="layui-nav-item"><a href="/main/index2" id="s_state">System State</a></li>
+				</ul>
+			</div>
+			
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="SystemManager">SystemManager</a>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerUser"> managerUser</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrUser" id="createrUser">&emsp;createrUser</a></li>
+									<li><a href="/main/queryrUser" id="queryrUser">&emsp;queryrUser</a></li>
+									<li><a href="/main/modifyrUser" id="modifyrUser">&emsp;modifyrUser</a></li>
+									<li><a href="/main/deleterUser" id="deleterUser">&emsp;deleterUser</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerRole"> managerRole</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrRole" id="createrRole">&emsp;createrRole</a></li>
+									<li><a href="/main/queryrRole" id="queryrRole">&emsp;queryrRole</a></li>
+									<li><a href="/main/modifyrRole" id="modifyrRole">&emsp;modifyrRole</a></li>
+									<li><a href="/main/deleterRole" id="deleterRole">&emsp;deleterRole</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerUserTwo"> managerUserTwo</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrUserTwo" id="createrUserTwo">&emsp;createrUserTwo</a></li>
+									<li><a href="/main/queryrUserTwo" id="queryrUserTwo">&emsp;queryrUserTwo</a></li>
+									<li><a href="/main/modifyrUserTwo" id="modifyrUserTwo">&emsp;modifyrUserTwo</a></li>
+									<li><a href="/main/deleterUserTwo" id="deleterUserTwo">&emsp;deleterUserTwo</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerOrganization"> managerOrganization</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrOrganization" id="createrOrganization">&emsp;createrOrganization</a></li>
+									<li><a href="/main/queryrOrganization" id="queryrOrganization">&emsp;queryrOrganization</a></li>
+									<li><a href="/main/modifyrOrganization" id="modifyrOrganization">&emsp;modifyrOrganization</a></li>
+									<li><a href="/main/deleterOrganization" id="deleterOrganization">&emsp;deleterOrganization</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerOperRecord"> managerOperRecord</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrOperRecord" id="createrOperRecord">&emsp;createrOperRecord</a></li>
+									<li><a href="/main/queryrOperRecord" id="queryrOperRecord">&emsp;queryrOperRecord</a></li>
+									<li><a href="/main/modifyrOperRecord" id="modifyrOperRecord">&emsp;modifyrOperRecord</a></li>
+									<li><a href="/main/deleterOperRecord" id="deleterOperRecord">&emsp;deleterOperRecord</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerMenu"> managerMenu</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrMenu" id="createrMenu">&emsp;createrMenu</a></li>
+									<li><a href="/main/queryrMenu" id="queryrMenu">&emsp;queryrMenu</a></li>
+									<li><a href="/main/modifyrMenu" id="modifyrMenu">&emsp;modifyrMenu</a></li>
+									<li><a href="/main/deleterMenu" id="deleterMenu">&emsp;deleterMenu</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerLoginRecord"> managerLoginRecord</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrLoginRecord" id="createrLoginRecord">&emsp;createrLoginRecord</a></li>
+									<li><a href="/main/queryrLoginRecord" id="queryrLoginRecord">&emsp;queryrLoginRecord</a></li>
+									<li><a href="/main/modifyrLoginRecord" id="modifyrLoginRecord">&emsp;modifyrLoginRecord</a></li>
+									<li><a href="/main/deleterLoginRecord" id="deleterLoginRecord">&emsp;deleterLoginRecord</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerDictionaryData"> managerDictionaryData</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrDictionaryData" id="createrDictionaryData">&emsp;createrDictionaryData</a></li>
+									<li><a href="/main/queryrDictionaryData" id="queryrDictionaryData">&emsp;queryrDictionaryData</a></li>
+									<li><a href="/main/modifyrDictionaryData" id="modifyrDictionaryData">&emsp;modifyrDictionaryData</a></li>
+									<li><a href="/main/deleterDictionaryData" id="deleterDictionaryData">&emsp;deleterDictionaryData</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="managerDictionary"> managerDictionary</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createrDictionary" id="createrDictionary">&emsp;createrDictionary</a></li>
+									<li><a href="/main/queryrDictionary" id="queryrDictionary">&emsp;queryrDictionary</a></li>
+									<li><a href="/main/modifyrDictionary" id="modifyrDictionary">&emsp;modifyrDictionary</a></li>
+									<li><a href="/main/deleterDictionary" id="deleterDictionary">&emsp;deleterDictionary</a></li>
+								</ol>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="User">User</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getByUsername" id="getByUsername"> getByUsername</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getRoleIds" id="getRoleIds"> getRoleIds</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getFullById" id="getFullById"> getFullById</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/selectRoleAndAuth" id="selectRoleAndAuth"> selectRoleAndAuth</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/resetPsw" id="resetPsw"> resetPsw</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/freezeA" id="freezeA"> freezeA</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/toMenuTree" id="toMenuTree"> toMenuTree</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getUserMenu" id="getUserMenu"> getUserMenu</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/listByDictCode" id="listByDictCode"> listByDictCode</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/listByDictCodeAndName" id="listByDictCodeAndName"> listByDictCodeAndName</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/sendTextEmail" id="sendTextEmail"> sendTextEmail</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/sendFullTextEmail" id="sendFullTextEmail"> sendFullTextEmail</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/sendHtmlEmail" id="sendHtmlEmail"> sendHtmlEmail</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="UserTwo">UserTwo</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getByUserTwoname" id="getByUserTwoname"> getByUserTwoname</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/comparePsw" id="comparePsw"> comparePsw</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/encodePsw" id="encodePsw"> encodePsw</a>
+							</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-body">
+						<iframe id="iframeMain" 
+					style="width: 100%; height: 100%;" src="/main/welcome">
+				</iframe>
+			</div>
+		</div>
+	</body>
+	</html>
+	

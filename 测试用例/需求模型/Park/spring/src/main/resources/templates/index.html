@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Prototype</title>
+	<link rel="stylesheet" href="/css/layui.css"></link>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<script src="/js/layui.js"></script>
+	 <style>
+        ol li a {
+            background-color: rgba(0,0,0,1) !important;
+        }
+
+        .three_this {
+            background-color: #808080 !important;
+        }
+    </style>
+	<script>
+		//JavaScript代码区域
+		layui.use("element", function() {
+			var element = layui.element;
+			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+			
+			 $(".menu_three").on("click", function () {
+                
+                $(this).next().toggle();
+                $.each($(this).parent().siblings(), function (i, e) {
+                    $(e).find("ol").hide();;
+                });
+               
+            })
+            $("ol").on("click", "li a", function () {
+                $.each($(this).parent().siblings(), function (i, e) {
+                    $(e).find("a").removeClass('three_this')
+                });
+                $(this).addClass('three_this');                            // 添加当前元素的样式
+
+            })
+		
+		});
+		$(document).ready(function() {
+			$("dd>a").click(function(e) {
+				e.preventDefault();
+				$("#iframeMain").attr("src", $(this).attr("href"));
+			});
+										
+			$("ol>li>a").click(function(e) {
+					e.preventDefault();
+					$("#iframeMain").attr("src", $(this).attr("href"));
+			});
+		});
+	</script>
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">Prototype Park</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layui-this"><a href="/main/index" id="s_function">System Function</a></li>
+					<li class="layui-nav-item"><a href="/main/index2" id="s_state">System State</a></li>
+				</ul>
+			</div>
+			
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="CarManage">CarManage</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/saveCM" id="saveCM"> saveCM</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/listCM" id="listCM"> listCM</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getByPlateNumberCM" id="getByPlateNumberCM"> getByPlateNumberCM</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/renewCM" id="renewCM"> renewCM</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/exportDataCM" id="exportDataCM"> exportDataCM</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="CarParkingRecord">CarParkingRecord</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/saveCR" id="saveCR"> saveCR</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/listCR" id="listCR"> listCR</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getByPlateNumberCR" id="getByPlateNumberCR"> getByPlateNumberCR</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="ParkManage">ParkManage</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/savePM" id="savePM"> savePM</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/selectPM" id="selectPM"> selectPM</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/listPM" id="listPM"> listPM</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="OrderManage">OrderManage</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/saveOM" id="saveOM"> saveOM</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/listOM" id="listOM"> listOM</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/exportDataOM" id="exportDataOM"> exportDataOM</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="PayManage">PayManage</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getByCarParkIdP" id="getByCarParkIdP"> getByCarParkIdP</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/saveP" id="saveP"> saveP</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/udeleteP" id="udeleteP"> udeleteP</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="SystemManage">SystemManage</a>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageUser"> manageUser</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createUser" id="createUser">&emsp;createUser</a></li>
+									<li><a href="/main/queryUser" id="queryUser">&emsp;queryUser</a></li>
+									<li><a href="/main/modifyUser" id="modifyUser">&emsp;modifyUser</a></li>
+									<li><a href="/main/deleteUser" id="deleteUser">&emsp;deleteUser</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageRole"> manageRole</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createRole" id="createRole">&emsp;createRole</a></li>
+									<li><a href="/main/queryRole" id="queryRole">&emsp;queryRole</a></li>
+									<li><a href="/main/modifyRole" id="modifyRole">&emsp;modifyRole</a></li>
+									<li><a href="/main/deleteRole" id="deleteRole">&emsp;deleteRole</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageOrg"> manageOrg</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createOrg" id="createOrg">&emsp;createOrg</a></li>
+									<li><a href="/main/queryOrg" id="queryOrg">&emsp;queryOrg</a></li>
+									<li><a href="/main/modifyOrg" id="modifyOrg">&emsp;modifyOrg</a></li>
+									<li><a href="/main/deleteOrg" id="deleteOrg">&emsp;deleteOrg</a></li>
+								</ol>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+								<a href="javascript:;"  class="menu_three " id="manageMenu"> manageMenu</a>
+								<ol class="layui-nav-child" style="display: none;">
+									<li><a href="/main/createMenu" id="createMenu">&emsp;createMenu</a></li>
+									<li><a href="/main/queryMenu" id="queryMenu">&emsp;queryMenu</a></li>
+									<li><a href="/main/modifyMenu" id="modifyMenu">&emsp;modifyMenu</a></li>
+									<li><a href="/main/deleteMenu" id="deleteMenu">&emsp;deleteMenu</a></li>
+								</ol>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Menue">Menue</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getByUser" id="getByUser"> getByUser</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/drop" id="drop"> drop</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="Role">Role</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/selectByUser" id="selectByUser"> selectByUser</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getMenuByRole" id="getMenuByRole"> getMenuByRole</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/saveMenuByRole" id="saveMenuByRole"> saveMenuByRole</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getOrgByRole" id="getOrgByRole"> getOrgByRole</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/saveOrgByRole" id="saveOrgByRole"> saveOrgByRole</a>
+							</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a class="" href="javascript:;" id="User">User</a>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/updateInfo" id="updateInfo"> updateInfo</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/info" id="info"> info</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/updatePwd" id="updatePwd"> updatePwd</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/getUser" id="getUser"> getUser</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/listUserRoles" id="listUserRoles"> listUserRoles</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/listUserPerms" id="listUserPerms"> listUserPerms</a>
+							</dd>
+							</dl>
+							<dl class="layui-nav-child">
+							<dd >
+							<a href="/main/listUserByRole" id="listUserByRole"> listUserByRole</a>
+							</dd>
+							</dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-body">
+						<iframe id="iframeMain" 
+					style="width: 100%; height: 100%;" src="/main/welcome">
+				</iframe>
+			</div>
+		</div>
+	</body>
+	</html>
+	
